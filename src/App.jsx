@@ -1,5 +1,11 @@
+import GlobalStyle from "./GlobalStyle"
+import { Form } from "./components/Form"
+
 export const App = () => {
   return (
-    <h1>Happy Thoughts</h1>
+    <>
+      <GlobalStyle />
+      <Form />
+    </>
   )
 }
