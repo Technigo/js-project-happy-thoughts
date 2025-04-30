@@ -13,8 +13,10 @@ export const App = () => {
     event.preventDefault() //no reload of page
     if (messageText.trim() !== '') {
       const newMessage = {
-        id: Date.now(),
+        id: Date.now(), //gives every message unique key in map method
         text: messageText
+        createdAt: new Date().toLocaleTimeString.()
+        likes: 0
       }
       setMessages([newMessage, ...messages]) //spread operator method
       setMessageText('')

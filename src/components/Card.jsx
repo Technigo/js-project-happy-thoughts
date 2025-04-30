@@ -42,11 +42,13 @@ const CardWrapper = styled.section `
 }
 `
 
-
+//Renders one card w. one message, styled
 const Card = ({ message }) => {
   return (
     <CardWrapper>
       <p>{message}</p>
+      <button onClick={() => setLikes(likes + 1)}> ❤️ x {likes}</button>
+      <p>{message.createdAt}</p>
     </CardWrapper>
   )
 }
