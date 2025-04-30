@@ -75,14 +75,23 @@ const StyledInput = styled.textarea`
     height: 100px;
   }
 `
+const StyledHandleRemainingChars = styled.p`
+  color: ${(props) => (props.remaining < 0 ? 'red' : '#333')};
+  font-size: 12px;
+  margin-top: 4px;
+`
 
 export const TextBox = ({ onSubmit }) => {
   const [message, setMessage] = useState('')
 
+  const maxLength = 140
+  const remainingChars = maxLength - message.length
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (message.trim() !== '') {
+    // Check both conditions before submitting
+    if (message.trim() !== '' && remainingChars >= 0) {
       // Call the onSubmit callback with the message
       onSubmit(message)
       setMessage('') // Clear the input after submission
@@ -93,20 +102,33 @@ export const TextBox = ({ onSubmit }) => {
     setMessage(e.target.value)
   }
 
+  // Handle the Enter key press to submit the form
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSubmit(e)
+    }
+  }
+
   return (
     <StyledTextBox>
       <StyledHeading>What's making you happy right now?</StyledHeading>
-      <StyledForm onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
         <StyledInput
           type='text'
           placeholder='Type your happy thought here...'
           value={message}
           onChange={handleInputChange}
         />
+        <StyledHandleRemainingChars remaining={remainingChars}>
+          {remainingChars < 0
+            ? 'You have exceeded the maximum character limit!'
+            : `${remainingChars} characters remaining`}
+        </StyledHandleRemainingChars>
         <Button
           text='❤️ Send Happy Thought ❤️'
           type='submit'
-          disabled={message.trim() === ''}
+          disabled={message.trim() === '' || remainingChars < 0}
         />
       </StyledForm>
     </StyledTextBox>

@@ -55,11 +55,17 @@ export const Button = ({
   isLiked
 }) => {
   const handleClick = (e) => {
-    // Only call onClick if it exists and is a function
-    if (onClick && typeof onClick === 'function') {
+    // Only call onClick if it exists and is a function and button is not disabled
+    if (onClick && typeof onClick === 'function' && !disabled) {
       onClick(e)
     }
+
+    // Prevent default action if button is disabled
+    if (disabled) {
+      e.preventDefault()
+    }
   }
+
   return (
     <StyledButton
       variant={variant}

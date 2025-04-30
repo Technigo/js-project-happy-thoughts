@@ -10,11 +10,15 @@ export const MessageContainer = styled.div`
   justify-content: center;
   padding: 12px 8px;
   width: 300px;
+  height: auto;
   background-color: #fff;
   border: 2px solid black;
   box-shadow: 6px 6px 0 0 black;
   margin: 2rem auto;
   font-size: 14px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: auto;
 
   @media ${media.tablet} {
     width: 400px;
@@ -24,7 +28,8 @@ export const MessageContainer = styled.div`
   }
 `
 export const MessageText = styled.p`
-  margin: 8px;
+  width: 100%;
+  height: auto;
 `
 
 export const LikeSection = styled.div`
