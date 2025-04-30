@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { media } from '../media'
 import { useState } from 'react'
 import { Button } from './Button'
 
@@ -8,11 +9,18 @@ export const StyledTextBox = styled.div`
   align-items: flex-start;
   justify-content: center;
   padding: 12px 8px;
-  width: 400px;
+  width: 300px;
   background-color: var(--color-background);
   border: 2px solid black;
   box-shadow: 6px 6px 0 0 black;
   margin: 2rem auto;
+
+  @media ${media.tablet} {
+    width: 400px;
+  }
+  @media ${media.desktop} {
+    width: 500px;
+  }
 `
 
 const StyledHeading = styled.h2`

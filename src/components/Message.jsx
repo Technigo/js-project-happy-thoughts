@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { media } from '../media'
 import { Button } from './Button'
 import styled from 'styled-components'
 
@@ -8,12 +9,19 @@ export const MessageContainer = styled.div`
   align-items: flex-start;
   justify-content: center;
   padding: 12px 8px;
-  width: 400px;
+  width: 300px;
   background-color: #fff;
   border: 2px solid black;
   box-shadow: 6px 6px 0 0 black;
   margin: 2rem auto;
   font-size: 14px;
+
+  @media ${media.tablet} {
+    width: 400px;
+  }
+  @media ${media.desktop} {
+    width: 500px;
+  }
 `
 export const MessageText = styled.p`
   margin: 8px;
@@ -25,6 +33,8 @@ export const LikeSection = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 4px;
+  color: #333;
+  font-size: 12px;
 `
 
 export const Message = ({ message }) => {

@@ -23,27 +23,26 @@ export const StyledButton = styled.button`
     background-color: ${props.isLiked ? '#ffadad' : 'rgb(211, 211, 211)'};
 
     &:hover {
-    background-color: #ff6b6b;
-  }
-  &:active {
-    background-color: #ff3d3d;
-  }
+      background-color: #ff6b6b;
+    }
+    &:active {
+      background-color: #ff3d3d;
+    }
   `}
 
   ${(props) =>
-    props.variant === 'text' || !props.variant
-      ? `
+    (props.variant === 'text' || !props.variant) &&
+    `
     padding: 10px 20px;
     min-width: 120px;
-  `
-      : ''}
-
-  &:hover {
-    background-color: var(--color-secondary);
-  }
-  &:active {
-    background-color: var(--color-tertiary);
-  }
+    
+    &:hover {
+      background-color: var(--color-secondary);
+    }
+    &:active {
+      background-color: var(--color-tertiary);
+    }
+  `}
 `
 
 export const Button = ({
