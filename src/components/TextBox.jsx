@@ -16,9 +16,11 @@ export const StyledTextBox = styled.div`
   margin: 2rem auto;
 
   @media ${media.tablet} {
+    padding: 24px 16px;
     width: 400px;
   }
   @media ${media.desktop} {
+    padding: 32px 24px;
     width: 500px;
   }
 `
@@ -32,6 +34,15 @@ const StyledHeading = styled.h2`
   color: #333;
   font-weight: 500;
   margin-bottom: 8px;
+
+  @media ${media.tablet} {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  @media ${media.desktop} {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
 `
 
 const StyledForm = styled.form`
@@ -53,6 +64,15 @@ const StyledInput = styled.textarea`
     /* Remove the absolute positioning */
     position: static;
     color: #999;
+  }
+
+  @media ${media.tablet} {
+    font-size: 14px;
+    height: 80px;
+  }
+  @media ${media.desktop} {
+    font-size: 16px;
+    height: 100px;
   }
 `
 
