@@ -10,12 +10,12 @@ export const App = () => {
 
   //form submission, new message object + adding to list, clear input field
   const handleMessage = (event) => {
-    event.preventDefault() //no reload of page
+    event.preventDefault() 
     if (messageText.trim() !== '') {
       const newMessage = {
-        id: Date.now(), //gives every message unique key in map method
-        text: messageText
-        createdAt: new Date().toLocaleTimeString.()
+        id: Date.now(), 
+        text: messageText,
+        createdAt: new Date().toLocaleTimeString(),
         likes: 0
       }
       setMessages([newMessage, ...messages]) //spread operator method

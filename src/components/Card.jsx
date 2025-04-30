@@ -1,3 +1,4 @@
+import { useState } from "react"
 import styled from "styled-components"
 
 const CardWrapper = styled.section `
@@ -41,14 +42,36 @@ const CardWrapper = styled.section `
     
 }
 `
+const MessageText = styled.div `
+align-items: flex-start;
+font-size: 18px;
+
+`
+const Button = styled.button `
+border-radius: 50%;
+height:20px;
+width: 20px;
+
+Button:focus {
+background-color: var(--color-button);
+}
+`
+
+const TimeStamp = styled.div `
+font-seize: 8px;
+color: grey;
+
+
+`
 
 //Renders one card w. one message, styled
 const Card = ({ message }) => {
+  const [likes, setLikes] = useState(message.likes || 0)
   return (
     <CardWrapper>
-      <p>{message}</p>
-      <button onClick={() => setLikes(likes + 1)}> ❤️ x {likes}</button>
-      <p>{message.createdAt}</p>
+      <MessageText>{message.text}</MessageText>
+      <Button onClick={() => setLikes(likes + 1)}> ❤️ x {likes}</Button>
+      <TimeStamp>{message.createdAt}</TimeStamp>
     </CardWrapper>
   )
 }
