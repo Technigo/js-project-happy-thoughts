@@ -11,7 +11,6 @@ export const FormCard = () => {
         <textarea className="resize-none bg-white w-full border-2 border-gray-300" 
           onChange={(event) => setText(event.target.value)}
           value={text}>
-          
         </textarea>
         <p className="text-xs">Characters aligned left</p>
         <SubmitButton/>
