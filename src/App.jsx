@@ -1,11 +1,11 @@
 import GlobalStyle from "./GlobalStyle"
-import { Form } from "./components/Form"
+import { FormCard } from "./components/FormCard"
 
 export const App = () => {
   return (
     <>
-      <GlobalStyle />
-      <Form />
+      <GlobalStyle/>
+      <FormCard />
     </>
   )
 }
