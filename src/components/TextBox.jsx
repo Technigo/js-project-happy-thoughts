@@ -9,7 +9,7 @@ export const StyledTextBox = styled.div`
   justify-content: center;
   padding: 12px 8px;
   width: 400px;
-  background-color: #f2f0f0;
+  background-color: var(--color-background);
   border: 2px solid black;
   box-shadow: 6px 6px 0 0 black;
   margin: 2rem auto;
@@ -48,15 +48,15 @@ const StyledInput = styled.textarea`
   }
 `
 
-export const TextBox = () => {
+export const TextBox = ({ onSubmit }) => {
   const [message, setMessage] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
     if (message.trim() !== '') {
-      // Here you would typically send the message to your backend or state manager
-      console.log('Submitting message:', message)
+      // Call the onSubmit callback with the message
+      onSubmit(message)
       setMessage('') // Clear the input after submission
     }
   }
