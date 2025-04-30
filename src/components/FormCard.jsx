@@ -1,34 +1,21 @@
 import { useState } from "react";
-import styled from "styled-components";
-
-
-const CardContainer = styled.div`
-  background-color: lightgray;
-  width: 100%;
-  max-width: 400px;
-  padding: 30px 40px; 
-`
-const TextArea = styled.textarea`
-  background-color: lightyellow; 
-  width: 100%;
-`
-
+import { SubmitButton } from "./SubmitButton"
 
 export const FormCard = () => {
   const [text, setText] = useState('')
 
   return (
-    <CardContainer>
-      <form>
+    <>
+      <form className="flex flex-col gap-5 bg-gray-100 p-5 border rounded-xs">
         <label>What's making you happy right now?</label>
-        <TextArea
+        <textarea className="bg-white w-full border-2 border-gray-300" 
           onChange={(event) => setText(event.target.value)}
           value={text}>
-
-        </TextArea>
-
-
+          
+          </textarea>
+          <SubmitButton/>
+        
       </form>
-    </CardContainer>
+    </>
   )
 }
