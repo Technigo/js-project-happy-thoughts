@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import MessageForm from './MessageForm';
-import MessageList from './MessageList';
+import MessageForm from './components/MessageForm';
+import MessageList from './components//MessageList';
 import './App.css';
 
 const App = () => {
