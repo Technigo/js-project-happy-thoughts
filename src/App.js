@@ -7,9 +7,9 @@ export default function App () {
     const handleChange = (e) => {
         console.log(e.target.value);
         if(e.target.value.length > 140) {
-            // set text(e.target.value) 
-            setError("character limit exceeded");
-        } else {
+                setError("character limit exceeded");
+            } else {
+                setText(e.target.value);
             setError(null);
         }
     };
