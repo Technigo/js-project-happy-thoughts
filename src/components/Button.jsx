@@ -20,7 +20,7 @@ export const StyledButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${props.isLiked ? '#ffadad' : 'rgb(211, 211, 211)'};
+    background-color: ${props.$isLiked ? '#ffadad' : 'rgb(211, 211, 211)'};
 
     &:hover {
       background-color: #ff6b6b;
@@ -72,7 +72,7 @@ export const Button = ({
       type={type || 'button'}
       onClick={handleClick}
       disabled={disabled}
-      isLiked={isLiked}
+      $isLiked={isLiked}
     >
       {variant === 'icon' ? icon : text}
     </StyledButton>

@@ -83,8 +83,8 @@ const StyledHandleRemainingChars = styled.p`
 
 export const TextBox = ({ onSubmit }) => {
   const [message, setMessage] = useState('')
-
   const maxLength = 140
+  // Calculate remainingChars directly from message length
   const remainingChars = maxLength - message.length
 
   const handleSubmit = (e) => {
