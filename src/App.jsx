@@ -1,7 +1,7 @@
 import { useState } from "react"
 import GlobalStyle from "./styles/GlobalStyle.jsx"
-import Form from "./components/Form.jsx"
-import CardList from "./components/CardList.jsx"
+import QuestionCard from "./components/QuestionCard.jsx"
+import MessageList from "./components/MessageList.jsx"
 
 //manages the input text and stores messages using useState hook
 export const App = () => {
@@ -27,12 +27,12 @@ export const App = () => {
     <>
       <GlobalStyle />
       <h1>Happy Thoughts</h1>
-      <Form
+      <QuestionCard
         messageText={messageText}
         setMessageText={setMessageText}
         handleMessage={handleMessage}
       />
-      <CardList messages={messages} />
+      <MessageList messages={messages} />
     </>
   )
 }

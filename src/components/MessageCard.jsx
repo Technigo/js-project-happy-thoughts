@@ -1,12 +1,17 @@
 import { useState } from "react"
 import styled from "styled-components"
 
+
 const CardWrapper = styled.section `
+  display: flex;
+  flex-direction: column;
   border-radius: 3px;
   border: 1px solid var(--color-border);
   box-shadow: 4px 6px 2px rgba(0, 0, 0, 0.8);
-  max-width: fit-content;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  gap: 8px;
+  margin: 20px auto;
   background-color: var(--color-background);
 
 
@@ -42,15 +47,23 @@ const CardWrapper = styled.section `
     
 }
 `
-const MessageText = styled.div `
-align-items: flex-start;
-font-size: 18px;
+const MessageText = styled.p `
+font-size: 16px;                 
+font-weight: 500;                   
+margin: 0;
+color: black;   
 
 `
 const Button = styled.button `
-border-radius: 50%;
-height:20px;
-width: 20px;
+background-color: var(--color-button);
+color: #000;
+border: none;
+border-radius: 20px;
+padding: 6px 12px;
+font-size: 14px;
+cursor: pointer;
+align-self: flex-start;
+transition: background-color 0.3s ease;
 
 Button:focus {
 background-color: var(--color-button);
@@ -58,15 +71,18 @@ background-color: var(--color-button);
 `
 
 const TimeStamp = styled.div `
-font-seize: 8px;
-color: grey;
+  font-size: 12px;                    
+  color: black;
+  align-self: flex-end;   
 
 
 `
 
 //Renders one card w. one message, styled
-const Card = ({ message }) => {
+const MessageCard = ({ message }) => {
+  console.log("Card message:", message);
   const [likes, setLikes] = useState(message.likes || 0)
+  console.log(message)
   return (
     <CardWrapper>
       <MessageText>{message.text}</MessageText>
@@ -76,5 +92,5 @@ const Card = ({ message }) => {
   )
 }
 
-export default Card
+export default MessageCard
 
