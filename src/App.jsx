@@ -13,7 +13,7 @@ const App = () => {
   return (
     <>
       <h1>Happy Thoughts</h1>
-      <div className="app-container">
+      <div className="app-container container-width">
         <p>Is there anything that makes you happy right now?</p>
         <MessageForm onAddMessage={addMessage} />
         {messages.length >= 10 && <p className="hit-10">You hit 10! 🎉</p>}
