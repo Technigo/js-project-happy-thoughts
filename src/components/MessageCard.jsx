@@ -52,10 +52,11 @@ font-size: 16px;
 font-weight: 500;                   
 margin: 0;
 color: black;   
+padding-left: 10px;
 
 `
 const Button = styled.button `
-background-color: var(--color-button);
+background-color: white;
 color: #000;
 border: none;
 border-radius: 20px;
@@ -65,7 +66,7 @@ cursor: pointer;
 align-self: flex-start;
 transition: background-color 0.3s ease;
 
-Button:focus {
+&:focus {
 background-color: var(--color-button);
 }
 `
@@ -74,6 +75,8 @@ const TimeStamp = styled.div `
   font-size: 12px;                    
   color: black;
   align-self: flex-end;   
+  margin-right: 10px;
+  margin-bottom: 3px;
 
 
 `
