@@ -14,11 +14,11 @@ const App = () => {
     <>
       <h1>Happy Thoughts</h1>
       <div className="app-container container-width">
-        <p>Is there anything that makes you happy right now?</p>
+        <p>What makes you happy right now?</p>
         <MessageForm onAddMessage={addMessage} />
-        {messages.length >= 10 && <p className="hit-10">You hit 10! 🎉</p>}
+        {messages.length >= 3 && <p className="hit-3">You hit 3! 🎉</p>}
       </div>
-      <div className="message-container">
+      <div className="message-container message-section">
         <MessageList messages={messages} />
       </div>
     </>
