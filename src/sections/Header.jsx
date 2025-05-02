@@ -1,9 +1,17 @@
+import styled from "styled-components"
 
+const Title = styled.h1`
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  padding: 2rem 1rem;
+
+`
 
 const Header = () => {
   return (
     <> 
-    <h1>Happy Thoughts</h1>
+    <Title>Happy Thoughts</Title>
     </>
   )
 }
