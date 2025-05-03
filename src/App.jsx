@@ -1,31 +1,22 @@
 import { MainSection } from "./section/MainSection"
 import { useState } from "react";
-import { MessageText } from "./components/MessageText";
+import { MessageCard } from "./components/MessageCard";
+
+
+
 
 
 
 export const App = () => {
 
-  
   const [message, setMessage] = useState('');
-
-  
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
-    setMessage(message);
-  };
-
-  const addText = (text) => {
-    setMessage(text)
-  }
-
-
-
 
 
   return (
     <>
-      <MainSection/> 
+      <MainSection
+        message={message}
+        setMessage={setMessage} />
     </>
   )
 }
