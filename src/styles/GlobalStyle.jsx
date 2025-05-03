@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     --color-button: pink;
     --color-border: #202020;
     --color-background: #F5F5F5;
+    --color-likebutton: #E0E0E0;
 }
 
 *, *::before, *::after {

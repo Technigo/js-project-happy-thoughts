@@ -48,6 +48,7 @@ const Label = styled.label `
 
 const Textarea = styled.textarea `
   margin: 7px 7px 7px 7px;
+ 
 
    @media (min-width: 360px) 
     width: auto;
@@ -94,7 +95,7 @@ const Button = styled.button `
 }
 `
 
-
+//function to create the form
 const Form = ({ messageText, setMessageText, handleMessage }) => {
   return (
     <FormWrapper onSubmit={handleMessage}>
