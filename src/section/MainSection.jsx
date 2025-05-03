@@ -7,10 +7,13 @@ import { useState } from "react"
 export const MainSection = () => {
   const [messages, setMessages] = useState([])
 
-  const addMessage = (message) => {
-    if (message.trim() === '') return;
-    setMessages((prev) => [...prev, message])
-  };
+  const addMessage = (text) => {
+    const newMessage = {
+      text,
+      timestamp: new Date()
+    };
+    setMessages((prev) => [...prev, newMessage])
+  }
 
   return (
     <section className="bg-lime-200 max-w-md min-h-screen px-5 py-10 mx-auto">
