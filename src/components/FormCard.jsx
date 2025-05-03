@@ -1,20 +1,27 @@
 import { useState } from "react"
 import { SubmitButton } from "./SubmitButton"
-import { MessageCard } from "./MessageCard";
 
-export const FormCard = () => {
+
+export const FormCard = ({ onSubmit }) => {
 
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([])
+  const [error, setError] = useState('');
 
+  const errorHandeling = (message) => {
 
+    if (message.trim() === '') {
+      setError('Please write something before submitting.');
+      return;
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (message.trim() === '') return
-    setMessages((prevMessages) => [...prevMessages, message]); 
-    setMessage(''); 
+    errorHandeling(error)
+    onSubmit(message)
+    setMessage('')
   }
+
 
   return (
     <>
@@ -26,16 +33,10 @@ export const FormCard = () => {
           onChange={(event) => setMessage(event.target.value)}
           value={message}>
         </textarea>
+        {error && ( <p className="text-red-500 text-sm">{error}</p> )}
         <p className="text-xs">Characters aligned left</p>
         <SubmitButton />
-
       </form>
-      <div className="flex flex-col gap-4 mt-4">
-        {messages.map((msg, index) => (
-          <MessageCard key={index} message={msg} />
-        ))}
-      </div>
-
 
     </>
   )
