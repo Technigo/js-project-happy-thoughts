@@ -62,7 +62,7 @@ export const FormCard = ({ onSubmit }) => {
 
         <textarea
           id="happy"
-          className="resize-none bg-white w-full border-2 border-gray-300 focus:outline-red-400"
+          className="resize-none bg-white w-full border-2 border-gray-300 focus:outline-red-200"
           onChange={handleInputChange}
           value={message}
           maxLength={maxChars}>
