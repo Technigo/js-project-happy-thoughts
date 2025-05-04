@@ -1,9 +1,13 @@
+import { motion } from "framer-motion"
 
 export const LikeButton = ({ onLike }) => {
   return (
-    <button
+    <motion.button
       type='button'
       onClick={onLike}
-      className="bg-gray-200 rounded-4xl p-3">❤️</button>
+      whileTap={{ scale: 0.8 }}
+      whileHover={{ scale: 1.2 }}
+      className="bg-gray-200 rounded-4xl p-3">❤️
+    </motion.button>
   )
 }
