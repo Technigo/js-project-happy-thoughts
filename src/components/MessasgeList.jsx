@@ -1,15 +1,15 @@
 import { MessageCard } from "./MessageCard"
 
-export const MessageList = ({ messages }) => {
+export const MessageList = ({ messages, onLike }) => {
   return (
     <div className="flex flex-col-reverse gap-4 mt-4">
       {messages.map((msg, i) => (
-        <MessageCard 
-          key={i} 
-          message={msg} 
+        <MessageCard
+          key={i}
+          message={msg}
           onLike={() => onLike(i)} />
       ))}
     </div>
-    
+
   )
 }

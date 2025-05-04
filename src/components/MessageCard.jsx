@@ -1,8 +1,5 @@
 import { formatDistanceToNow } from 'date-fns'
 import { LikeButton } from './LikeButton'
-import { useState } from 'react'
-
-
 
 
 export const MessageCard = ({ message, onLike }) => {
