@@ -4,9 +4,9 @@ export const SubmitButton = () => {
   return (
     <button
       type="submit"
-      className="text-sm bg-red-300 border-2 border-red-300 px-8 py-4 rounded-4xl font-medium hover:border-red-400 "
+      className="w-max text-sm bg-red-300 px-5 py-3 rounded-4xl font-medium hover:bg-red-400 "
       >
-      Send Happy Thought
+      ❤️Send Happy Thought❤️
     </button>
   )
 }

@@ -41,7 +41,7 @@ export const FormCard = ({ onSubmit }) => {
     }
     setCount(newValue.length)
     if (newValue.length >= maxChars) {
-      setError(`Only ${maxChars} is aloud`)
+      setError(`Sadly only ${maxChars} letters is aloud`)
     }
   }
 
@@ -53,7 +53,8 @@ export const FormCard = ({ onSubmit }) => {
         onSubmit={handleSubmit}
         className="flex flex-col gap-3 bg-gray-100 p-5 border rounded-xs shadow-[10px_10px] shadow-black">
         <label>What's making you happy right now?</label>
-        <textarea className="resize-none bg-white w-full border-2 border-gray-300"
+        <textarea 
+          className="resize-none bg-white w-full border-2 border-gray-300 focus:outline-red-400"
           onChange={handleInputChange}
           value={message}
           maxLength={maxChars}>
@@ -62,7 +63,8 @@ export const FormCard = ({ onSubmit }) => {
           <p className={`text-red-500 text-sm ${error ? '' : 'invisible'}`}>
             {error || 'placeholder'}
           </p>
-          <p className="text-xs">{count}/{maxChars}</p>
+          <p className={`text-xs ${count >= maxChars ? 'text-red-500' : 'text-gray-500'
+            }`}>{count}/{maxChars}</p>
         </div>
         <SubmitButton />
       </form>

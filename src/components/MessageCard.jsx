@@ -12,8 +12,8 @@ export const MessageCard = ({ message }) => {
     setLikes(likes + 1)
   }
   return (
-    <div className="flex flex-col gap-5 bg-white p-5 border rounded-xs shadow-[10px_10px] shadow-black">
-      <p>{message.text}</p>
+    <div className="flex flex-col gap-5 bg-white p-5 border rounded-xs shadow-[10px_10px] shadow-black h-max break-words">
+      <p className='max-w-full'>{message.text}</p>
       <div className='flex justify-between items-center'>
         <div className='flex items-center gap-2' >
           <LikeButton onLike={handleLikes}/>
