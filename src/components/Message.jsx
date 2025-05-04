@@ -1,7 +1,18 @@
 import { useState } from 'react'
 import { media } from '../media'
 import { Button } from './Button'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+`
 
 export const MessageContainer = styled.div`
   display: flex;
@@ -19,6 +30,8 @@ export const MessageContainer = styled.div`
   word-wrap: break-word;
   overflow-wrap: break-word;
   overflow: auto;
+
+  animation: ${fadeIn} 0.5s ease-out;
 
   @media ${media.tablet} {
     width: 400px;
