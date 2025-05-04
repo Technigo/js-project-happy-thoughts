@@ -7,7 +7,7 @@ export const FormCard = ({ onSubmit }) => {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [count, setCount] = useState(0)
-  const maxChars = 60
+  const maxChars = 10
 
   const validateMessage = (text) => {
 
@@ -41,7 +41,7 @@ export const FormCard = ({ onSubmit }) => {
     }
     setCount(newValue.length)
     if (newValue.length >= maxChars) {
-      setError(`Sadly only ${maxChars} letters is aloud`)
+      setError(`Only ${maxChars} letters is aloud`)
     }
   }
 
@@ -51,22 +51,29 @@ export const FormCard = ({ onSubmit }) => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-3 bg-gray-100 p-5 border rounded-xs shadow-[10px_10px] shadow-black">
-        <label>What's making you happy right now?</label>
-        <textarea 
+        className="flex flex-col gap-3 bg-gray-100 p-4 border rounded-xs shadow-[10px_10px] shadow-black">
+        <div className="flex items-end gap-5">
+          <label 
+            id="happy">What's making you happy right now?
+          </label>
+          <p className={`text-xs ${count >= maxChars ? 'text-red-500' : 'text-gray-500'
+            }`}>{count}/{maxChars}</p>
+        </div>
+
+        <textarea
+          id="happy"
           className="resize-none bg-white w-full border-2 border-gray-300 focus:outline-red-400"
           onChange={handleInputChange}
           value={message}
           maxLength={maxChars}>
         </textarea>
-        <div className="flex justify-between items-center w-full">
-          <p className={`text-red-500 text-sm ${error ? '' : 'invisible'}`}>
-            {error || 'placeholder'}
-          </p>
-          <p className={`text-xs ${count >= maxChars ? 'text-red-500' : 'text-gray-500'
-            }`}>{count}/{maxChars}</p>
+
+        <div className="flex flex-col w-full">
+          {error && (<p className="text-red-500 text-xs" >
+            {error}
+          </p>)}
+          <SubmitButton className={error ? 'mt-3' : ''} />
         </div>
-        <SubmitButton />
       </form>
 
     </>
