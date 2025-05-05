@@ -1,11 +1,26 @@
 import { FormCard } from "../components/FormCard"
 import { MessageList } from "../components/MessasgeList"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 
 
 export const MainSection = () => {
   const [messages, setMessages] = useState([])
+
+  useEffect(() => {
+    fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts')
+      .then(res => res.json())
+      .then(data => {
+        setMessages(data)
+
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }, [])
+
+
+
 
   const addMessage = (text) => {
     const newMessage = {
