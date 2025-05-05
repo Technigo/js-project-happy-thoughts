@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ThoughtForm } from './components/ThoughtForm';
 import { ThoughtList } from './components/ThoughtList';
 
+
 const Main = styled.main`
   max-width: 600px;
   margin: 2rem auto;
@@ -48,18 +49,32 @@ export const App = () => {
       })
       .catch((err) => {
         console.error('Error posting thought:', err);
-        // Här kan du lägga till en global error-state om du vill
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
+  const likeThought = (id) => {
+    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
+      method: 'POST'
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setThoughts((prevThoughts) =>
+          prevThoughts.map((thought) =>
+            thought._id === id ? { ...thought, hearts: thought.hearts + 1 } : thought
+          )
+        );
+      })
+      .catch((err) => console.error('Error liking thought:', err));
+  };
+
 
   return (
     <Main>
       <Heading>Happy Thoughts</Heading>
       <ThoughtForm onSubmitMessage={submitMessage} isLoading={isLoading} />
-      {isLoading ? <p>Loading...</p> : <ThoughtList thoughts={thoughts} />}
+      {isLoading ? <p>Loading...</p> : <ThoughtList thoughts={thoughts} onLike={likeThought} />}
     </Main>
   );
 
