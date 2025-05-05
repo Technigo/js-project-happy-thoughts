@@ -19,18 +19,20 @@ export const MainSection = () => {
       })
   }, [])
 
+  const addMessage = (message) => {
+    fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: message })
+    })
+      .then(res => res.json())
+      .then(newMessage => {
+        setMessages(prev => [newMessage, ...prev])
+      })
+      .catch(err => console.error(err))
 
-
-
-  const addMessage = (text) => {
-    const newMessage = {
-      text,
-      timestamp: new Date(),
-
-    };
-    setMessages((prev) => [...prev, newMessage])
   }
-
+    
 
   return (
     <section className="max-w-md min-h-screen px-5 py-10 mx-auto">
