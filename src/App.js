@@ -1,5 +1,21 @@
+import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {useState} from "react";
 import "./index.css";
+
+function Header() {
+    useEffect(() => {
+    console.log('mount')
+})
+    return (
+        <div className="App">
+            <header className="App-header">
+            <h1>Message App</h1>
+</header>
+        </div>
+
+    )
+}
 // character limit exceeded when char >140
 export default function App () {
     const [text, setText] = useState("");
@@ -29,3 +45,4 @@ export default function App () {
         </div>
     );
 }
+export { Header };
