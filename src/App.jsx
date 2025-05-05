@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ThoughtForm } from './components/ThoughtForm';
@@ -16,41 +17,50 @@ const Heading = styled.h1`
 
 export const App = () => {
   const [thoughts, setThoughts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch thoughts on initial render
   useEffect(() => {
+    setIsLoading(true);
     fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts')
       .then((res) => res.json())
-      .then((data) => setThoughts(data))
-      .catch((err) => console.error('Error fetching thoughts:', err));
+      .then((data) => {
+        setThoughts(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error fetching thoughts:', err);
+        setIsLoading(false);
+      });
   }, []);
 
-  // Add a new thought
-  const addThought = (newThought) => {
-    setThoughts((prevThoughts) => [newThought, ...prevThoughts]);
-  };
 
-  // Handle like click
-  const handleLike = (thoughtId) => {
-    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${thoughtId}/like`, {
+
+  const submitMessage = (message) => {
+    setIsLoading(true);
+    fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
     })
       .then((res) => res.json())
-      .then((updatedThought) => {
-        setThoughts((prev) =>
-          prev.map((thought) =>
-            thought._id === updatedThought._id ? updatedThought : thought
-          )
-        );
+      .then((newThought) => {
+        setThoughts((prevThoughts) => [newThought, ...prevThoughts]);
       })
-      .catch((err) => console.error('Error liking thought:', err));
+      .catch((err) => {
+        console.error('Error posting thought:', err);
+        // Här kan du lägga till en global error-state om du vill
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
     <Main>
       <Heading>Happy Thoughts</Heading>
-      <ThoughtForm onAddThought={addThought} />
-      <ThoughtList thoughts={thoughts} onLike={handleLike} />
+      <ThoughtForm onSubmitMessage={submitMessage} isLoading={isLoading} />
+      {isLoading ? <p>Loading...</p> : <ThoughtList thoughts={thoughts} />}
     </Main>
   );
+
 };

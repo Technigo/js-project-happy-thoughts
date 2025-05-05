@@ -1,3 +1,4 @@
+// ThoughtForm.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -38,7 +39,7 @@ const ErrorMessage = styled.p`
   margin: 0.5rem 0;
 `;
 
-export const ThoughtForm = ({ onAddThought }) => {
+export const ThoughtForm = ({ onSubmitMessage, isLoading }) => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const maxChars = 140;
@@ -64,22 +65,9 @@ export const ThoughtForm = ({ onAddThought }) => {
       return;
     }
 
-    // Post to API
-    fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
-    })
-      .then((res) => res.json())
-      .then((newThought) => {
-        onAddThought(newThought);
-        setMessage('');
-        setError('');
-      })
-      .catch((err) => {
-        console.error('Error posting thought:', err);
-        setError('Something went wrong. Please try again.');
-      });
+    onSubmitMessage(message);
+    setMessage('');
+    setError('');
   };
 
   return (
@@ -91,12 +79,15 @@ export const ThoughtForm = ({ onAddThought }) => {
         onChange={(e) => setMessage(e.target.value)}
         rows="3"
         maxLength="200"
+        disabled={isLoading}
       />
       <CharCounter isTooLong={isTooLong}>
         {maxChars - message.length} characters remaining
       </CharCounter>
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      <Button type="submit">💖 Send Happy Thought</Button>
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? '💬 Sending...' : '💖 Send Happy Thought'}
+      </Button>
     </Form>
   );
 };
