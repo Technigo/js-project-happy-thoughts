@@ -6,7 +6,9 @@ import { useState, useEffect } from "react"
 
 export const MainSection = () => {
   const [messages, setMessages] = useState([])
+  const [loading, setLoading] = useState(true)
 
+  
   useEffect(() => {
     fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts')
       .then(res => res.json())
