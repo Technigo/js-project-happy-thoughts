@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { GlobalStyles } from './GlobalStyles'
 import { Message } from './components/Message'
 import { TextBox } from './components/TextBox'
+import { LikeCounter } from './components/LikeCounter'
 
 export const App = () => {
   const [messages, setMessages] = useState([])
@@ -64,6 +65,7 @@ export const App = () => {
     <div className='App'>
       <GlobalStyles />
       <TextBox onSubmit={handleNewMessage} />
+      <LikeCounter />
       {Array.isArray(messages) &&
         messages.map((messageItem) => {
           // Extract the message text based on the API structure
@@ -86,8 +88,11 @@ export const App = () => {
           return (
             <Message
               key={messageId || Math.random()}
+              id={messageId}
               message={messageText}
               isNew={messageId === newMessageId}
+              hearts={messageItem.hearts || 0}
+              createdAt={messageItem.createdAt || Date.now()}
             />
           )
         })}

@@ -27,7 +27,7 @@ export const StyledTextBox = styled.div`
 
 const StyledHeading = styled.h2`
   display: flex;
-  align-items: left;
+  align-items: flex-start;
   justify-content: flex-start;
   font-size: 12px;
   margin-top: 0;

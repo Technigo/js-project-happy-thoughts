@@ -45,7 +45,7 @@ export const MessageText = styled.p`
   height: auto;
 `
 
-export const LikeSection = styled.div`
+export const BottomSection = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -55,23 +55,92 @@ export const LikeSection = styled.div`
   font-size: 12px;
 `
 
-export const Message = ({ message, isNew = false }) => {
-  const [isLiked, setIsLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
+export const Message = ({ id, message, isNew = false, hearts }) => {
+  // Track if the current user has liked this post (persisted via localStorage)
+  const [isLiked, setIsLiked] = useState(() => {
+    // Check localStorage on component mount to see if user previously liked this post
+    const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]')
+    return likedPosts.includes(id)
+  })
+
+  // Track the total like count, starting with the hearts from API
+  const [likeCount, setLikeCount] = useState(hearts)
+  // const [createdAtState, setCreatedAtState] = useState(createdAt)
+
+  // Update localStorage when like status changes
+  const updateLocalStorage = (liked) => {
+    const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]')
+
+    if (liked) {
+      if (!likedPosts.includes(id)) {
+        localStorage.setItem('likedPosts', JSON.stringify([...likedPosts, id]))
+        window.dispatchEvent(new Event('localStorageUpdated')) // This is crucial
+      }
+    } else {
+      const updatedLikes = likedPosts.filter((postId) => postId !== id)
+      localStorage.setItem('likedPosts', JSON.stringify(updatedLikes))
+      window.dispatchEvent(new Event('localStorageUpdated')) // This is crucial
+    }
+  }
 
   const handleLike = () => {
-    if (isLiked) {
-      setLikeCount(likeCount - 1)
+    console.log('Like button clicked', { id, isLiked })
+
+    // Toggle liked state
+    const newLikedState = !isLiked
+
+    // Update state optimistically
+    setIsLiked(newLikedState)
+
+    // Update like count based on new state
+    if (newLikedState) {
+      setLikeCount((prevCount) => prevCount + 1)
     } else {
-      setLikeCount(likeCount + 1)
+      setLikeCount((prevCount) => prevCount - 1)
     }
-    setIsLiked(!isLiked)
+
+    // Update localStorage
+    updateLocalStorage(newLikedState)
+
+    // Make API call to update the like status
+    const endpoint = `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`
+    const method = newLikedState ? 'POST' : 'DELETE'
+
+    fetch(endpoint, {
+      method,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ thoughtId: id })
+    })
+      .then((response) => {
+        console.log('Response status:', response.status)
+        return response.json().catch(() => ({}))
+      })
+      .then((data) => {
+        console.log('Response data:', data)
+        // Update like count with the server's value
+        if (data && typeof data.hearts === 'number') {
+          setLikeCount(data.hearts)
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating like status:', error)
+        // ONLY revert UI changes on error - moved from outside the catch block
+        setIsLiked(!newLikedState)
+        if (newLikedState) {
+          setLikeCount((prevCount) => prevCount - 1)
+        } else {
+          setLikeCount((prevCount) => prevCount + 1)
+        }
+      })
   }
 
   return (
     <MessageContainer $isNew={isNew}>
       <MessageText>{message}</MessageText>
-      <LikeSection>
+      <BottomSection>
+        <div className='likeSection'></div>
         <Button
           variant='icon'
           icon={'❤️'}
@@ -79,7 +148,7 @@ export const Message = ({ message, isNew = false }) => {
           isLiked={isLiked}
         />
         <p>{`x ${likeCount}`}</p>
-      </LikeSection>
+      </BottomSection>
     </MessageContainer>
   )
 }
