@@ -102,16 +102,25 @@ export const Message = ({ id, message, isNew = false, hearts }) => {
     // Update localStorage
     updateLocalStorage(newLikedState)
 
-    // Make API call to update the like status
+    // Always use the same endpoint
     const endpoint = `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`
-    const method = newLikedState ? 'POST' : 'DELETE'
+
+    // CHANGE: Always use POST but with different action
+    const method = 'POST'
+
+    // Add action type based on state
+    const body = newLikedState
+      ? JSON.stringify({ thoughtId: id })
+      : JSON.stringify({ thoughtId: id, action: 'unlike' })
+
+    console.log(`Sending ${method} request to ${endpoint} with body:`, body)
 
     fetch(endpoint, {
       method,
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ thoughtId: id })
+      body
     })
       .then((response) => {
         console.log('Response status:', response.status)
@@ -126,7 +135,8 @@ export const Message = ({ id, message, isNew = false, hearts }) => {
       })
       .catch((error) => {
         console.error('Error updating like status:', error)
-        // ONLY revert UI changes on error - moved from outside the catch block
+
+        // ONLY revert UI changes on error
         setIsLiked(!newLikedState)
         if (newLikedState) {
           setLikeCount((prevCount) => prevCount - 1)
