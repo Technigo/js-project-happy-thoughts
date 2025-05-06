@@ -7,15 +7,12 @@ const PinkButton = styled.button`
   border: none;
   font-family: "system-ui", sans-serif;
   font-weight: 600;
-  *:hover {
-    transform: scale(1.05);
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-  }
+  will-change: transform;
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.97);
     transition: all 0.1s ease-in-out;
+    box-shadow: inset 0px 4px 6px 0px lightcoral;
   }
 `;
 
@@ -29,12 +26,16 @@ const BoxStyle = styled.form`
   min-height: 10rem;
   border: 2px solid black;
   box-shadow: 8px 8px 0px 0px black;
-  margin-top: 2rem;
+  margin: 2rem 0;
   align-self: center;
-
+  word-wrap: break-word;
   p {
     font-family: "Avenir", sans-serif;
     font-weight: 500;
+  }
+  @media (max-width: 543px) {
+    width: 100%;
+    height: 15rem;
   }
 `;
 
@@ -56,6 +57,13 @@ const TextAreaStyle = styled.textarea`
   font-size: 1rem;
   border: 2px solid lightgray;
   resize: none;
+  overflow-wrap: break-word;
+
+  @media (max-width: 543px) {
+    width: 100%;
+    height: 32rem;
+    padding: 0.5rem;
+  }
 `;
 
 export { PinkButton, BoxStyle, BoxFooterStyle, TextAreaStyle };

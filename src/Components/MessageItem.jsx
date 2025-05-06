@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { PinkButton, BoxStyle, BoxFooterStyle } from "./Boxstyles";
 import styled from "styled-components";
-import Timer from "./TimePast";
+import { DateTime } from "luxon";
 
 const HeartButton = styled(PinkButton)`
   background-color: ${(props) =>
-    props.heartButtonColor <= 0 ? "lightgrey" : "pink"};
+    props.$heartCountColor <= 0 ? "lightgrey" : "pink"};
   padding: 0.88rem 1rem;
 `;
 const HeartContainer = styled.div`
@@ -17,12 +16,24 @@ const HeartContainer = styled.div`
   gap: 0.5rem;
 `;
 
-const MessageItem = ({ message, hearts, createdAt }) => {
-  const [heartCount, setHeartCount] = useState(hearts);
-
+const MessageItem = ({ thought, message, hearts, onLike, createdAt }) => {
   const handleLikes = () => {
-    setHeartCount(heartCount + 1); // Increment the heart count
+    if (!thought || !thought._id) {
+      console.error("Thought is undefined or missing _id:", thought);
+      return;
+    }
+    onLike(thought._id);
   };
+
+  const createdAtISO = DateTime.fromISO(new Date(createdAt).toISOString());
+  if (!createdAtISO.isValid) {
+    console.warn("Invalid date encountered for thought:", thought);
+  }
+
+  const formattedTime = createdAtISO.isValid
+    ? createdAtISO.toRelative()
+    : "Date not available";
+
   return (
     <BoxStyle>
       <p style={{ fontSize: "1.25rem" }}>{message}</p>
@@ -30,15 +41,15 @@ const MessageItem = ({ message, hearts, createdAt }) => {
         <HeartContainer>
           <HeartButton
             type="button"
-            heartButtonColor={heartCount}
+            $heartCountColor={hearts}
             onClick={handleLikes}
+            aria-label={`Like this message. Current likes: ${hearts}`}
           >
             ❤️
           </HeartButton>
-          <p> x {heartCount}</p>
+          <p> x {hearts}</p>
         </HeartContainer>
-
-        <Timer callQueuedTime={createdAt} />
+        <p>{formattedTime}</p>
       </BoxFooterStyle>
     </BoxStyle>
   );
