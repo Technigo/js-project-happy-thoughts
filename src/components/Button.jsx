@@ -13,7 +13,7 @@ export const StyledButton = styled.button`
 
   /* Variant-specific styles */
   ${(props) =>
-    props.variant === 'icon' &&
+    props.$variant === 'icon' &&
     `
     padding: 10px;
     border-radius: 50%;
@@ -31,7 +31,7 @@ export const StyledButton = styled.button`
   `}
 
   ${(props) =>
-    (props.variant === 'text' || !props.variant) &&
+    (props.$variant === 'text' || !props.$variant) &&
     `
     padding: 10px 20px;
     min-width: 120px;
@@ -68,7 +68,7 @@ export const Button = ({
 
   return (
     <StyledButton
-      variant={variant}
+      $variant={variant}
       type={type || 'button'}
       onClick={handleClick}
       disabled={disabled}

@@ -76,7 +76,7 @@ const StyledInput = styled.textarea`
   }
 `
 const StyledHandleRemainingChars = styled.p`
-  color: ${(props) => (props.remaining < 0 ? 'red' : '#333')};
+  color: ${(props) => (props.$remaining < 0 ? 'red' : '#333')};
   font-size: 12px;
   margin-top: 4px;
 `
@@ -120,7 +120,7 @@ export const TextBox = ({ onSubmit }) => {
           value={message}
           onChange={handleInputChange}
         />
-        <StyledHandleRemainingChars remaining={remainingChars}>
+        <StyledHandleRemainingChars $remaining={remainingChars}>
           {remainingChars < 0
             ? 'You have exceeded the maximum character limit!'
             : `${remainingChars} characters remaining`}

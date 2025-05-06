@@ -31,7 +31,7 @@ export const MessageContainer = styled.div`
   overflow-wrap: break-word;
   overflow: auto;
 
-  animation: ${fadeIn} 0.5s ease-out;
+  animation: ${(props) => (props.$isNew ? fadeIn : 'none')} 0.5s ease-out;
 
   @media ${media.tablet} {
     width: 400px;
@@ -55,23 +55,21 @@ export const LikeSection = styled.div`
   font-size: 12px;
 `
 
-export const Message = ({ message }) => {
+export const Message = ({ message, isNew = false }) => {
   const [isLiked, setIsLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
 
   const handleLike = () => {
     if (isLiked) {
-      // If already liked, decrement the count
       setLikeCount(likeCount - 1)
     } else {
-      // If not liked, increment the count
       setLikeCount(likeCount + 1)
     }
     setIsLiked(!isLiked)
   }
 
   return (
-    <MessageContainer>
+    <MessageContainer $isNew={isNew}>
       <MessageText>{message}</MessageText>
       <LikeSection>
         <Button
