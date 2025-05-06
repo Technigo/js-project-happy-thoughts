@@ -3,14 +3,17 @@ import { GlobalStyles } from './GlobalStyles'
 import { Message } from './components/Message'
 import { TextBox } from './components/TextBox'
 import { LikeCounter } from './components/LikeCounter'
+import { Loader } from './components/Loader'
 
 export const App = () => {
   const [messages, setMessages] = useState([])
   const [newMessageId, setNewMessageId] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const getUrl = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts'
 
   const fetchMessages = async () => {
+    setLoading(true)
     try {
       const response = await fetch(getUrl)
       const data = await response.json()
@@ -31,6 +34,9 @@ export const App = () => {
     } catch (error) {
       console.error('Error fetching messages:', error)
       setMessages([])
+    } finally {
+      // this block executes no matter what, wheter there was an error or not.
+      setLoading(false)
     }
   }
 
@@ -40,17 +46,20 @@ export const App = () => {
 
   const handleNewMessage = (newMessage) => {
     // Time-stamp the message with a unique ID
+    // Using _id to be consistent with API format
     const messageWithId = {
-      id: Date.now(),
-      text: newMessage
+      _id: Date.now().toString(), // Convert to string to match API format
+      message: newMessage, // Use message property to match API format
+      hearts: 0, // Initialize with 0 hearts
+      createdAt: new Date().toISOString() // Include createdAt to match API format
     }
 
     // Add defensive check to ensure messages is defined
     setMessages((prevMessages) => [messageWithId, ...(prevMessages || [])])
-    setNewMessageId(messageWithId.id)
+    setNewMessageId(messageWithId._id)
   }
 
-  // Add a useEffect to clear newMessageId after animation
+  // Added useEffect to clear newMessageId after animation
   useEffect(() => {
     if (newMessageId) {
       const timer = setTimeout(() => {
@@ -60,7 +69,10 @@ export const App = () => {
     }
   }, [newMessageId])
 
-  // Return with proper defensive checks
+  if (loading) {
+    return <Loader /> // Placeholder for loading state
+  }
+
   return (
     <div className='App'>
       <GlobalStyles />
@@ -68,31 +80,19 @@ export const App = () => {
       <LikeCounter />
       {Array.isArray(messages) &&
         messages.map((messageItem) => {
-          // Extract the message text based on the API structure
-          let messageText
-
-          if (typeof messageItem === 'string') {
-            messageText = messageItem
-          } else if (messageItem.text) {
-            messageText = messageItem.text
-          } else if (messageItem.message) {
-            // This appears to be the correct property based on your error
-            messageText = messageItem.message
-          } else {
-            // Fallback to stringifying, but avoid rendering the object directly
-            messageText = JSON.stringify(messageItem)
-          }
-
-          const messageId = messageItem.id || messageItem._id
+          // Extract the proper ID, handling both API and local messages
+          const messageId =
+            messageItem._id || messageItem.id || Math.random().toString()
+          const messageText = messageItem.message || messageItem.text || ''
 
           return (
             <Message
-              key={messageId || Math.random()}
+              key={messageId}
               id={messageId}
               message={messageText}
               isNew={messageId === newMessageId}
               hearts={messageItem.hearts || 0}
-              createdAt={messageItem.createdAt || Date.now()}
+              createdAt={messageItem.createdAt || messageItem.date || ''}
             />
           )
         })}

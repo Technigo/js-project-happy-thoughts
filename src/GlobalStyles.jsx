@@ -16,7 +16,13 @@ export const GlobalStyles = createGlobalStyle`
   }
   
   body {
-      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+      font-family: 'Roboto Mono', Arial, Helvetica, sans-serif;
+      font-weight: 500;
       color: var(--color-text);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
   }
 `

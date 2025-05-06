@@ -1,7 +1,7 @@
+import { usePostThought } from '../hooks/usePostThought'
+import { Button } from './Button'
 import styled from 'styled-components'
 import { media } from '../media'
-import { useState } from 'react'
-import { Button } from './Button'
 
 export const StyledTextBox = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const StyledHeading = styled.h2`
   font-size: 12px;
   margin-top: 0;
   color: #333;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 8px;
 
   @media ${media.tablet} {
@@ -82,53 +82,40 @@ const StyledHandleRemainingChars = styled.p`
 `
 
 export const TextBox = ({ onSubmit }) => {
-  const [message, setMessage] = useState('')
-  const maxLength = 140
-  // Calculate remainingChars directly from message length
-  const remainingChars = maxLength - message.length
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    // Check both conditions before submitting
-    if (message.trim() !== '' && remainingChars >= 0) {
-      // Call the onSubmit callback with the message
-      onSubmit(message)
-      setMessage('') // Clear the input after submission
-    }
-  }
-
-  const handleInputChange = (e) => {
-    setMessage(e.target.value)
-  }
-
-  // Handle the Enter key press to submit the form
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSubmit(e)
-    }
-  }
+  // State variables and functions from the usePostThought hook
+  const {
+    message,
+    isPosting,
+    error,
+    remainingChars,
+    handleInputChange,
+    handleSubmit
+  } = usePostThought((newThought) => {
+    // This function will be called after successful posting
+    if (onSubmit) onSubmit(newThought)
+  })
 
   return (
     <StyledTextBox>
       <StyledHeading>What's making you happy right now?</StyledHeading>
-      <StyledForm onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
+      <StyledForm onSubmit={handleSubmit}>
         <StyledInput
           type='text'
           placeholder='Type your happy thought here...'
           value={message}
           onChange={handleInputChange}
+          disabled={isPosting}
         />
         <StyledHandleRemainingChars $remaining={remainingChars}>
           {remainingChars < 0
             ? 'You have exceeded the maximum character limit!'
             : `${remainingChars} characters remaining`}
         </StyledHandleRemainingChars>
+        {error && <StyledError>{error}</StyledError>}
         <Button
           text='❤️ Send Happy Thought ❤️'
           type='submit'
-          disabled={message.trim() === '' || remainingChars < 0}
+          disabled={message.trim() === '' || remainingChars < 0 || isPosting}
         />
       </StyledForm>
     </StyledTextBox>

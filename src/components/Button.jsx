@@ -11,6 +11,11 @@ export const StyledButton = styled.button`
   padding: 10px;
   margin: 12px 0;
 
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
   /* Variant-specific styles */
   ${(props) =>
     props.$variant === 'icon' &&
