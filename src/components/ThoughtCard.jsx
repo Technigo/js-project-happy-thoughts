@@ -44,7 +44,7 @@ const Timestamp = styled.span`
   font-size: 0.9rem;
 `;
 
-const ThoughtCard = ({ message, timestamp, likes = 0, id, onLike }) => {
+const ThoughtCard = ({ message, createdAt, hearts = 0, _id, onLike }) => {
   const getTimeAgo = (timestamp) => {
     const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
     
@@ -60,10 +60,10 @@ const ThoughtCard = ({ message, timestamp, likes = 0, id, onLike }) => {
     <Card>
       <Message>{message}</Message>
       <CardFooter>
-        <LikeButton onClick={() => onLike(id)}>
-          ❤️ x {likes}
+        <LikeButton onClick={() => onLike(_id)}>
+          ❤️ x {hearts}
         </LikeButton>
-        <Timestamp>{getTimeAgo(timestamp)}</Timestamp>
+        <Timestamp>{getTimeAgo(createdAt)}</Timestamp>
       </CardFooter>
     </Card>
   );

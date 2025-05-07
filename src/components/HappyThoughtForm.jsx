@@ -55,30 +55,32 @@ const SubmitButton = styled.button`
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  opacity: ${props => props.disabled ? 0.6 : 1};
 
   &:hover {
     background: #ff99a8;
   }
 `;
 
-const HappyThoughtForm = ({ onSubmit }) => {
+const HappyThoughtForm = ({ onSubmit, loading }) => {
   const [thought, setThought] = useState('');
   const [error, setError] = useState('');
   const maxLength = 140;
+  const minLength = 5;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (thought.trim().length === 0) {
-      setError('Please enter a thought');
+    setError('');
+    if (thought.trim().length < minLength) {
+      setError('Your thought must be at least 5 characters.');
       return;
     }
     if (thought.length > maxLength) {
       setError('Thought is too long');
       return;
     }
-    onSubmit(thought);
+    onSubmit(thought, (apiError) => setError(apiError));
     setThought('');
-    setError('');
   };
 
   return (
@@ -89,13 +91,14 @@ const HappyThoughtForm = ({ onSubmit }) => {
         onChange={(e) => setThought(e.target.value)}
         placeholder="Type your happy thought..."
         rows={3}
+        disabled={loading}
       />
       <FormFooter>
         <CharacterCount $isError={thought.length > maxLength}>
           {maxLength - thought.length} characters remaining
         </CharacterCount>
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <SubmitButton type="submit">
+        <SubmitButton type="submit" disabled={loading}>
           ❤️ Send Happy Thought ❤️
         </SubmitButton>
       </FormFooter>
