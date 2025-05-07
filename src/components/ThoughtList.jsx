@@ -11,7 +11,7 @@ const List = styled.div`
   margin: 0 auto;
 `;
 
-const ThoughtList = ({ thoughts, onLike }) => {
+const ThoughtList = ({ thoughts, onLike, likedThoughtIds = [] }) => {
   return (
     <List>
       {thoughts.map((thought) => (
@@ -22,6 +22,7 @@ const ThoughtList = ({ thoughts, onLike }) => {
           createdAt={thought.createdAt}
           hearts={thought.hearts}
           onLike={onLike}
+          liked={likedThoughtIds.includes(thought._id)}
         />
       ))}
     </List>

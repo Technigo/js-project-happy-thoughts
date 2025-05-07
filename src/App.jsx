@@ -125,7 +125,7 @@ const App = () => {
         <LikedBadge count={likedThoughtIds.length} />
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {loading && <Loader />}
-        <ThoughtList thoughts={thoughts} onLike={handleLike} />
+        <ThoughtList thoughts={thoughts} onLike={handleLike} likedThoughtIds={likedThoughtIds} />
       </AppContainer>
     </>
   );

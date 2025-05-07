@@ -35,7 +35,7 @@ const FormFooter = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const HappyThoughtForm = ({ onSubmit, loading }) => {

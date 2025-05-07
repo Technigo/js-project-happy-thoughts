@@ -2,12 +2,24 @@ import styled from 'styled-components';
 import Timestamp from './Timestamp';
 import Button from './Button';
 
+const LikeButtonWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: ${props => props.liked ? '#ffb6c1' : '#fff0f5'};
+  margin-right: 8px;
+`;
+
 const Card = styled.div`
   background: white;
-  border-radius: 6px;
+  border-radius: 0;
+  border: 1px solid #bbb;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 6px 6px 0 #000;
   max-width: 500px;
   width: 100%;
 `;
@@ -25,14 +37,25 @@ const CardFooter = styled.div`
   align-items: center;
 `;
 
-const ThoughtCard = ({ message, createdAt, hearts = 0, _id, onLike }) => {
+const LeftGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const ThoughtCard = ({ message, createdAt, hearts = 0, _id, onLike, liked }) => {
   return (
     <Card>
       <Message>{message}</Message>
       <CardFooter>
-        <Button variant="secondary" onClick={() => onLike(_id)}>
-          ❤️ x {hearts}
-        </Button>
+        <LeftGroup>
+          <LikeButtonWrapper liked={liked}>
+            <Button variant="circle" onClick={() => onLike(_id)}>
+              ❤️
+            </Button>
+          </LikeButtonWrapper>
+          <span>x {hearts}</span>
+        </LeftGroup>
         <Timestamp date={createdAt} />
       </CardFooter>
     </Card>
