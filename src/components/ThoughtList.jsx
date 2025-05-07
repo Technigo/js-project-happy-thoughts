@@ -16,11 +16,11 @@ const ThoughtList = ({ thoughts, onLike }) => {
     <List>
       {thoughts.map((thought) => (
         <ThoughtCard
-          key={thought.id}
-          id={thought.id}
+          key={thought._id}
+          _id={thought._id}
           message={thought.message}
-          timestamp={thought.timestamp}
-          likes={thought.likes}
+          createdAt={thought.createdAt}
+          hearts={thought.hearts}
           onLike={onLike}
         />
       ))}
