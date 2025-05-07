@@ -1,29 +1,54 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import GlobalStyle from "./styles/GlobalStyle.jsx"
 import QuestionCard from "./components/QuestionCard.jsx"
 import MessageList from "./components/MessageList.jsx"
 
-//manages the input text and stores messages using useState hook
+// Main component, one for the input field (messageText), one for the list of thoughts fetched from the API (thoughts)
 export const App = () => {
   const [messageText, setMessageText] = useState("")
-  const [messages, setMessages] = useState([])
+  const [thoughts, setThoughts] = useState([]) 
 
-  //form , new message object + adding to list, clear input field
-  const handleMessage = (event) => {
-    event.preventDefault() 
-    if (messageText.trim() !== '') {
-      const newMessage = {
-        id: Date.now(), 
-        text: messageText,
-        createdAt: `${Math.floor(Math.random() * 90)} seconds ago`,
-        //createdAt: new Date().toLocaleTimeString(),
-        likes: 0
+  //useEffect runs once on page load to fetch the latest happy thoughts from the API and store them in state
+  useEffect(() => {
+    const fetchThoughts = async () => {
+      const response = await fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+      if (response.ok) {
+        const data = await response.json()
+        setThoughts(data)
       }
-      setMessages([newMessage, ...messages]) //spread operator method
-      setMessageText('')
+    }
+
+    fetchThoughts()
+  }, [])
+
+// handles q.card: sends the new message to the API, adds it to the top of the thoughts list, and clears the input field
+  const handleMessage = (event) => {
+    event.preventDefault()
+
+    //makes sure the message has the right amount of characters
+    if (messageText.trim().length < 5 || messageText.length > 140) {
+      alert("Your message must be between 5 and 140 characters.")
+      return;
+    }
+  
+    if (messageText.trim() !== "") {
+      fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: messageText }),
+      })
+        .then((res) => res.json())
+        .then((newThought) => {
+          setThoughts([newThought, ...thoughts])
+          setMessageText("")
+        })
+        .catch((err) => console.error("Failed to post thought", err))
     }
   }
 
+//renders app layout
   return (
     <>
       <GlobalStyle />
@@ -33,7 +58,7 @@ export const App = () => {
         setMessageText={setMessageText}
         handleMessage={handleMessage}
       />
-      <MessageList messages={messages} />
+      <MessageList thoughts={thoughts} />
     </>
   )
 }

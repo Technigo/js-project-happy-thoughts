@@ -95,14 +95,15 @@ margin-top: 10px;
 
 `
 
-//Renders one card w. one message, styled
+//Updated with API thoughs. Displays a single Happy Thought with message, timestamp, and a like button (local update only- no api yet)
+
 const MessageCard = ({ message }) => {
   console.log("Card message:", message);
-  const [likes, setLikes] = useState(message.likes || 0)
+  const [likes, setLikes] = useState(message.hearts || 0)
   console.log(message)
   return (
     <CardWrapper>
-      <MessageText>{message.text}</MessageText>
+      <MessageText>{message.message}</MessageText>
       <FooterContainer>
       <Button onClick={() => setLikes(likes + 1)}> ❤️ x {likes}</Button>
       <TimeStamp>{message.createdAt}</TimeStamp>

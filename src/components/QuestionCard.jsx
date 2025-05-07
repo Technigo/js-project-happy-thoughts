@@ -95,7 +95,7 @@ const Button = styled.button `
 }
 `
 
-//function to create the form
+// renders the input form UI and passes user input to the parent component via props
 const Form = ({ messageText, setMessageText, handleMessage }) => {
   return (
     <FormWrapper onSubmit={handleMessage}>
