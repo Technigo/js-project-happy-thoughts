@@ -183,3 +183,11 @@
 {
   "message": "My happy thought"
 }
+{
+    "_id": "123456",
+    "message": "My happy thought",
+    "hearts": 0,
+    "createdAt": "2019-11-21T11:31:28.547Z",
+    "__v": 0
+  }
+

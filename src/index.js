@@ -1,55 +1,59 @@
-import React. { useState } from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-const HelloWorld = () => {
-  useEffect(() => {})
-console.log("Mounted!");
-return () => {
-  console.log("Unmounted");
-};
-});
-return <p>Hello world!</p>
-};
 const App = () => {
-  const [visible, setVisible] = useState(false);
+  const [thoughts, setThoughts] = useState([]);
   useEffect(() => {
-    console.log("app effect:", visible;
-    });
-    return (
-      <div>
-        button onClick={() => setVisible(prev => !prev)}>Show / Hide</button>
-        {visible && <HelloWorld />}
-      
-      </div>
-    )
-  })
-}
-const [thoughts, setThoughts] = useState([])
-const handleFormSubmit = (event) => {
-  event.preventDefault()
-  fetch("<https://technigo-thoughts.herokuapp.com/>", {
-    method: "POST",
-    body: JSON.stringify({
-      message: "Hello world",
-    }),
-    headers: { "Content-Type": "application/json" },
-      })
-  }
-    .then((res) => res.json())
-    .then((newThought) => {
-        setThoughts((previousThoughts) => [newThought, ...previousThoughts])
+    fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+      .then((res) => res.json())
+      .then((json) => setThoughts(json))
+      .catch((error) => console.error("Error fetching thoughts:", error));
+  }, []);
 
-        setNewThought("id 123456")
-        setMessage("My happy thought")
-        setHearts(0)
-        setVisible
-        (false)
-        {
-          "_id": "123456",
-          "message": "My happy thought",
-          "hearts": 0,
-          "createdAt": "2019-11-21T11:31:28.547Z",
-          "__v": 0
-        }
+  return (
+    <div>
+      <h1>Happy Thoughts</h1>
+      {/* Render thoughts or other components here */}
+    </div>
+  );
+};
+const animationButton = () => {
+  // Add your animation logic here or remove this function if not needed
+};
+const [decrement, setDecrement] = useState(140);
+const [count, setCount] = useState(0);
+const [loading, setLoading] = useState(true);
+setLoading(false);
+const [error, setError] = useState(null);
+// Removed duplicate declaration of thoughts state
+const HelloWorld = () => {
+  const [visible, setVisible] = useState(false); // Declare visible state
+  useEffect(() => {
+    // Add any necessary logic here
+  }, []); // Properly close the useEffect function
+
+  return (
+    <div>
+      <button onClick={() => setVisible((prev) => !prev)}>Show / Hide</button>
+      {visible && <div>Hello World</div>}
+    </div>
+  );
+};
+  event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetch("https://technigo-thoughts.herokuapp.com/", {
+      method: "POST",
+      body: JSON.stringify({
+        message: "Hello world",
+      }),
+      headers: { "Content-Type": "application/json" },
     })
-
-    const rootelement = document.getElementById("root");
+      .then((res) => res.json())
+      .then((newThought) => {
+        setThoughts((previousThoughts) => [newThought, ...previousThoughts]);
+      })
+      .catch((error) => console.error("Error posting thought:", error));
+  };
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
+// Removed invalid console.log statement

@@ -6,6 +6,28 @@ import './Card.css';
 import { Form } from './form';
 import Main from './main.tsx';
 import indexData from './index.json';
+fetch ("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+fetch ("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/THOUGHT_ID/like")
+const [thoughts, setThoughts] = useState<{ message: string }[]>([])
+const handleFormSubmit = (event) => {
+  event.preventDefault()
+  fetch("<https://technigo-thoughts.herokuapp.com/>", {
+    method: "POST",
+    body: JSON.stringify({
+      message: "Hello world",
+    }),
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => res.json())
+    .then((newThought) => {
+      setThoughts((previousThoughts) => [newThought, ...previousThoughts])
+    })
+}
+            
+
+
+
+
 
 
 
