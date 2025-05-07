@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import CharacterCount from './CharacterCount';
+import Button from './Button';
+import ErrorMessage from './ErrorMessage';
 
 const FormContainer = styled.form`
   background: white;
@@ -35,34 +38,6 @@ const FormFooter = styled.div`
   align-items: center;
 `;
 
-const CharacterCount = styled.span`
-  font-size: 0.9rem;
-  color: ${props => props.$isError ? '#ff4444' : '#666'};
-`;
-
-const ErrorMessage = styled.p`
-  color: #ff4444;
-  margin: 5px 0;
-  font-size: 0.9rem;
-`;
-
-const SubmitButton = styled.button`
-  background: #ffb6c1;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  color: black;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s, opacity 0.2s;
-  opacity: ${props => props.disabled ? 0.5 : 1};
-  pointer-events: ${props => props.disabled ? 'none' : 'auto'};
-
-  &:hover {
-    background: #ff99a8;
-  }
-`;
-
 const HappyThoughtForm = ({ onSubmit, loading }) => {
   const [thought, setThought] = useState('');
   const [error, setError] = useState('');
@@ -90,13 +65,11 @@ const HappyThoughtForm = ({ onSubmit, loading }) => {
         disabled={loading}
       />
       <FormFooter>
-        <CharacterCount $isError={thought.length > maxLength}>
-          {maxLength - thought.length} characters remaining
-        </CharacterCount>
+        <CharacterCount count={maxLength - thought.length} isError={thought.length > maxLength} />
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <SubmitButton type="submit" disabled={loading || isInvalid}>
+        <Button type="submit" disabled={loading || isInvalid}>
           ❤️ Send Happy Thought ❤️
-        </SubmitButton>
+        </Button>
       </FormFooter>
     </FormContainer>
   );

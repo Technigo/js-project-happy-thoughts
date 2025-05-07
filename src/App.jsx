@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import HappyThoughtForm from './components/HappyThoughtForm';
 import ThoughtList from './components/ThoughtList';
+import Loader from './components/Loader';
+import ErrorMessage from './components/ErrorMessage';
+import LikedBadge from './components/LikedBadge';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -32,24 +35,17 @@ const AppContainer = styled.div`
   }
 `;
 
-const Loader = styled.div`
-  margin: 40px 0;
-  font-size: 1.2rem;
-  color: #888;
-`;
-
-const ErrorMessage = styled.div`
-  color: #ff4444;
-  margin: 20px 0;
-  font-size: 1rem;
-`;
-
 const API_URL = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts';
+const LOCAL_STORAGE_KEY = 'likedThoughtIds';
 
 const App = () => {
   const [thoughts, setThoughts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [likedThoughtIds, setLikedThoughtIds] = useState(() => {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  });
 
   // Fetch thoughts from API on mount
   useEffect(() => {
@@ -69,6 +65,11 @@ const App = () => {
         setLoading(false);
       });
   }, []);
+
+  // Store likedThoughtIds in localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(likedThoughtIds));
+  }, [likedThoughtIds]);
 
   // Add a new thought
   const addThought = (message, onError) => {
@@ -106,6 +107,10 @@ const App = () => {
             thought._id === updatedThought._id ? updatedThought : thought
           )
         );
+        // If this thought hasn't been liked by the user before, add to likedThoughtIds
+        setLikedThoughtIds((prev) =>
+          prev.includes(thoughtId) ? prev : [...prev, thoughtId]
+        );
       })
       .catch(() => {
         setError('Could not like the thought. Please try again.');
@@ -117,8 +122,9 @@ const App = () => {
       <GlobalStyle />
       <AppContainer>
         <HappyThoughtForm onSubmit={addThought} loading={loading} />
+        <LikedBadge count={likedThoughtIds.length} />
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        {loading && <Loader>Loading...</Loader>}
+        {loading && <Loader />}
         <ThoughtList thoughts={thoughts} onLike={handleLike} />
       </AppContainer>
     </>
