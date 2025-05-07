@@ -13,6 +13,7 @@ export const App = () => {
       .then((data) => setThoughts(data))
       .catch((error) => console.error("Error fetching thoughts:", error));
   }, []);
+
   const onLike = (id) => {
     handleLike(id).then(() => {
       setThoughts((prevThoughts) =>
