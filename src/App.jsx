@@ -3,15 +3,24 @@ import MessageList from "./Components/MessageList";
 import MessageForm from "./Components/MessageForm";
 import { FooterStyles } from "./Components/FooterStyles";
 import handleLike from "./Components/HandlesLikes";
+import LoadingSpinner from "./Components/LoadingSpinner";
 
 export const App = () => {
   const [thoughts, setThoughts] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state for fetching thoughts
 
+  // Fetch thoughts when the app loads
   useEffect(() => {
     fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
       .then((res) => res.json())
-      .then((data) => setThoughts(data))
-      .catch((error) => console.error("Error fetching thoughts:", error));
+      .then((data) => {
+        setThoughts(data);
+        setLoading(false); // Stop loading after data is fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching thoughts:", error);
+        setLoading(false); // Stop loading even if there's an error
+      });
   }, []);
 
   const onLike = (id) => {
@@ -29,10 +38,16 @@ export const App = () => {
   return (
     <>
       <main>
-        <MessageForm
-          onSubmit={(newThought) => setThoughts([newThought, ...thoughts])}
-        />
-        <MessageList thoughts={thoughts} onLike={onLike} />
+        {loading ? (
+          <LoadingSpinner /> // Show loading message while fetching
+        ) : (
+          <>
+            <MessageForm
+              onSubmit={(newThought) => setThoughts([newThought, ...thoughts])}
+            />
+            <MessageList thoughts={thoughts} onLike={onLike} />
+          </>
+        )}
       </main>
       <FooterStyles>
         <div>

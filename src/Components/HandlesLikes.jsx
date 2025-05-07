@@ -8,7 +8,7 @@ const handleLike = async (id) => {
     );
     return await response.json();
   } catch (error) {
-    console.error("Error liking thought:", error);
+    console.error("Unable to heart 😞:", error);
   }
 };
 
