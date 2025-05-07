@@ -5,9 +5,10 @@ import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 
 const FormContainer = styled.form`
-  background: white;
+  background: #f5f5f5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
+  border: 2px solid #bbb;
   padding: 20px;
   margin-bottom: 20px;
   max-width: 500px;
