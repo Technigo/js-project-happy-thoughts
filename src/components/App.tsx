@@ -1,8 +1,14 @@
 // Removed duplicate import of useState
-import Card from '../components/Card'
-import './App.css'
 import React, { useState } from 'react'
-import './App.css'
+import Card from './Card.tsx';
+import './Card.css';
+// Removed conflicting import of App
+import { Form } from './form';
+import Main from './main.tsx';
+import indexData from './index.json';
+
+
+
 
 // if creating a Review as an object
 interface Review {
