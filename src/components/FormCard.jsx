@@ -2,17 +2,18 @@ import { useState } from "react"
 import { SubmitButton } from "./SubmitButton"
 
 
-export const FormCard = ({ onSubmit }) => {
+export const FormCard = ({ onSubmit, apiError }) => {
 
   const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
+  const [localError, setLocalError] = useState('')
   const [count, setCount] = useState(0)
-  const maxChars = 10
+  const maxChars = 140
+  const minChars = 5
 
   const validateMessage = (text) => {
 
-    if (text.trim() === '') {
-      setError('Please write something before submitting.')
+    if (text.trim().length < minChars) {
+      setLocalError(`Message have to be at least ${maxChars} character`)
       return false
     }
     return true
@@ -20,7 +21,7 @@ export const FormCard = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
+    setLocalError('')
     if (!validateMessage(message)) {
       return
     }
@@ -29,23 +30,18 @@ export const FormCard = ({ onSubmit }) => {
     //Reset
     setMessage('');
     setCount(0);
-    setError('');
+
   }
 
   const handleInputChange = (e) => {
     const newValue = e.target.value
     setMessage(newValue)
-
-    if (error) {
-      setError('')
-    }
     setCount(newValue.length)
-    if (newValue.length >= maxChars) {
-      setError(`Only ${maxChars} letters is aloud`)
+    //rensa eventuella tidigare felmeddelanden
+    if (localError) {
+      setLocalError('')
     }
   }
-
-
 
   return (
     <>
@@ -53,11 +49,12 @@ export const FormCard = ({ onSubmit }) => {
         onSubmit={handleSubmit}
         className="flex flex-col gap-3 bg-gray-100 p-4 border rounded-xs shadow-[10px_10px] shadow-black">
         <div className="flex items-end gap-5">
-          <label 
-            id="happy">What's making you happy right now?
+          <label
+            htmlFor="happy">What's making you happy right now?
           </label>
-          <p className={`text-xs ${count >= maxChars ? 'text-red-500' : 'text-gray-500'
-            }`}>{count}/{maxChars}</p>
+          <p className={`text-xs ${count === maxChars ? 'text-red-500' : 'text-gray-500'}`}>
+            {count}/{maxChars}
+          </p>
         </div>
 
         <textarea
@@ -69,10 +66,11 @@ export const FormCard = ({ onSubmit }) => {
         </textarea>
 
         <div className="flex flex-col w-full">
-          {error && (<p className="text-red-500 text-xs" >
-            {error}
+          {localError && (<p className="text-red-500 text-xs" >
+            {localError}
           </p>)}
-          <SubmitButton className={error ? 'mt-3' : ''} />
+          {apiError && <p className="text-red-500">{apiError}</p>}
+          <SubmitButton className={localError ? 'mt-3' : ''} />
         </div>
       </form>
 
