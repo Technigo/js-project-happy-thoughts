@@ -55,7 +55,7 @@ const timeAgo = (timestamp) => {
 }
 
 
-const MessageItem = ({ text, createdAt, isNewest }) => {
+const MessageItem = ({ text, createdAt, isNewest, likes }) => {
   const [showFlare, setShowFlare] = useState(false)
 
   useEffect(() => {
@@ -67,14 +67,14 @@ const MessageItem = ({ text, createdAt, isNewest }) => {
   }, [isNewest])
 
 
-  const [likes, setLikes] = useState(0)
+  const [hearts, setHearts] = useState()
 
   return (
     <StyledMessageItem>
       {isNewest && <FlareIcon $show={showFlare}>✨</FlareIcon>}
       <p>{text}</p>
       <p>{timeAgo(createdAt)}</p>
-      <button onClick={() => setLikes(likes + 1)}>❤️ x {likes}</button>
+      <button onClick={() => setHearts(hearts + 1)}>❤️ x {likes}</button>
     </StyledMessageItem>
   )
 }

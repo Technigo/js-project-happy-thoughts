@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MessageForm from "./components/MessageForm";
 import MessageItem from "./components/MessageItem";
@@ -27,8 +27,23 @@ const MessageList = styled.div`
 `;
 
 export const App = () => {
-  const [messages, setMessages] = useState([]);
-  const [messageText, setMessageText] = useState("");
+  const [messages, setMessages] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [messageText, setMessageText] = useState("")
+
+  useEffect(() => {
+    fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+      .then((response) => response.json())
+      .then((data) => {
+        setMessages(data)
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        console.error("Error fetching messages:", error)
+        setIsLoading(false)
+      })
+  }, [])
+
 
   const handleMessageSubmit = (event) => {
     event.preventDefault();
@@ -48,6 +63,8 @@ export const App = () => {
       <h1>Happy Thoughts</h1>
 
       <StyledCard>
+
+        {isLoading && <p>Loading...</p>}
         <MessageForm
           messageText={messageText}
           setMessageText={setMessageText}
@@ -58,9 +75,11 @@ export const App = () => {
       <MessageList>
         {[...messages].reverse().map((message, index) => (
           <MessageItem
-            key={message.id}
-            text={message.text}
+            key={message._id}
+            text={message.message}
+            likes={message.hearts}
             createdAt={message.createdAt}
+
             isNewest={index === 0}
           />
         ))}
