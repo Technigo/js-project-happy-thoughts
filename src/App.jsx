@@ -44,17 +44,50 @@ export const App = () => {
       })
   }, [])
 
+  //Handle the liking of posts
+  const handleLike = (id) => {
+    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() =>
+        fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+          .then((res) => res.json())
+          .then((data) => setMessages(data))
+      )
+      .catch((error) => console.error("Error liking message:", error));
+  }
+
 
   const handleMessageSubmit = (event) => {
-    event.preventDefault();
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        text: messageText,
-        createdAt: new Date().toLocaleString(),
+    event.preventDefault()
+
+    fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    ]);
+      body: JSON.stringify({ message: messageText }),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        // Fetch the updated list of messages after posting a new one
+        fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+          .then((res) => res.json())
+          .then((data) => setMessages(data))
+      })
+      .catch((error) => console.error("Error posting message:", error))
+    // setMessages((prev) => [
+    //   ...prev,
+    //   {
+    //     id: Date.now(),
+    //     text: messageText,
+    //     createdAt: new Date().toLocaleString(),
+
+    //   },
+    // ]);
     setMessageText("");
   };
 
@@ -73,13 +106,13 @@ export const App = () => {
       </StyledCard>
 
       <MessageList>
-        {[...messages].reverse().map((message, index) => (
+        {messages.map((message, index) => (
           <MessageItem
             key={message._id}
             text={message.message}
             likes={message.hearts}
             createdAt={message.createdAt}
-
+            onLike={() => handleLike(message._id)}
             isNewest={index === 0}
           />
         ))}

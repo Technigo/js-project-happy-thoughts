@@ -31,6 +31,8 @@ const FlareIcon = styled.span`
 
 `
 
+
+
 // Funktion för att beräkna den relativa tiden
 const timeAgo = (timestamp) => {
   const now = new Date();
@@ -55,7 +57,7 @@ const timeAgo = (timestamp) => {
 }
 
 
-const MessageItem = ({ text, createdAt, isNewest, likes }) => {
+const MessageItem = ({ text, createdAt, isNewest, likes, onLike }) => {
   const [showFlare, setShowFlare] = useState(false)
 
   useEffect(() => {
@@ -67,14 +69,14 @@ const MessageItem = ({ text, createdAt, isNewest, likes }) => {
   }, [isNewest])
 
 
-  const [hearts, setHearts] = useState()
+  // const [hearts, setHearts] = useState()
 
   return (
     <StyledMessageItem>
       {isNewest && <FlareIcon $show={showFlare}>✨</FlareIcon>}
       <p>{text}</p>
       <p>{timeAgo(createdAt)}</p>
-      <button onClick={() => setHearts(hearts + 1)}>❤️ x {likes}</button>
+      <button onClick={onLike}>❤️ x {likes}</button>
     </StyledMessageItem>
   )
 }
