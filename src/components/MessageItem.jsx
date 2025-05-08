@@ -12,9 +12,9 @@ const StyledMessageItem = styled.div`
   border: 1px solid #0e0d0d;
   box-shadow: 4px 4px black;
   padding: 10px;
-  max-width: 320px;
+  width: 250px;
   position: relative;
-  overflow: hidden;
+
 `
 const FlareIcon = styled.span`
   position: absolute;
@@ -69,7 +69,7 @@ const MessageItem = ({ text, createdAt, isNewest, likes, onLike }) => {
   }, [isNewest])
 
 
-  // const [hearts, setHearts] = useState()
+
 
   return (
     <StyledMessageItem>

@@ -14,25 +14,33 @@ const StyledCard = styled.div`
   padding: 10px;
   width: 100%;
   margin: auto;
-`;
+`
 
 const MessageList = styled.div`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
   width: 100%;
   margin: 20px auto;
   max-width: 320px;
-`;
+  max-height: 400px;  /* HÖJD för scroll */
+  overflow-y: auto;   /* Scrollbar */
+  padding-right: 10px;
+  border: 1px solid #aaa;
+  background-color: #f8f8f8;
+`
 
 export const App = () => {
+  const API_URL = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts"
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [messageText, setMessageText] = useState("")
 
-  useEffect(() => {
-    fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+  const fetchMessages = () => {
+    setIsLoading(true);
+    fetch(API_URL)
       .then((response) => response.json())
       .then((data) => {
         setMessages(data)
@@ -42,62 +50,49 @@ export const App = () => {
         console.error("Error fetching messages:", error)
         setIsLoading(false)
       })
+  }
+
+  useEffect(() => {
+    fetchMessages()
   }, [])
 
   //Handle the liking of posts
   const handleLike = (id) => {
-    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    fetch(`${API_URL}/${id}/like`, {
+      method: "POST"
     })
-      .then(() =>
-        fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
-          .then((res) => res.json())
-          .then((data) => setMessages(data))
-      )
-      .catch((error) => console.error("Error liking message:", error));
+      .then(() => {
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg._id === id ? { ...msg, hearts: msg.hearts + 1 } : msg
+          )
+        )
+      })
+      .catch((error) => console.error("Error liking message:", error))
   }
-
 
   const handleMessageSubmit = (event) => {
     event.preventDefault()
 
-    fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
+    fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: messageText }),
     })
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then(() => {
-        // Fetch the updated list of messages after posting a new one
-        fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
-          .then((res) => res.json())
-          .then((data) => setMessages(data))
+        fetchMessages()
+        setMessageText("")
       })
       .catch((error) => console.error("Error posting message:", error))
-    // setMessages((prev) => [
-    //   ...prev,
-    //   {
-    //     id: Date.now(),
-    //     text: messageText,
-    //     createdAt: new Date().toLocaleString(),
+  }
 
-    //   },
-    // ]);
-    setMessageText("");
-  };
 
   return (
     <>
       <h1>Happy Thoughts</h1>
 
       <StyledCard>
-
-        {isLoading && <p>Loading...</p>}
         <MessageForm
           messageText={messageText}
           setMessageText={setMessageText}
@@ -106,17 +101,21 @@ export const App = () => {
       </StyledCard>
 
       <MessageList>
-        {messages.map((message, index) => (
-          <MessageItem
-            key={message._id}
-            text={message.message}
-            likes={message.hearts}
-            createdAt={message.createdAt}
-            onLike={() => handleLike(message._id)}
-            isNewest={index === 0}
-          />
-        ))}
+        {isLoading ? (
+          <p>Loading messages...</p>
+        ) : (
+          messages.map((message, index) => (
+            <MessageItem
+              key={message._id}
+              text={message.message}
+              likes={message.hearts}
+              createdAt={message.createdAt}
+              onLike={() => handleLike(message._id)}
+              isNewest={index === 0}
+            />
+          ))
+        )}
       </MessageList>
     </>
-  );
-};
+  )
+}
