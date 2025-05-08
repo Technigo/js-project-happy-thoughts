@@ -14,6 +14,17 @@ const containerVariants = {
   },
 };
 
+export const heartVariants = {
+  initial: { y: "0%" },
+  animate: { y: "-20%" },
+}
+
+export const heartTransition = {
+  duration: 0.4,
+  repeat: Infinity,
+  repeatType: "reverse",
+  ease: "easeInOut",
+}
 const dotVariants = {
   initial: { y: "0%" },
   animate: { y: "100%" },
@@ -24,7 +35,7 @@ const dotTransition = {
   repeat: Infinity,
   repeatType: "reverse",
   ease: "easeInOut",
-};
+}
 
 export const Loader = () => {
   return (
