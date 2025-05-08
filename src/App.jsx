@@ -5,6 +5,7 @@ import ThoughtList from './components/ThoughtList';
 import Loader from './components/Loader';
 import ErrorMessage from './components/ErrorMessage';
 import LikedBadge from './components/LikedBadge';
+import HeroSection from './components/HeroSection';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -121,6 +122,7 @@ const App = () => {
     <>
       <GlobalStyle />
       <AppContainer>
+        <HeroSection />
         <HappyThoughtForm onSubmit={addThought} loading={loading} />
         <LikedBadge count={likedThoughtIds.length} />
         {error && <ErrorMessage>{error}</ErrorMessage>}
