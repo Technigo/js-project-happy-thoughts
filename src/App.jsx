@@ -1,41 +1,20 @@
-import Message from "./components/Message"
-import Button from "./components/Button"
-import { useState } from "react"
-import styled from "styled-components"
+import { useState } from "react";
+import styled from "styled-components";
+import MessageForm from "./components/MessageForm";
+import MessageItem from "./components/MessageItem";
 
 const StyledCard = styled.div`
-background-color: #dfdada;
-border: 1px solid #0e0d0d;
-box-shadow: 4px 4px black;
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-max-width: 320px;
-padding: 10px;
-width: 100%;
-margin: auto;
-
-`
-const StyledForm = styled.form`
+  background-color: #dfdada;
+  border: 1px solid #0e0d0d;
+  box-shadow: 4px 4px black;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 10px;
-    font-size: 1rem;
-  }
-
-  button {
-    align-self: flex-start;
-    padding: 10px 15px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 20px;
-  }
-`
+  align-items: flex-start;
+  max-width: 320px;
+  padding: 10px;
+  width: 100%;
+  margin: auto;
+`;
 
 const MessageList = styled.div`
   margin-top: 20px;
@@ -45,65 +24,47 @@ const MessageList = styled.div`
   width: 100%;
   margin: 20px auto;
   max-width: 320px;
-`
-
-const MessageItem = styled.div`
-  background: #faf8f8;
-  border: 1px solid #0e0d0d;
-  box-shadow: 4px 4px black;
-  padding: 10px;
-  max-width: 320px;
-`
+`;
 
 export const App = () => {
-  const [messages, setMessages] = useState([])
-  const [messageText, setMessageText] = useState('')
+  const [messages, setMessages] = useState([]);
+  const [messageText, setMessageText] = useState("");
 
   const handleMessageSubmit = (event) => {
-    event.preventDefault()
-    setMessages(prevMessages => [
-      ...prevMessages,
+    event.preventDefault();
+    setMessages((prev) => [
+      ...prev,
       {
         id: Date.now(),
         text: messageText,
-        createdAt: new Date().toLocaleString()
-      }
-    ])
-    setMessageText("")
-  }
+        createdAt: new Date().toLocaleString(),
+      },
+    ]);
+    setMessageText("");
+  };
 
   return (
     <>
-
       <h1>Happy Thoughts</h1>
+
       <StyledCard>
-        <StyledForm onSubmit={handleMessageSubmit} >
-          <label htmlFor="message">What is making you happy right now?</label>
-
-          <textarea
-            id="message"
-            value={messageText}
-            onChange={(event) => setMessageText(event.target.value)}
-          />
-
-          <button type="submit">Send Happy Thought</button>
-          <p>Characters left: {140 - messageText.length}</p>
-
-        </StyledForm >
+        <MessageForm
+          messageText={messageText}
+          setMessageText={setMessageText}
+          onSubmit={handleMessageSubmit}
+        />
       </StyledCard>
-      <MessageList>
-        {
-          messages.map((message) => (
-            <MessageItem key={message.id}>
-              <p>{message.text}</p>
-              <p>{message.createdAt}</p>
-            </MessageItem>
-          ))
-        }
-      </MessageList>
-      {/* <Message />
-      <Button /> */}
 
+      <MessageList>
+        {[...messages].reverse().map((message, index) => (
+          <MessageItem
+            key={message.id}
+            text={message.text}
+            createdAt={message.createdAt}
+            isNewest={index === 0}
+          />
+        ))}
+      </MessageList>
     </>
-  )
-}
+  );
+};
