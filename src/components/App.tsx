@@ -23,14 +23,7 @@ const handleFormSubmit = (event) => {
       setThoughts((previousThoughts) => [newThought, ...previousThoughts])
     })
 }
-            
-
-
-
-
-
-
-
+  
 
 // if creating a Review as an object
 interface Review {

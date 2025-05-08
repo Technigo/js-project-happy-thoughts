@@ -9,6 +9,12 @@ export const Form = () => {
     setShowSummary(true)
   }
 
+  const heartButton = (event) => {
+    event.preventDefault();
+    setShowSummary(true);
+    setAnswer(event.target.value);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -19,7 +25,6 @@ export const Form = () => {
           onChange={(event) => setAnswer(event.target.value)}
         />
       </label>
-      
     </form>
   )
 }
