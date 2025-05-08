@@ -1,5 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
+import moment from "moment"
 
 const CardWrapper = styled.section`
   display: flex;
@@ -32,35 +33,39 @@ const FooterContainer = styled.div`
   margin-top: auto;
 `
 
+const LikeWrapper = styled.div `
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+`
+
 const Button = styled.button`
   background-color: var(--color-likebutton);
   color: var(--color-text);
   border: none;
-  border-radius: 40px;
-  padding: 0px 18px;
+  border-radius: 50px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 5px;
   margin-bottom: 5px;
 
   &:focus {
     background-color: var(--color-button);
   }
 `
-
 const Paragraph = styled.div `
 font-size: 12px;
 color: var (--color-text);
-margin-right: 40px;
 margin-top: 5px;
 
-
 `
-
 const TimeStamp = styled.div`
   font-size: 12px;
   color: var (--color-text);
   margin-right: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 5px;
 `
 
@@ -81,9 +86,11 @@ const MessageCard = ({ message }) => {
     <CardWrapper>
       <MessageText>{message.message}</MessageText>
       <FooterContainer>
+        <LikeWrapper>
         <Button onClick={handleLike}>❤️</Button>
         <Paragraph> x {likes} </Paragraph>
-        <TimeStamp>{message.createdAt}</TimeStamp>
+        </LikeWrapper>
+        <TimeStamp>{moment(message.createdAt).fromNow()} </TimeStamp>
       </FooterContainer>
     </CardWrapper>
   )
