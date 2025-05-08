@@ -30,7 +30,7 @@ export const App = () => {
 }, [])
 
 if (loading) {
-  return <p>Loading Thoughts</p>
+  return <p>Loading Thoughts...</p>
 }
 
 // handles q.card: sends the new message to the API, adds it to the top of the thoughts list, and clears the input field
