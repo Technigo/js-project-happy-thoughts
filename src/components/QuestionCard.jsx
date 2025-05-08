@@ -65,7 +65,7 @@ width: auto;
 `
 
 const Button = styled.button `
-  border-radius:12px;
+  border-radius: 20px;
   background-color: var(--color-button);
   width: auto;
   padding: 12px;

@@ -8,18 +8,30 @@ export const App = () => {
   const [messageText, setMessageText] = useState("")
   const [thoughts, setThoughts] = useState([]) 
 
-  //useEffect runs once on page load to fetch the latest happy thoughts from the API and store them in state
+  const [loading, setLoading] = useState(true)
+
+  //useEffect runs once on page load to fetch the latest happy thoughts from the API and store them in state. As well as loads an message upon load
   useEffect(() => {
     const fetchThoughts = async () => {
+      setLoading(true)
+      try {
       const response = await fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
       if (response.ok) {
         const data = await response.json()
         setThoughts(data) //saving them
       }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
     }
+  }
+  fetchThoughts()
+}, [])
 
-    fetchThoughts()
-  }, [])
+if (loading) {
+  return <p>Loading Thoughts</p>
+}
 
 // handles q.card: sends the new message to the API, adds it to the top of the thoughts list, and clears the input field
   const handleMessage = (event) => {
