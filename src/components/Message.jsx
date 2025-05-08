@@ -75,6 +75,10 @@ export const DateText = styled.span`
   margin-left: auto;
 `
 
+// Message component to display individual messages with help from:
+// useLikeSystem (hook)  for like functionality,
+// and dateHelpers (helper) for date formatting
+
 export const Message = ({ id, message, isNew = false, hearts, createdAt }) => {
   const { isLiked, likeCount, handleLike } = useLikeSystem(id, hearts)
 

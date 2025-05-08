@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 // Styled button component
 export const StyledButton = styled.button`
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Ubuntu;
   background-color: #ffadad;
   color: black;
   border: none;

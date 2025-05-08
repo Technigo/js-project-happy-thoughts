@@ -64,6 +64,7 @@ const StyledInput = styled.textarea`
     /* Remove the absolute positioning */
     position: static;
     color: #999;
+    font-size: 12px;
   }
 
   @media ${media.tablet} {
@@ -81,6 +82,9 @@ const StyledHandleRemainingChars = styled.p`
   margin-top: 4px;
 `
 
+// Form component to accept thoughts from the user
+// with usePostThought (hook) that handles the actual posting logic
+
 export const TextBox = ({ onSubmit }) => {
   // State variables and functions from the usePostThought hook
   const {
@@ -89,7 +93,7 @@ export const TextBox = ({ onSubmit }) => {
     error,
     remainingChars,
     handleInputChange,
-    handleSubmit
+    addThought
   } = usePostThought((newThought) => {
     // This function will be called after successful posting
     if (onSubmit) onSubmit(newThought)
@@ -98,7 +102,7 @@ export const TextBox = ({ onSubmit }) => {
   return (
     <StyledTextBox>
       <StyledHeading>What's making you happy right now?</StyledHeading>
-      <StyledForm onSubmit={handleSubmit}>
+      <StyledForm onSubmit={addThought}>
         <StyledInput
           type='text'
           placeholder='Type your happy thought here...'
