@@ -1,28 +1,64 @@
 // Removed duplicate declaration of App
 import { useState } from "react"
+import { useEffect } from "react"
+import "./components/App.css";
+import "./components/Card.css";
+import "./components/index.css";
 
 export const App = () => {
   const [count, setCount] = useState(0)
+  useEffect(() => {
+    const handleScroll = () => {
+      console.log('scrolled!');
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', { signal: controller.signal })
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+  const intervalId = setInterval(() => {
+    console.log('This runs every second');
+  }, 1000);
+
+  return () => {
+    clearInterval(intervalId);
+  };
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
   return (
     <>
       <h1>Message App</h1>
-
+      {/* Removed invalid and duplicate import statements */}
       <button onClick={() => setCount(count + 1)}>
-        Increase count</button>
+        Increase count
+      </button>
       <button onClick={() => setCount(count - 1)}>
-        Decrease count</button>
+        Decrease count
+      </button>
       <button
         onClick={() => setCount(0)}
-        disabled={count === 0}
-      >
+        disabled={count === 0}>
         Reset
       </button>
       <button onClick={() => setCount(count * 2)}>
-        Multiply</button>
+        Multiply
+      </button>
 
       <p>Count: {count}</p>
       {count > 140 && <p>You hit 140!</p>}
-
     </>
   )
 }
