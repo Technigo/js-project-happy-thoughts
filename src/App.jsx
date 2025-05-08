@@ -1,12 +1,12 @@
 import { GlobalStyles } from './GlobalStyles'
-import { Message } from './components/Message'
+import { Thought } from './components/Thought'
 import { TextBox } from './components/TextBox'
 import { LikeCounter } from './components/LikeCounter'
 import { Loader } from './components/Loader'
 import { useThoughts } from './hooks/useThoughts'
 
 export const App = () => {
-  const { thoughts, loading, error, newMessageId, addThought } = useThoughts()
+  const { thoughts, loading, error, newThoughtId, addThought } = useThoughts()
 
   if (loading) {
     return <Loader />
@@ -28,11 +28,11 @@ export const App = () => {
             thought._id || thought.id || Math.random().toString()
 
           return (
-            <Message
+            <Thought
               key={messageId}
               id={messageId}
               message={thought.message || ''}
-              isNew={messageId === newMessageId}
+              isNew={messageId === newThoughtId}
               hearts={thought.hearts || 0}
               createdAt={thought.createdAt || thought.date || ''}
             />

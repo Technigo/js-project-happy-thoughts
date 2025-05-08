@@ -15,7 +15,7 @@ const fadeIn = keyframes`
   }
 `
 
-export const MessageContainer = styled.div`
+export const ThoughtContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -41,7 +41,7 @@ export const MessageContainer = styled.div`
     width: 500px;
   }
 `
-export const MessageText = styled.p`
+export const ThoughtText = styled.p`
   width: 100%;
   height: auto;
   padding: 8px;
@@ -79,7 +79,7 @@ export const DateText = styled.span`
 // useLikeSystem (hook)  for like functionality,
 // and dateHelpers (helper) for date formatting
 
-export const Message = ({ id, message, isNew = false, hearts, createdAt }) => {
+export const Thought = ({ id, message, isNew = false, hearts, createdAt }) => {
   const { isLiked, likeCount, handleLike } = useLikeSystem(id, hearts)
 
   // Format the date for display
@@ -98,8 +98,8 @@ export const Message = ({ id, message, isNew = false, hearts, createdAt }) => {
       : message // Use directly if it's a string
 
   return (
-    <MessageContainer $isNew={isNew}>
-      <MessageText>{displayMessage}</MessageText>
+    <ThoughtContainer $isNew={isNew}>
+      <ThoughtText>{displayMessage}</ThoughtText>
       <BottomSection>
         <LikeCounter>
           <Button
@@ -112,6 +112,6 @@ export const Message = ({ id, message, isNew = false, hearts, createdAt }) => {
         </LikeCounter>
         <DateText>{formattedDate}</DateText>
       </BottomSection>
-    </MessageContainer>
+    </ThoughtContainer>
   )
 }
