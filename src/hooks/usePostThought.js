@@ -1,14 +1,13 @@
 import { useState } from 'react'
+import { api } from '../api/api'
 
-export const usePostThought = (onSuccess) => {
+export const usePostThought = (onSuccess, postThoughtFn) => {
   const [message, setMessage] = useState('')
   const [isPosting, setIsPosting] = useState(false)
   const [error, setError] = useState(null)
 
   // Character limit for thoughts (adjust as needed)
   const MAX_CHARS = 140
-
-  // Calculate remaining characters
   const remainingChars = MAX_CHARS - message.length
 
   // Handle input change
@@ -34,27 +33,14 @@ export const usePostThought = (onSuccess) => {
     setError(null)
 
     try {
-      const response = await fetch(
-        'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ message })
-        }
-      )
+      // Use the provided postThoughtFn if available, otherwise fall back to API
+      const postFn = postThoughtFn || api.postThought
+      const data = await postFn(message)
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to post thought')
-      }
-
-      // Clear the form after successful submission
+      // Clear form on success
       setMessage('')
 
-      // Call the success callback with the new thought data
+      // Call success callback
       if (onSuccess && typeof onSuccess === 'function') {
         onSuccess(data)
       }
@@ -68,7 +54,6 @@ export const usePostThought = (onSuccess) => {
     }
   }
 
-  // Submit handler for forms
   const handleSubmit = (e) => {
     e.preventDefault()
     return postThought()

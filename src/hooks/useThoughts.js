@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
+import { api } from '../api/api'
 
 export const useThoughts = () => {
-  const [messages, setMessages] = useState([])
+  const [thoughts, setThoughts] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [newMessageId, setNewMessageId] = useState(null)
+  const [newThoughtId, setNewThoughtId] = useState(null)
 
   const API_URL = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts'
 
@@ -14,25 +15,20 @@ export const useThoughts = () => {
     setError(null)
 
     try {
-      const response = await fetch(API_URL)
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`)
-      }
-
-      const data = await response.json()
+      const data = await api.getThoughts()
 
       // Check if data exists and has the expected structure
       if (data && Array.isArray(data)) {
-        setMessages(data)
+        setThoughts(data)
       } else {
         console.error('Unexpected API response structure:', data)
-        setMessages([])
+        setThoughts([])
         setError('Unexpected data format from API')
       }
     } catch (error) {
       console.error('Error fetching thoughts:', error)
       setError('Failed to load happy thoughts. Please try again.')
-      setMessages([])
+      setThoughts([])
     } finally {
       setLoading(false)
     }
@@ -60,12 +56,12 @@ export const useThoughts = () => {
     }
 
     // Update UI immediately (optimistic update)
-    setMessages((prevMessages) => [tempThought, ...(prevMessages || [])])
-    setNewMessageId(tempThought._id)
+    setThoughts((prevMessages) => [tempThought, ...(prevMessages || [])])
+    setNewThoughtId(tempThought._id)
 
     // Clear animation effect after delay
     setTimeout(() => {
-      setNewMessageId(null)
+      setNewThoughtId(null)
     }, 1000)
 
     try {
@@ -86,7 +82,7 @@ export const useThoughts = () => {
       const data = await response.json()
 
       // Replace the temporary thought with the real one from the server
-      setMessages((prevMessages) =>
+      setThoughts((prevMessages) =>
         prevMessages.map((thought) =>
           thought._id === tempThought._id ? data : thought
         )
@@ -107,10 +103,10 @@ export const useThoughts = () => {
   }, [])
 
   return {
-    thoughts: messages,
+    thoughts,
     loading,
     error,
-    newMessageId,
+    newThoughtId,
     fetchThoughts,
     addThought
   }
