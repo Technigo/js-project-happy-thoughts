@@ -14,7 +14,7 @@ export const App = () => {
       const response = await fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
       if (response.ok) {
         const data = await response.json()
-        setThoughts(data)
+        setThoughts(data) //saving them
       }
     }
 
@@ -27,7 +27,7 @@ export const App = () => {
 
     //makes sure the message has the right amount of characters
     if (messageText.trim().length < 5 || messageText.length > 140) {
-      alert("Your message must be between 5 and 140 characters.")
+      alert("Your message must be between 5 and 140 characters.") //change alert, not good!
       return;
     }
   
@@ -39,12 +39,12 @@ export const App = () => {
         },
         body: JSON.stringify({ message: messageText }),
       })
-        .then((res) => res.json())
+        .then((response) => response.json())
         .then((newThought) => {
-          setThoughts([newThought, ...thoughts])
+          setThoughts([newThought, ...thoughts]) //spread method
           setMessageText("")
         })
-        .catch((err) => console.error("Failed to post thought", err))
+        .catch((error) => console.error("Failed to post thought", error))
     }
   }
 
