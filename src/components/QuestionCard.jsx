@@ -57,7 +57,7 @@ const Textarea = styled.textarea `
 
 
 @media (min-width: 1024px) and (max-width: 1600px) {
-width: auto;
+  width: auto;
     max-width: 500px; 
     margin-left: 10px;
   
@@ -72,7 +72,6 @@ const Button = styled.button `
   content: cover;
   border: none;
   margin:6px 6px 6px 6px;
-
 
 
   Button:focus {
@@ -95,7 +94,7 @@ const Button = styled.button `
 }
 `
 
-// renders the input form UI and passes user input to the parent component via props
+// Form to send message and handle message 
 const Form = ({ messageText, setMessageText, handleMessage }) => {
   return (
     <FormWrapper onSubmit={handleMessage}>

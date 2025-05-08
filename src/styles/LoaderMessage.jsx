@@ -1,10 +1,9 @@
 import styled from "styled-components"
 
 export const LoaderWrapper = styled.p`
-  font-size: 18px;
   text-align: center;
   margin-top: 100px;
-  align-self: center;
+  color: var(--color-text);
   animation: pulse 1.5s infinite;
 
   @keyframes pulse {

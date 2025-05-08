@@ -3,62 +3,70 @@ import GlobalStyle from "./styles/GlobalStyle.jsx"
 import QuestionCard from "./components/QuestionCard.jsx"
 import MessageList from "./components/MessageList.jsx"
 
-// Main component, one for the input field (messageText), one for the list of thoughts fetched from the API (thoughts)
+
 export const App = () => {
-  const [messageText, setMessageText] = useState("")
-  const [thoughts, setThoughts] = useState([]) 
+  const [messageText, setMessageText] = useState("") //what the user types
+  const [thoughts, setThoughts] = useState([]) //thoughts from API
+  const [loading, setLoading] = useState(true) //loading state
+  const [error, setError] = useState("") //error message
 
-  const [loading, setLoading] = useState(true)
-
-  //useEffect runs once on page load to fetch the latest happy thoughts from the API and store them in state. As well as loads an message upon load
+  //fetch thoughts when component mount
   useEffect(() => {
-    const fetchThoughts = async () => {
       setLoading(true)
-      try {
-      const response = await fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
-      if (response.ok) {
-        const data = await response.json()
-        setThoughts(data) //saving them
-      }
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
-  }
-  fetchThoughts()
+
+      fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
+      .then ((response) => {
+        if (!response.ok) {
+          throw new Error("No more thoughts today")
+        }
+
+        return response.json()
+      })
+
+      .then ((data) => {
+        setThoughts(data)
+      })
+
+      .finally (() => {
+        setLoading(false)
+      }) 
+
 }, [])
 
-if (loading) {
-  return <p>Loading Thoughts...</p>
-}
 
-// handles q.card: sends the new message to the API, adds it to the top of the thoughts list, and clears the input field
+//function runs when user send message via form
   const handleMessage = (event) => {
-    event.preventDefault()
-
-    //makes sure the message has the right amount of characters
-    if (messageText.trim().length < 5 || messageText.length > 140) {
-      alert("Your message must be between 5 and 140 characters.") //change alert, not good!
-      return;
-    }
+    event.preventDefault() //no reload
   
-    if (messageText.trim() !== "") {
+  const trimmed = messageText.trim()
+    if (trimmed.length <5 || trimmed.length >140) {
+    setError("Your message must be between 5-140 characters")
+    return
+    }
+
+
       fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+        "Content-Type": "application/json",
         },
         body: JSON.stringify({ message: messageText }),
       })
         .then((response) => response.json())
-        .then((newThought) => {
-          setThoughts([newThought, ...thoughts]) //spread method
+        .then((newThought) => { //add new thought
+          setThoughts([newThought, ...thoughts]) //adds new thought, keeps old via array
           setMessageText("")
+          setError("")
         })
         .catch((error) => console.error("Failed to post thought", error))
     }
-  }
+
+    if (loading) {
+      return <p>Loading Thoughts...</p>
+    }
+  
+
+ 
 
 //renders app layout
   return (

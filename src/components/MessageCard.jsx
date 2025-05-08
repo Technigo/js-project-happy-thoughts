@@ -23,6 +23,7 @@ const MessageText = styled.p`
   margin: 0;
   color: black;
   padding-left: 10px;
+  margin-top: 6px;
 `
 
 const FooterContainer = styled.div`
@@ -69,10 +70,10 @@ const TimeStamp = styled.div`
   margin-bottom: 5px;
 `
 
-const MessageCard = ({ message }) => {
-  const [likes, setLikes] = useState(message.hearts || 0)
+const MessageCard = ({ message }) => { //receive message (like,time,message)
+const [likes, setLikes] = useState(message.hearts || 0) //tracks likes + update
 
-  //send likes to API and fetch them back
+  //sends or post "like" to API so it can update
   const handleLike = () => {
     fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${message._id}/like`, {
       method: "POST",

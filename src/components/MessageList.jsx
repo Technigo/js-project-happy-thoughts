@@ -1,7 +1,6 @@
 import MessageCard from "./MessageCard.jsx"
 
-//renders a list of MessageCards using the thoughts fetched from the API
-
+//renders the thoughts/messages fetched from the API
 const MessageList = ({ thoughts = [] }) => {
   return (
     <>
