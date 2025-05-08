@@ -8,10 +8,10 @@ const StyledButton = styled.button`
       ? 'none'
       : 'none'};
   border: none;
-  border-radius: ${props => (props.variant === 'circle' ? '50%' : '25px')};
-  padding: ${props => (props.variant === 'circle' ? '0' : '10px 20px')};
-  width: ${props => (props.variant === 'circle' ? '36px' : 'auto')};
-  height: ${props => (props.variant === 'circle' ? '36px' : 'auto')};
+  border-radius: ${props => (props.$circle ? '50%' : '25px')};
+  padding: ${props => (props.$circle ? '0' : '10px 20px')};
+  width: ${props => (props.$circle ? '36px' : 'auto')};
+  height: ${props => (props.$circle ? '36px' : 'auto')};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,8 +31,8 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ children, variant = 'primary', ...rest }) => (
-  <StyledButton variant={variant} {...rest}>{children}</StyledButton>
+const Button = ({ children, circle = false, ...rest }) => (
+  <StyledButton $circle={circle} {...rest}>{children}</StyledButton>
 );
 
 export default Button; 
