@@ -42,10 +42,14 @@ const TextArea = styled.textarea`
   font-size: 1rem;
   resize: vertical;
   min-height: 80px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
 
   @media (max-width: 320px) {
     padding: 8px;
     font-size: 0.95rem;
+    min-height: 70px;
   }
 `;
 
@@ -54,6 +58,11 @@ const FormFooter = styled.div`
   flex-direction: column;
   gap: 10px;
   align-items: flex-start;
+  width: 100%;
+
+  @media (max-width: 320px) {
+    gap: 8px;
+  }
 `;
 
 const HappyThoughtForm = ({ onSubmit, loading }) => {

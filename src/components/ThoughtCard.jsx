@@ -46,6 +46,10 @@ const Message = styled.p`
   font-size: 1rem;
   line-height: 1.5;
   color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 
   @media (max-width: 320px) {
     font-size: 0.95rem;
@@ -57,12 +61,23 @@ const CardFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  @media (max-width: 320px) {
+    gap: 6px;
+  }
 `;
 
 const LeftGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
+
+  @media (max-width: 320px) {
+    gap: 6px;
+  }
 `;
 
 const ThoughtCard = ({ message, createdAt, hearts = 0, _id, onLike, liked }) => {

@@ -19,6 +19,8 @@ const GlobalStyle = createGlobalStyle`
     background-color: white;
     color: #333;
     line-height: 1.4;
+    min-width: 280px;
+    overflow-x: hidden;
   }
 `;
 
@@ -30,6 +32,7 @@ const AppContainer = styled.div`
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  width: 100%;
 
   @media (max-width: 768px) {
     padding: 15px;

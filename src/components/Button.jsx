@@ -3,9 +3,9 @@ import styled from 'styled-components';
 const StyledButton = styled.button`
   background: ${props =>
     props.disabled
-      ? '#ddd'
-      : props.variant === 'primary'
       ? '#ffb6c1'
+      : props.variant === 'primary'
+      ? '#ff4d4d'
       : props.variant === 'circle'
       ? 'none'
       : 'none'};
@@ -17,18 +17,18 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: black;
+  color: ${props => props.disabled ? '#666' : 'white'};
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s, opacity 0.2s;
-  opacity: ${props => props.disabled ? 0.5 : 1};
+  opacity: ${props => props.disabled ? 0.7 : 1};
   pointer-events: ${props => props.disabled ? 'none' : 'auto'};
   &:hover {
     background: ${props =>
       props.disabled
-        ? '#ddd'
+        ? '#ffb6c1'
         : props.variant === 'primary'
-        ? '#ff99a8'
+        ? '#ff3333'
         : props.variant === 'circle'
         ? '#ffe4ec'
         : '#f0f0f0'};
@@ -36,7 +36,7 @@ const StyledButton = styled.button`
 `;
 
 const Button = ({ children, circle = false, ...rest }) => (
-  <StyledButton $circle={circle} {...rest}>{children}</StyledButton>
+  <StyledButton $circle={circle} variant="primary" {...rest}>{children}</StyledButton>
 );
 
 export default Button; 
