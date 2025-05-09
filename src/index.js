@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 const App = () => {
   const [thoughts, setThoughts] = useState([]);
@@ -9,36 +9,6 @@ const App = () => {
       .catch((error) => console.error("Error fetching thoughts:", error));
   }, []);
 
-  return (
-    <div>
-      <h1>Happy Thoughts</h1>
-      {/* Render thoughts or other components here */}
-    </div>
-  );
-};
-const animationButton = () => {
-  // Add your animation logic here or remove this function if not needed
-};
-const [decrement, setDecrement] = useState(140);
-const [count, setCount] = useState(0);
-const [loading, setLoading] = useState(true);
-setLoading(false);
-const [error, setError] = useState(null);
-// Removed duplicate declaration of thoughts state
-const HelloWorld = () => {
-  const [visible, setVisible] = useState(false); // Declare visible state
-  useEffect(() => {
-    // Add any necessary logic here
-  }, []); // Properly close the useEffect function
-
-  return (
-    <div>
-      <button onClick={() => setVisible((prev) => !prev)}>Show / Hide</button>
-      {visible && <div>Hello World</div>}
-    </div>
-  );
-};
-  event.preventDefault();
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch("https://technigo-thoughts.herokuapp.com/", {
@@ -54,6 +24,29 @@ const HelloWorld = () => {
       })
       .catch((error) => console.error("Error posting thought:", error));
   };
+
+  return (
+    <div>
+      <h1>Happy Thoughts</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="Write a happy thought" name="message" />
+        <button type="submit">Send</button>
+      </form>
+      <ul>
+        {thoughts.map((thought) => (
+          <li key={thought._id}>{thought.message}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+// const animationButton = () => {
+//   // Add your animation logic here or remove this function if not needed
+// };
+// Removed unused decrement state
+// Removed unused count state
+  // Removed duplicate handleSubmit function
+  // Removed duplicate handleSubmit function
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
 // Removed invalid console.log statement

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import styled from 'styled-components'
 import 'jest-styled-components'
 import renderer from 'react-test-renderer'
@@ -10,7 +10,7 @@ const Button = styled.button`
 
 
 test('it works', () => {
-  const SendButton: React.FC<typeof Button> = () => <Button>Send</Button>;
+  const SendButton = () => React.createElement(Button, null, 'Send'); // 'Send' is now correctly a string
   const tree = renderer.create(React.createElement(SendButton)).toJSON();
   
   expect(tree).toMatchSnapshot();
