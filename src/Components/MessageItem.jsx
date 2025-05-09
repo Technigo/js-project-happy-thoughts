@@ -18,10 +18,6 @@ const HeartContainer = styled.div`
 
 const MessageItem = ({ thought, message, hearts, onLike, createdAt }) => {
   const handleLikes = () => {
-    if (!thought || !thought._id) {
-      console.error("Thought is undefined or missing _id:", thought);
-      return;
-    }
     onLike(thought._id);
   };
 
