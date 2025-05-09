@@ -15,8 +15,7 @@ const StyledMessageItem = styled.div`
   width: 250px;
   position: relative;
   margin-top: 10px;
-  
-
+  word-break: break-word;
 `
 const FlareIcon = styled.span`
   position: absolute;
@@ -85,8 +84,9 @@ const MessageItem = ({ text, createdAt, isNewest, likes, onLike }) => {
     <StyledMessageItem>
       {isNewest && <FlareIcon $show={showFlare}>✨</FlareIcon>}
       <p>{text}</p>
-      <p>{timeAgo(createdAt)}</p>
       <p> <StyledButton hasLiked={hasLiked} onClick={onLike}>❤️ </StyledButton>x {likes} </p>
+      <p>{timeAgo(createdAt)}</p>
+
     </StyledMessageItem>
   )
 }

@@ -19,6 +19,7 @@ const StyledForm = styled.form`
     padding: 10px;
     font-size: 1rem;
     box-sizing: border-box;
+    resize: none;      
   }
 
   button {
