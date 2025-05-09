@@ -18,7 +18,10 @@ export const App = () => {
         setLoading(false); // Stop loading after data is fetched
       })
       .catch((error) => {
-        console.error("Error fetching thoughts:", error);
+        console.error(
+          "Oh no! Previous thoughts are unavailable currently:",
+          error
+        );
         setLoading(false); // Stop loading even if there's an error
       });
   }, []);
@@ -37,6 +40,9 @@ export const App = () => {
 
   return (
     <>
+      <header>
+        <h1 hidden>Happy Thoughts messages</h1>
+      </header>
       <main>
         {loading ? (
           <LoadingSpinner /> // Show loading message while fetching
@@ -45,7 +51,12 @@ export const App = () => {
             <MessageForm
               onSubmit={(newThought) => setThoughts([newThought, ...thoughts])}
             />
-            <MessageList thoughts={thoughts} onLike={onLike} />
+            <MessageList
+              className="message-item scale-up-center"
+              aria-live="polite"
+              thoughts={thoughts}
+              onLike={onLike}
+            />
           </>
         )}
       </main>

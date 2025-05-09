@@ -34,7 +34,7 @@ const BoxStyle = styled.form`
     font-weight: 500;
   }
   @media (max-width: 543px) {
-    width: 100%;
+    width: 90%;
     height: 15rem;
   }
 `;
@@ -48,6 +48,7 @@ const BoxFooterStyle = styled.div`
   width: 100%;
   color: gray;
 `;
+
 const TextAreaStyle = styled.textarea`
   width: 100%;
   height: 5rem;

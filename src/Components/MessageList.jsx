@@ -2,7 +2,7 @@ import MessageItem from "./MessageItem";
 
 const MessageList = ({ thoughts, onLike }) => {
   return (
-    <div>
+    <>
       {thoughts.map((thought) => (
         <MessageItem
           key={thought._id}
@@ -13,7 +13,7 @@ const MessageList = ({ thoughts, onLike }) => {
           onLike={onLike}
         />
       ))}
-    </div>
+    </>
   );
 };
 
