@@ -11,6 +11,12 @@ const LikeButtonWrapper = styled.div`
   border-radius: 50%;
   background: ${props => props.$liked ? '#ffb6c1' : '#fff0f5'};
   margin-right: 8px;
+
+  @media (max-width: 320px) {
+    width: 36px;
+    height: 36px;
+    margin-right: 6px;
+  }
 `;
 
 const Card = styled.div`
@@ -22,6 +28,17 @@ const Card = styled.div`
   box-shadow: 6px 6px 0 #000;
   max-width: 500px;
   width: 100%;
+
+  @media (max-width: 480px) {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  @media (max-width: 320px) {
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow: 4px 4px 0 #000;
+  }
 `;
 
 const Message = styled.p`
@@ -29,6 +46,11 @@ const Message = styled.p`
   font-size: 1rem;
   line-height: 1.5;
   color: #333;
+
+  @media (max-width: 320px) {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
 `;
 
 const CardFooter = styled.div`

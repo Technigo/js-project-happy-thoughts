@@ -13,12 +13,24 @@ const FormContainer = styled.form`
   margin-bottom: 20px;
   max-width: 500px;
   width: 100%;
+
+  @media (max-width: 480px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 320px) {
+    padding: 12px;
+  }
 `;
 
 const Title = styled.h2`
   margin: 0 0 15px 0;
   font-size: 1.2rem;
   color: #333;
+
+  @media (max-width: 320px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -30,6 +42,11 @@ const TextArea = styled.textarea`
   font-size: 1rem;
   resize: vertical;
   min-height: 80px;
+
+  @media (max-width: 320px) {
+    padding: 8px;
+    font-size: 0.95rem;
+  }
 `;
 
 const FormFooter = styled.div`

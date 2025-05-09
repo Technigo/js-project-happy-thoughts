@@ -11,6 +11,17 @@ const Badge = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media (max-width: 480px) {
+    padding: 6px 14px;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 5px 12px;
+    font-size: 0.9rem;
+    gap: 6px;
+  }
 `;
 
 const LikedBadge = ({ count }) => (

@@ -32,7 +32,15 @@ const AppContainer = styled.div`
   min-height: 100vh;
 
   @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
     padding: 10px;
+  }
+
+  @media (max-width: 320px) {
+    padding: 8px;
   }
 `;
 

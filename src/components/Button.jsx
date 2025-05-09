@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   background: ${props =>
-    props.variant === 'primary'
+    props.disabled
+      ? '#ddd'
+      : props.variant === 'primary'
       ? '#ffb6c1'
       : props.variant === 'circle'
       ? 'none'
@@ -23,7 +25,9 @@ const StyledButton = styled.button`
   pointer-events: ${props => props.disabled ? 'none' : 'auto'};
   &:hover {
     background: ${props =>
-      props.variant === 'primary'
+      props.disabled
+        ? '#ddd'
+        : props.variant === 'primary'
         ? '#ff99a8'
         : props.variant === 'circle'
         ? '#ffe4ec'
