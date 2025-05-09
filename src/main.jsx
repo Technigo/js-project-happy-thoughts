@@ -1,22 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { App } from './App.jsx'
+import App from './components/App.jsx'
 import './components/index.css'
-import './components/App.tsx' 
-import './components/Card.css'
-import './components/Card.tsx'
-import './components/form.jsx'
+// Removed invalid import of App.tsx
+import './components/Card.css';
+import Card from './components/Card.tsx'
+import Form from './components/form.jsx'
 import './components/form.css'
-import './components/index.json'
-import './components/main.tsx'
+// Removed unused import of indexJson
+import Main from './components/main.tsx'
 import './components/App.css'
-import './components/App.js'
-import './components/App.jsx'
-import './components/index.css'
-import './components/index.js'
-import './components/tests.ts'
-import './components/index.html'
-import './components/tests.tsx'
+// Removed invalid and duplicate import of App.js
+// Removed invalid and duplicate imports
 
 
 
