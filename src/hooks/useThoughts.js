@@ -91,8 +91,6 @@ export const useThoughts = () => {
       return true
     } catch (error) {
       console.error('Error posting thought:', error)
-      // Could remove the temporary thought on error if desired
-      // For now we'll leave it for better UX
       return false
     }
   }

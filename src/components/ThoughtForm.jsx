@@ -3,7 +3,7 @@ import { Button } from './Button'
 import styled from 'styled-components'
 import { media } from '../media'
 
-export const StyledTextBox = styled.div`
+export const StyledThoughtForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -76,16 +76,22 @@ const StyledInput = styled.textarea`
     height: 100px;
   }
 `
-const StyledHandleRemainingChars = styled.p`
+const StyledFooter = styled.div`
   color: ${(props) => (props.$remaining < 0 ? 'red' : '#333')};
   font-size: 12px;
   margin-top: 4px;
 `
 
+const StyledError = styled.div`
+  color: red;
+  font-size: 12px;
+  margin-top: 8px;
+`
+
 // Form component to accept thoughts from the user
 // with usePostThought (hook) that handles the actual posting logic
 
-export const TextBox = ({ onSubmit }) => {
+export const ThoughtForm = ({ onSubmit }) => {
   // State variables and functions from the usePostThought hook
   const {
     message,
@@ -93,16 +99,16 @@ export const TextBox = ({ onSubmit }) => {
     error,
     remainingChars,
     handleInputChange,
-    addThought
+    handleSubmit
   } = usePostThought((newThought) => {
     // This function will be called after successful posting
     if (onSubmit) onSubmit(newThought)
   })
 
   return (
-    <StyledTextBox>
+    <StyledThoughtForm>
       <StyledHeading>What's making you happy right now?</StyledHeading>
-      <StyledForm onSubmit={addThought}>
+      <StyledForm onSubmit={handleSubmit}>
         <StyledInput
           type='text'
           placeholder='Type your happy thought here...'
@@ -110,18 +116,23 @@ export const TextBox = ({ onSubmit }) => {
           onChange={handleInputChange}
           disabled={isPosting}
         />
-        <StyledHandleRemainingChars $remaining={remainingChars}>
-          {remainingChars < 0
-            ? 'You have exceeded the maximum character limit!'
-            : `${remainingChars} characters remaining`}
-        </StyledHandleRemainingChars>
+        <StyledFooter>
+          <span className={`char-counter ${remainingChars < 0 ? 'error' : ''}`}>
+            {remainingChars} characters remaining
+          </span>
+          {error && <div className='error-message'>{error}</div>}
+        </StyledFooter>
         {error && <StyledError>{error}</StyledError>}
         <Button
           text='❤️ Send Happy Thought ❤️'
           type='submit'
-          disabled={message.trim() === '' || remainingChars < 0 || isPosting}
-        />
+          disabled={
+            message.trim().length < 5 || remainingChars < 0 || isPosting
+          }
+        >
+          {isPosting ? 'Posting...' : '❤️ Send Happy Thought'}
+        </Button>
       </StyledForm>
-    </StyledTextBox>
+    </StyledThoughtForm>
   )
 }

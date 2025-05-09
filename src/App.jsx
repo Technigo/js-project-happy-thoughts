@@ -1,6 +1,6 @@
 import { GlobalStyles } from './GlobalStyles'
 import { Thought } from './components/Thought'
-import { TextBox } from './components/TextBox'
+import { ThoughtForm } from './components/ThoughtForm'
 import { LikeCounter } from './components/LikeCounter'
 import { Loader } from './components/Loader'
 import { useThoughts } from './hooks/useThoughts'
@@ -19,7 +19,7 @@ export const App = () => {
   return (
     <div className='App'>
       <GlobalStyles />
-      <TextBox onSubmit={addThought} />
+      <ThoughtForm onSubmit={addThought} />
       <LikeCounter />
       {Array.isArray(thoughts) &&
         thoughts.map((thought) => {

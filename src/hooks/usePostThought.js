@@ -7,6 +7,7 @@ export const usePostThought = (onSuccess, postThoughtFn) => {
   const [error, setError] = useState(null)
 
   // Character limit for thoughts (adjust as needed)
+  const MIN_CHARS = 5
   const MAX_CHARS = 140
   const remainingChars = MAX_CHARS - message.length
 
@@ -19,12 +20,14 @@ export const usePostThought = (onSuccess, postThoughtFn) => {
 
   // Post the thought to the API
   const postThought = async () => {
-    // Don't post if exceeding character limit or empty message
-    if (remainingChars < 0 || message.trim() === '') {
+    // Don't post if exceeding character limit or less than 5 chars
+    if (remainingChars < 0 || message.trim().length < MIN_CHARS) {
       setError(
         remainingChars < 0
           ? 'Your message exceeds the character limit'
-          : 'Please enter a message'
+          : message.trim().length === 0
+          ? 'Please enter a message'
+          : 'Your message is too short'
       )
       return false
     }
