@@ -8,19 +8,16 @@ import "./components/index.css";
 export const App = () => {
 const [count, setCount] = useState(0);
 
-return (
-  <>
-    <h1>Happy Thoughts</h1>
-  useEffect(() => {
-    const handleScroll = () => {
-      console.log('scrolled!');
-    };
+useEffect(() => {
+  const handleScroll = () => {
+    console.log('scrolled!');
+  };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  window.addEventListener('scroll', handleScroll);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -29,23 +26,21 @@ fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', { signal: contr
   .then(response => response.json())
   .then(data => console.log(data));
 
-  const intervalId = setInterval(() => {
-    console.log('This runs every second');
-  }, 1000);
+const intervalId = setInterval(() => {
+  fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', { signal: controller.signal })
+    .then(response => response.json())
+    .then(data => console.log(data));
+
+  console.log('This runs every second');
+}, 1000);
 
   return () => {
     clearInterval(intervalId);
+    controller.abort();
   };
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
+}, []);
   return (
-    <>
-      <h1>Message App</h1>
-      {/* Removed invalid and duplicate import statements */}
+    <div>
       <button onClick={() => setCount(count + 1)}>
         Increase count
       </button>
@@ -63,6 +58,6 @@ fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', { signal: contr
 
       <p>Count: {count}</p>
       {count > 140 && <p>You hit 140!</p>}
-    </>
-  )
-}
+    </div>
+  );
+};
