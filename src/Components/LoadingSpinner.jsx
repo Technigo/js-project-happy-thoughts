@@ -11,23 +11,23 @@ const HeartBeat = keyframes`
 const SpinnerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Full viewport height */
-  width: 100%; /* Full width */
-  position: fixed; /* Ensure it stays in the middle of the page */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
   top: 0;
   left: 0;
-  background-color: white; /* Optional: Add a background color */
-  z-index: 9999; /* Ensure it appears above other content */
+  background-color: white;
+  z-index: 9999;
 `;
 
 // Style the heart SVG
 const HeartSpinner = styled.svg`
-  width: 200px; /* Adjust size as needed */
+  width: 200px;
   height: 200px;
   animation: ${HeartBeat} 1s infinite ease-in-out;
-  fill: lightpink; /* Heart color */
+  fill: lightpink;
 `;
 
 const LoadingSpinner = () => (

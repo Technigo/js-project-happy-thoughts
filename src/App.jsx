@@ -41,7 +41,7 @@ export const App = () => {
   return (
     <>
       <header>
-        <h1 hidden>Happy Thoughts messages</h1>
+        <h1 hidden>Happy Thoughts Messages</h1>
       </header>
       <main>
         {loading ? (
@@ -52,7 +52,6 @@ export const App = () => {
               onSubmit={(newThought) => setThoughts([newThought, ...thoughts])}
             />
             <MessageList
-              className="message-item scale-up-center"
               aria-live="polite"
               thoughts={thoughts}
               onLike={onLike}

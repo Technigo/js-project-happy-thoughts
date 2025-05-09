@@ -16,7 +16,14 @@ const HeartContainer = styled.div`
   gap: 0.5rem;
 `;
 
-const MessageItem = ({ thought, message, hearts, onLike, createdAt }) => {
+const MessageItem = ({
+  thought,
+  message,
+  hearts,
+  onLike,
+  createdAt,
+  className,
+}) => {
   const handleLikes = () => {
     onLike(thought._id);
   };
@@ -31,7 +38,7 @@ const MessageItem = ({ thought, message, hearts, onLike, createdAt }) => {
     : "Date not available";
 
   return (
-    <BoxStyle>
+    <BoxStyle className={className}>
       <p style={{ fontSize: "1.25rem" }}>{message}</p>
       <BoxFooterStyle>
         <HeartContainer>
@@ -39,6 +46,7 @@ const MessageItem = ({ thought, message, hearts, onLike, createdAt }) => {
             type="button"
             $heartCountColor={hearts}
             onClick={handleLikes}
+            disabled={hearts <= 0}
             aria-label={`Like this message. Current likes: ${hearts}`}
           >
             ❤️

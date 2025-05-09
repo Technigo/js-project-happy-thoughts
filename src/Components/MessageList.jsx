@@ -8,6 +8,7 @@ const MessageList = ({ thoughts, onLike }) => {
           key={thought._id}
           thought={thought}
           message={thought.message}
+          className="message-item"
           hearts={thought.hearts}
           createdAt={thought.createdAt}
           onLike={onLike}
