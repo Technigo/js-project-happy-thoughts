@@ -48,7 +48,8 @@ const Label = styled.label `
 
 const Textarea = styled.textarea `
   margin: 7px 7px 7px 7px;
- 
+  resize: none;
+
 
    @media (min-width: 360px) 
     width: auto;
@@ -93,9 +94,14 @@ const Button = styled.button `
     
 }
 `
+const Error = styled.p`
+  color: var(--color-text);
+  margin-left: 10px;
+`
+
 
 // Form to send message and handle message 
-const Form = ({ messageText, setMessageText, handleMessage }) => {
+const Form = ({ messageText, setMessageText, handleMessage, error }) => {
   return (
     <FormWrapper onSubmit={handleMessage}>
         <Label htmlFor="input">What's making you happy right now?</Label>
@@ -105,6 +111,8 @@ const Form = ({ messageText, setMessageText, handleMessage }) => {
           onChange={(event) => setMessageText(event.target.value)}
         />
         <Button type="submit"> ❤️ Send Happy Thought! ❤️</Button>
+        {error && <Error>{error.toString()}</Error>}
+
     </FormWrapper>
   )
 }

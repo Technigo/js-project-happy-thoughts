@@ -52,6 +52,7 @@ const Button = styled.button`
   margin-top: 5px;
   margin-bottom: 5px;
 
+//check first before you add focus 
   &:focus {
     background-color: var(--color-button);
   }

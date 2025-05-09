@@ -33,7 +33,6 @@ export const App = () => {
 
 }, [])
 
-
 //function runs when user send message via form
   const handleMessage = (event) => {
     event.preventDefault() //no reload
@@ -43,7 +42,6 @@ export const App = () => {
     setError("Your message must be between 5-140 characters")
     return
     }
-
 
       fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
         method: "POST",
@@ -66,7 +64,6 @@ export const App = () => {
     }
   
 
- 
 
 //renders app layout
   return (
@@ -77,6 +74,7 @@ export const App = () => {
         messageText={messageText}
         setMessageText={setMessageText}
         handleMessage={handleMessage}
+        error={error}
       />
       <MessageList thoughts={thoughts} />
     </>
