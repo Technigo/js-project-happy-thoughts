@@ -15,7 +15,7 @@ const StyledMessageItem = styled.div`
   width: 250px;
   position: relative;
   margin-top: 10px;
-  /* box-sizing: border-box; */
+  
 
 `
 const FlareIcon = styled.span`
@@ -36,7 +36,7 @@ const StyledButton = styled.button`
     padding: 10px;
     cursor: pointer;
     border-radius: 50%;
-    background-color: #f78a8a;
+    background-color: ${(props) => (props.hasLiked ? "#f78a8a" : "#ccc")} ;
     border: none;
     margin-right: 5px;
  
@@ -71,6 +71,7 @@ const timeAgo = (timestamp) => {
 
 const MessageItem = ({ text, createdAt, isNewest, likes, onLike }) => {
   const [showFlare, setShowFlare] = useState(false)
+  const hasLiked = likes > 0
 
   useEffect(() => {
     if (isNewest) {
@@ -80,15 +81,12 @@ const MessageItem = ({ text, createdAt, isNewest, likes, onLike }) => {
     }
   }, [isNewest])
 
-
-
-
   return (
     <StyledMessageItem>
       {isNewest && <FlareIcon $show={showFlare}>✨</FlareIcon>}
       <p>{text}</p>
       <p>{timeAgo(createdAt)}</p>
-      <p> <StyledButton onClick={onLike}>❤️ </StyledButton>x {likes} </p>
+      <p> <StyledButton hasLiked={hasLiked} onClick={onLike}>❤️ </StyledButton>x {likes} </p>
     </StyledMessageItem>
   )
 }

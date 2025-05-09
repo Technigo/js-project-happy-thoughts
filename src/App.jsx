@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+
 const StyledCard = styled.div`
   background-color: #dfdada;
   border: 1px solid #0e0d0d;
@@ -32,6 +33,8 @@ const StyledCard = styled.div`
   width: 100%;
   margin: auto;
   box-sizing: border-box;
+
+
 `
 
 const MessageList = styled.div`
@@ -43,12 +46,13 @@ const MessageList = styled.div`
   width: 100%;
   margin: 20px auto;
   max-width: 320px;
-  max-height: 400px;  /* HÖJD för scroll */
+  max-height: 80vh;  /* HÖJD för scroll */
   overflow-y: auto;   /* Scrollbar */
   padding-right: 10px;
   border: 1px solid #aaa;
   background-color: #f8f8f8;
   box-sizing: border-box;
+
 `
 const Footer = styled.footer`
   text-align: center;
