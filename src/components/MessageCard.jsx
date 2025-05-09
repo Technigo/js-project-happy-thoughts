@@ -24,6 +24,9 @@ const MessageText = styled.p`
   color: black;
   padding-left: 10px;
   margin-top: 6px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 `
 
 const FooterContainer = styled.div`
@@ -52,20 +55,19 @@ const Button = styled.button`
   margin-top: 5px;
   margin-bottom: 5px;
 
-//check first before you add focus 
   &:focus {
     background-color: var(--color-button);
   }
 `
 const Paragraph = styled.div `
 font-size: 12px;
-color: var (--color-text);
+color: var(--color-text);
 margin-top: 5px;
 
 `
 const TimeStamp = styled.div`
   font-size: 12px;
-  color: var (--color-text);
+  color: var(--color-text);
   margin-right: 10px;
   margin-top: 15px;
   margin-bottom: 5px;

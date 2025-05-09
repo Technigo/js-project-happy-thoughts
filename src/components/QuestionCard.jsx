@@ -51,11 +51,11 @@ const Textarea = styled.textarea `
   resize: none;
 
 
-   @media (min-width: 360px) 
+   @media (min-width: 360px) {
     width: auto;
     max-width: 500px; 
     margin-left: 10px;
-
+}
 
 @media (min-width: 1024px) and (max-width: 1600px) {
   width: auto;
@@ -85,7 +85,7 @@ const Button = styled.button `
   width: auto;
   max-width: 500px; 
   margin-left: 10px;
-
+}
 
 @media (min-width: 1024px) and (max-width: 1600px) {
     width: auto;
