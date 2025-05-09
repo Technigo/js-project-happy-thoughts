@@ -4,12 +4,21 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+
+  label {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 
   textarea {
     width: 100%;
     min-height: 80px;
     padding: 10px;
     font-size: 1rem;
+    box-sizing: border-box;
   }
 
   button {
@@ -21,7 +30,7 @@ const StyledForm = styled.form`
     background-color: #f78a8a;
     border: none;
   }
-`;
+`
 
 const MessageForm = ({ messageText, setMessageText, onSubmit }) => {
   return (
