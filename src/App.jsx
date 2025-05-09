@@ -6,7 +6,11 @@ import "./components/Card.css";
 import "./components/index.css";
 
 export const App = () => {
-  const [count, setCount] = useState(0)
+const [count, setCount] = useState(0);
+
+return (
+  <>
+    <h1>Happy Thoughts</h1>
   useEffect(() => {
     const handleScroll = () => {
       console.log('scrolled!');
