@@ -1,1 +1,1 @@
-# Happy Thoughts
+# Happy Thoughts Message App
