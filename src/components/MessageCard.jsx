@@ -11,8 +11,8 @@ const CardWrapper = styled.section`
   box-shadow: 4px 6px 2px rgba(0, 0, 0, 0.8);
   width: 100%;
   max-width: 500px;
-  height: 100px;
-  gap: 8px;
+  height: 150px;
+  gap: 15px;
   margin: 20px auto;
   background-color: var(--color-background);
 `
@@ -23,7 +23,7 @@ const MessageText = styled.p`
   margin: 0;
   color: black;
   padding-left: 10px;
-  margin-top: 6px;
+  margin-top: 15px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -53,7 +53,8 @@ const Button = styled.button`
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
+  margin-left: 5px;
 
   &:focus {
     background-color: var(--color-button);
@@ -63,6 +64,7 @@ const Paragraph = styled.div `
 font-size: 12px;
 color: var(--color-text);
 margin-top: 5px;
+margin-bottom: 20px;
 
 `
 const TimeStamp = styled.div`

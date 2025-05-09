@@ -43,24 +43,23 @@ const FormWrapper = styled.form `
 `
 
 const Label = styled.label `
-  margin: 7px 7px 7px 7px;
+  margin: 10px 7px 7px 12px;
 `
 
 const Textarea = styled.textarea `
-  margin: 7px 7px 7px 7px;
+  margin: 7px 7px 7px 12px;
   resize: none;
+  width: 90%;
+  height: 60px;
+
 
 
    @media (min-width: 360px) {
-    width: auto;
-    max-width: 500px; 
-    margin-left: 10px;
+    margin-left: 12px;
 }
 
 @media (min-width: 1024px) and (max-width: 1600px) {
-  width: auto;
-    max-width: 500px; 
-    margin-left: 10px;
+    margin-left: 12px;
   
 }
 `
@@ -72,14 +71,13 @@ const Button = styled.button `
   padding: 12px;
   content: cover;
   border: none;
-  margin:6px 6px 6px 6px;
+  margin:6px 6px 12px 12px;
 
 
   Button:focus {
   border: 2px solid var(--color-border);
 
 }
-
 
 @media (min-width: 360px) {
   width: auto;

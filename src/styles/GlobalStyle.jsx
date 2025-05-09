@@ -3,7 +3,6 @@ import { createGlobalStyle } from "styled-components"
 const GlobalStyle = createGlobalStyle` 
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     --color-text:  #36454F;
     --color-button: pink;
     --color-border: #202020;
@@ -19,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
 body {
   line-height: 1.6;
   font-size: 16px;
+  font-family: 'Figtree', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 
 @media (min-width: 668px) {
