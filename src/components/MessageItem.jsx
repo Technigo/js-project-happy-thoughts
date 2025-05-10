@@ -29,7 +29,6 @@ const FlareIcon = styled.span`
       animation: ${flare} 1.2s ease-out;
       opacity: 1;
     `}
-
 `
 const StyledButton = styled.button`
     padding: 10px;
@@ -38,13 +37,22 @@ const StyledButton = styled.button`
     background-color: ${(props) => (props.hasLiked ? "#f78a8a" : "#ccc")} ;
     border: none;
     margin-right: 5px;
- 
-    
+  `
+const StyledLikeContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #555;
   `
 
 
 
-// Funktion för att beräkna den relativa tiden
+// Function to format the time difference
+// from the current time to the message's createdAt timestamp
 const timeAgo = (timestamp) => {
   const now = new Date();
   const diffInSeconds = Math.floor((now - new Date(timestamp)) / 1000);
@@ -84,9 +92,11 @@ const MessageItem = ({ text, createdAt, isNewest, likes, onLike }) => {
     <StyledMessageItem>
       {isNewest && <FlareIcon $show={showFlare}>✨</FlareIcon>}
       <p>{text}</p>
-      <p> <StyledButton hasLiked={hasLiked} onClick={onLike}>❤️ </StyledButton>x {likes} </p>
-      <p>{timeAgo(createdAt)}</p>
-
+      <StyledLikeContainer>
+        <p> <StyledButton hasLiked={hasLiked} onClick={onLike}>❤️  </StyledButton>
+          x {likes}  </p>
+        <p>{timeAgo(createdAt)}</p>
+      </StyledLikeContainer>
     </StyledMessageItem>
   )
 }

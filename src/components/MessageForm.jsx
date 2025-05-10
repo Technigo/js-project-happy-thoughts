@@ -31,7 +31,14 @@ const StyledForm = styled.form`
     background-color: #f78a8a;
     border: none;
   }
+
+  p {
+    font-size: 0.8rem;
+    color: #555;
+  }
 `
+
+
 
 const MessageForm = ({ messageText, setMessageText, onSubmit }) => {
   return (

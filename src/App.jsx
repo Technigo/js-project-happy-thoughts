@@ -1,24 +1,9 @@
 import { useEffect, useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import MessageForm from "./components/MessageForm";
 import MessageItem from "./components/MessageItem";
-
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-color: #f0f0f0;
-    font-family: "Poppins", sans-serif;
-    color: #333;
-    margin: 0;
-    padding: 10px;
-  }
-
-  h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-`
+import GlobalStyle from "./styles/GlobalStyle";
+import Footer from "./components/Footer";
 
 
 const StyledCard = styled.div`
@@ -33,8 +18,6 @@ const StyledCard = styled.div`
   width: 100%;
   margin: auto;
   box-sizing: border-box;
-
-
 `
 
 const MessageList = styled.div`
@@ -46,28 +29,14 @@ const MessageList = styled.div`
   width: 100%;
   margin: 20px auto;
   max-width: 320px;
-  max-height: 80vh;  /* HÖJD för scroll */
-  overflow-y: auto;   /* Scrollbar */
+  max-height: 80vh;  
+  overflow-y: auto;  
   padding-right: 10px;
   border: 1px solid #aaa;
   background-color: #f8f8f8;
   box-sizing: border-box;
 
 `
-const Footer = styled.footer`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 0.8rem;
-  color: #555;
-  a {
-    color: #007bff;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`
-
 
 export const App = () => {
   const API_URL = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts"
@@ -129,7 +98,6 @@ export const App = () => {
     <>
       <GlobalStyle />
       <h1>Happy Thoughts</h1>
-
       <StyledCard>
         <MessageForm
           messageText={messageText}
@@ -137,7 +105,6 @@ export const App = () => {
           onSubmit={handleMessageSubmit}
         />
       </StyledCard>
-
       <MessageList>
         {isLoading ? (
           <p>Loading messages...</p>
@@ -154,11 +121,7 @@ export const App = () => {
           ))
         )}
       </MessageList>
-
-      <Footer>
-        <p>Made with ❤️ by Therese</p>
-        <p>Check out the code on <a href="https://github.com/Lillebrorgroda/js-project-happy-thoughts">GitHub</a></p>
-      </Footer>
+      <Footer />
 
     </>
   )
