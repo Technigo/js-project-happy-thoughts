@@ -3,8 +3,8 @@ import { SubmitButton } from "./SubmitButton"
 
 export const FormCard = ({ onSubmit, apiError }) => {
 
-  const [message, setMessage] = useState('')
-  const [localError, setLocalError] = useState('')
+  const [message, setMessage] = useState("")
+  const [localError, setLocalError] = useState("")
   const [count, setCount] = useState(0)
   const maxChars = 140
   const minChars = 5
@@ -20,13 +20,13 @@ export const FormCard = ({ onSubmit, apiError }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setLocalError('')
+    setLocalError("")
     if (!validateMessage(message)) {
       return
     }
 
     onSubmit(message)
-    setMessage('');
+    setMessage("");
     setCount(0);
 
   }
@@ -37,7 +37,7 @@ export const FormCard = ({ onSubmit, apiError }) => {
     setCount(newValue.length)
 
     if (localError) {
-      setLocalError('')
+      setLocalError("")
     }
   }
 
@@ -68,7 +68,7 @@ export const FormCard = ({ onSubmit, apiError }) => {
             {localError}
           </p>)}
           {apiError && <p className="text-red-500">{apiError}</p>}
-          <SubmitButton className={localError ? 'mt-3' : ''} />
+          <SubmitButton className={localError ? "mt-3" : ""} />
         </div>
       </form>
     </>

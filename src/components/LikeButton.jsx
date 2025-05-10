@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 export const LikeButton = ({ onLike, likes }) => {
   return (
     <motion.button
-      type='button'
+      type="button"
       onClick={onLike}
       whileTap={{ scale: 0.8 }}
       whileHover={{ scale: 1.2 }}

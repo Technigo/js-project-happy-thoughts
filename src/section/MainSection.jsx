@@ -8,10 +8,10 @@ import { LikeCount } from "../components/LikeCount"
 export const MainSection = () => {
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [apiError, setApiError] = useState('')
+  const [apiError, setApiError] = useState("")
   const [likedCount, setLikedCount] = useState(0)
 
-  const url = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts'
+  const url = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts"
 
   const fetchData = () => {
     setIsLoading(true)
@@ -30,14 +30,14 @@ export const MainSection = () => {
   }
 
   const addMessage = (message) => {
-    setApiError('')
+    setApiError("")
     fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: message })
     })
       .then(res => {
-        if (!res.ok) throw new Error('Could not save your thought')
+        if (!res.ok) throw new Error("Could not save your thought")
         return res.json()
       })
       .then(newMessage => {
@@ -45,12 +45,11 @@ export const MainSection = () => {
         console.log(newMessage)
       })
       .catch(err => setApiError(err.message))
-
   }
 
   const likeMessage = (id) => {
     fetch(`${url}/${id}/like`, {
-      method: 'POST'
+      method: "POST"
     })
       .then(res => res.json())
       .then(updatedMessage => {
@@ -61,8 +60,8 @@ export const MainSection = () => {
         )
       })
       .catch(err => {
-        console.error('Could not like message', err)
-        setApiError('Could not like message. Please try again later')
+        console.error("Could not like message", err)
+        setApiError("Could not like message. Please try again later")
       })
   }
 
