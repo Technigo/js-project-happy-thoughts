@@ -1,43 +1,26 @@
-import { GlobalStyles } from './GlobalStyles'
-import { Thought } from './components/Thought'
-import { ThoughtForm } from './components/ThoughtForm'
-import { LikeCounter } from './components/LikeCounter'
 import { Loader } from './components/Loader'
+import { ThoughtForm } from './components/ThoughtForm'
+import { Thought } from './components/Thought'
+import { LikeCounter } from './components/LikeCounter'
+import { GlobalStyles } from './GlobalStyles'
 import { useThoughts } from './hooks/useThoughts'
 
 export const App = () => {
-  const { thoughts, loading, error, newThoughtId, addThought } = useThoughts()
+  const { thoughts, loading, error, newThoughtId, createAndRefresh } =
+    useThoughts()
 
-  if (loading) {
-    return <Loader />
-  }
-
-  if (error) {
-    return <div className='error-message'>{error}</div>
-  }
+  if (loading) return <Loader />
+  if (error) return <div className='error'>{error}</div>
 
   return (
     <div className='App'>
       <GlobalStyles />
-      <ThoughtForm onSubmit={addThought} />
+      {/* on submit we both insert and then re-fetch */}
+      <ThoughtForm onSubmit={createAndRefresh} />
       <LikeCounter />
-      {Array.isArray(thoughts) &&
-        thoughts.map((thought) => {
-          // Extract the proper ID, handling both API and local messages
-          const messageId =
-            thought._id || thought.id || Math.random().toString()
-
-          return (
-            <Thought
-              key={messageId}
-              id={messageId}
-              message={thought.message || ''}
-              isNew={messageId === newThoughtId}
-              hearts={thought.hearts || 0}
-              createdAt={thought.createdAt || thought.date || ''}
-            />
-          )
-        })}
+      {thoughts.map((t) => (
+        <Thought key={t._id} {...t} isNew={t._id === newThoughtId} />
+      ))}
     </div>
   )
 }

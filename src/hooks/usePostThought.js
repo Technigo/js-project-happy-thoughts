@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { api } from '../api/api'
 
 export const usePostThought = (onSuccess, postThoughtFn) => {
@@ -6,7 +6,10 @@ export const usePostThought = (onSuccess, postThoughtFn) => {
   const [isPosting, setIsPosting] = useState(false)
   const [error, setError] = useState(null)
 
-  // Character limit for thoughts (adjust as needed)
+  // Use a ref to track submission state (more reliable than state for preventing duplicates)
+  const isSubmittingRef = useRef(false)
+
+  // Min and max characters for thoughts
   const MIN_CHARS = 5
   const MAX_CHARS = 140
   const remainingChars = MAX_CHARS - message.length
@@ -20,6 +23,12 @@ export const usePostThought = (onSuccess, postThoughtFn) => {
 
   // Post the thought to the API
   const postThought = async () => {
+    // Don't post if already submitting, prevent duplicate submissions
+    if (isSubmittingRef.current) {
+      console.warn('⚠️ Prevented duplicate submission!')
+      return false
+    }
+
     // Don't post if exceeding character limit or less than 5 chars
     if (remainingChars < 0 || message.trim().length < MIN_CHARS) {
       setError(
@@ -32,21 +41,19 @@ export const usePostThought = (onSuccess, postThoughtFn) => {
       return false
     }
 
+    isSubmittingRef.current = true
     setIsPosting(true)
     setError(null)
+
+    console.log('Starting API call for:', message)
 
     try {
       // Use the provided postThoughtFn if available, otherwise fall back to API
       const postFn = postThoughtFn || api.postThought
       const data = await postFn(message)
 
-      // Clear form on success
       setMessage('')
-
-      // Call success callback
-      if (onSuccess && typeof onSuccess === 'function') {
-        onSuccess(data)
-      }
+      onSuccess?.(data)
 
       return true
     } catch (err) {
@@ -54,11 +61,20 @@ export const usePostThought = (onSuccess, postThoughtFn) => {
       return false
     } finally {
       setIsPosting(false)
+      // Release the lock after a short delay to prevent rapid resubmission
+      setTimeout(() => {
+        isSubmittingRef.current = false
+      }, 500)
     }
   }
 
+  // Form submission handler
   const handleSubmit = (e) => {
-    e.preventDefault()
+    // Always prevent default form submission
+    if (e && e.preventDefault) {
+      e.preventDefault()
+    }
+
     return postThought()
   }
 

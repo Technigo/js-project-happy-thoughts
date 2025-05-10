@@ -55,33 +55,19 @@ export const StyledButton = styled.button`
 export const Button = ({
   text,
   icon,
-  variant,
-  type,
+  type = 'button',
   onClick,
   disabled,
-  isLiked
-}) => {
-  const handleClick = (e) => {
-    // Only call onClick if it exists and is a function and button is not disabled
-    if (onClick && typeof onClick === 'function' && !disabled) {
-      onClick(e)
-    }
-
-    // Prevent default action if button is disabled
-    if (disabled) {
-      e.preventDefault()
-    }
-  }
-
-  return (
-    <StyledButton
-      $variant={variant}
-      type={type || 'button'}
-      onClick={handleClick}
-      disabled={disabled}
-      $isLiked={isLiked}
-    >
-      {variant === 'icon' ? icon : text}
-    </StyledButton>
-  )
-}
+  isLiked,
+  variant = 'text'
+}) => (
+  <StyledButton
+    type={type}
+    disabled={disabled}
+    onClick={disabled ? undefined : onClick}
+    $isLiked={isLiked}
+    $variant={variant}
+  >
+    {variant === 'icon' ? icon : text}
+  </StyledButton>
+)

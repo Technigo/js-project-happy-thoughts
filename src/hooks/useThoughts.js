@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { api } from '../api/api'
 
 export const useThoughts = () => {
@@ -7,10 +7,18 @@ export const useThoughts = () => {
   const [error, setError] = useState(null)
   const [newThoughtId, setNewThoughtId] = useState(null)
 
-  const API_URL = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts'
+  // Locks
+  const isFetchingRef = useRef(false)
 
   // Fetch all thoughts
   const fetchThoughts = async () => {
+    // Prevent duplicate fetches
+    if (isFetchingRef.current) {
+      console.log('Fetch already in progress, skipping duplicate request')
+      return
+    }
+
+    isFetchingRef.current = true
     setLoading(true)
     setError(null)
 
@@ -35,69 +43,26 @@ export const useThoughts = () => {
   }
 
   // Add new thought
-  const addThought = async (message) => {
-    // Check if message is an object or string
-    const messageText = typeof message === 'object' ? message.message : message
-
-    if (
-      !messageText ||
-      typeof messageText !== 'string' ||
-      messageText.trim() === ''
-    ) {
-      return false
-    }
-
-    // For optimistic UI - create temporary message that will be shown before API response
-    const tempThought = {
-      _id: Date.now().toString(),
-      message: message,
-      hearts: 0,
-      createdAt: new Date().toISOString()
-    }
-
-    // Update UI immediately (optimistic update)
-    setThoughts((prevMessages) => [tempThought, ...(prevMessages || [])])
-    setNewThoughtId(tempThought._id)
-
-    // Clear animation effect after delay
-    setTimeout(() => {
-      setNewThoughtId(null)
-    }, 1000)
-
-    try {
-      // Send to API
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message })
-      })
-
-      if (!response.ok) {
-        throw new Error(`Failed to post thought: ${response.status}`)
-      }
-
-      // Get the actual thought from API with server-generated ID
-      const data = await response.json()
-
-      // Replace the temporary thought with the real one from the server
-      setThoughts((prevMessages) =>
-        prevMessages.map((thought) =>
-          thought._id === tempThought._id ? data : thought
-        )
-      )
-
-      return true
-    } catch (error) {
-      console.error('Error posting thought:', error)
-      return false
-    }
+  const addThought = (newObj) => {
+    setThoughts((prev) => [newObj, ...prev])
+    setNewThoughtId(newObj._id)
+    setTimeout(() => setNewThoughtId(null), 1000)
   }
 
-  // Initial data fetch
+  // Combine optimistic add + full refetch
+  const createAndRefresh = async (serverThought) => {
+    console.log('createAndRefresh got:', serverThought)
+    addThought(serverThought)
+    await fetchThoughts()
+  }
+
+  // Disable strict mode duplicate effect calls
+  const isInitialRender = useRef(true)
   useEffect(() => {
-    fetchThoughts()
+    if (isInitialRender.current) {
+      fetchThoughts()
+      isInitialRender.current = false
+    }
   }, [])
 
   return {
@@ -105,7 +70,6 @@ export const useThoughts = () => {
     loading,
     error,
     newThoughtId,
-    fetchThoughts,
-    addThought
+    createAndRefresh
   }
 }

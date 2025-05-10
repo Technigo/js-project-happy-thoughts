@@ -79,8 +79,8 @@ export const DateText = styled.span`
 // useLikeSystem (hook)  for like functionality,
 // and dateHelpers (helper) for date formatting
 
-export const Thought = ({ id, message, isNew = false, hearts, createdAt }) => {
-  const { isLiked, likeCount, handleLike } = useLikeSystem(id, hearts)
+export const Thought = ({ _id, message, isNew, hearts: init, createdAt }) => {
+  const { isLiked, likeCount, handleLike } = useLikeSystem(_id, init)
 
   // Format the date for display
   const formattedDate = formatDate(createdAt)

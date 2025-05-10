@@ -1,27 +1,29 @@
 import { useState } from 'react'
 
-export const useLikeSystem = (id, initialHearts) => {
+export const useLikeSystem = (thoughtId, initialHearts) => {
+  // Track the total like count, starting with the hearts from API
+  const [likeCount, setLikeCount] = useState(initialHearts)
   // Track if the current user has liked this post (persisted via localStorage)
   const [isLiked, setIsLiked] = useState(() => {
     // Check localStorage on component mount to see if user previously liked this post
     const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]')
-    return likedPosts.includes(id)
+    return likedPosts.includes(thoughtId)
   })
-
-  // Track the total like count, starting with the hearts from API
-  const [likeCount, setLikeCount] = useState(initialHearts)
 
   // Update localStorage when like status changes
   const updateLocalStorage = (liked) => {
     const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]')
 
     if (liked) {
-      if (!likedPosts.includes(id)) {
-        localStorage.setItem('likedPosts', JSON.stringify([...likedPosts, id]))
+      if (!likedPosts.includes(thoughtId)) {
+        localStorage.setItem(
+          'likedPosts',
+          JSON.stringify([...likedPosts, thoughtId])
+        )
         window.dispatchEvent(new Event('localStorageUpdated')) // This is crucial
       }
     } else {
-      const updatedLikes = likedPosts.filter((postId) => postId !== id)
+      const updatedLikes = likedPosts.filter((postId) => postId !== thoughtId)
       localStorage.setItem('likedPosts', JSON.stringify(updatedLikes))
       window.dispatchEvent(new Event('localStorageUpdated')) // This is crucial
     }
@@ -42,14 +44,14 @@ export const useLikeSystem = (id, initialHearts) => {
     updateLocalStorage(true)
 
     // Make API call for likes
-    const endpoint = `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`
+    const endpoint = `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${thoughtId}/like`
 
     fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ thoughtId: id })
+      body: JSON.stringify({ thoughtId: thoughtId })
     })
       .then((response) => {
         console.log('Response status:', response.status)
