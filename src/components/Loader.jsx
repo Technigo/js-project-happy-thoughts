@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 import React from "react";
 
 const containerVariants = {
@@ -12,7 +12,7 @@ const containerVariants = {
       staggerChildren: 0.2,
     },
   },
-};
+}
 
 export const heartVariants = {
   initial: { y: "0%" },
@@ -28,7 +28,7 @@ export const heartTransition = {
 const dotVariants = {
   initial: { y: "0%" },
   animate: { y: "100%" },
-};
+}
 
 const dotTransition = {
   duration: 0.5,
@@ -65,6 +65,5 @@ export const Loader = () => {
           />
         </motion.div>
       </div>
-  
-  );
+  )
 }

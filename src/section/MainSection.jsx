@@ -13,7 +13,7 @@ export const MainSection = () => {
 
   const url = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts'
 
-  useEffect(() => {
+  const fetchData = () => {
     setIsLoading(true)
     fetch(url)
       .then(res => res.json())
@@ -27,7 +27,7 @@ export const MainSection = () => {
       .finally(() => {
         setIsLoading(false)
       })
-  }, [])
+  }
 
   const addMessage = (message) => {
     setApiError('')
@@ -64,7 +64,6 @@ export const MainSection = () => {
         console.error('Could not like message', err)
         setApiError('Could not like message. Please try again later')
       })
-
   }
 
   const handleLike = (id) => {
@@ -72,12 +71,9 @@ export const MainSection = () => {
     setLikedCount(c => c + 1)
   }
 
-
-  if (isLoading) {
-    return <Loader />
-  }
-
-
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <section className="max-w-md min-h-screen px-5 py-10 mx-auto">
@@ -85,6 +81,7 @@ export const MainSection = () => {
         onSubmit={addMessage}
         apiError={apiError} />
 
+      {isLoading && <Loader />}
       {likedCount > 0 && <LikeCount likeCount={likedCount} />}
 
       <MessageList

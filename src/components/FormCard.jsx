@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { SubmitButton } from "./SubmitButton"
 
-
 export const FormCard = ({ onSubmit, apiError }) => {
 
   const [message, setMessage] = useState('')
@@ -13,7 +12,7 @@ export const FormCard = ({ onSubmit, apiError }) => {
   const validateMessage = (text) => {
 
     if (text.trim().length < minChars) {
-      setLocalError(`Message have to be at least ${maxChars} character`)
+      setLocalError(`Message have to be at least ${minChars} character`)
       return false
     }
     return true
@@ -27,7 +26,6 @@ export const FormCard = ({ onSubmit, apiError }) => {
     }
 
     onSubmit(message)
-    //Reset
     setMessage('');
     setCount(0);
 
@@ -37,7 +35,7 @@ export const FormCard = ({ onSubmit, apiError }) => {
     const newValue = e.target.value
     setMessage(newValue)
     setCount(newValue.length)
-    //rensa eventuella tidigare felmeddelanden
+
     if (localError) {
       setLocalError('')
     }
@@ -73,7 +71,6 @@ export const FormCard = ({ onSubmit, apiError }) => {
           <SubmitButton className={localError ? 'mt-3' : ''} />
         </div>
       </form>
-
     </>
   )
 }

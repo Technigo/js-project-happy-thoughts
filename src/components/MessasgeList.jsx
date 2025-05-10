@@ -10,6 +10,5 @@ export const MessageList = ({ messages, onLike }) => {
           onLike={() => onLike(msg._id)} />
       ))}
     </div>
-
   )
 }
