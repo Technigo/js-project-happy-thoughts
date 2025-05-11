@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
 function ThoughtForm({ onNewThought }) {
   const [input, setInput] = useState('');
