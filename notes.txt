@@ -1,0 +1,24 @@
+- App: håller koll på alla 'thoughts', lagrar dem i state.
+- ThoughtForm: textarea + skicka-knapp. Skickar iväg ny tanke upp till App.
+- ThoughtList: wrapper som loopar igenom thoughts & visar ThoughtCard för varje.
+- ThoughtCard: själva kortet med texten + liten fade-in när det dyker upp.
+
+State's:
+- I App: const [thoughts, setThoughts] = useState([]) lista
+- I ThoughtForm: const [input, setInput] = useState('') text
+
+Handlers:
+- onChange på textarea > uppdaterar input.
+- onSubmit på form:
+  * e.preventDefault()
+  * kolla att input.trim() inte är tomt
+  * kalla onNewThought(input.trim())
+  * nollställ input (setInput(''))
+
+Uppdatera lista:
+- App tar emot ny tanke, gör setThoughts(prev => [nyTanke, ...prev])
+- Voilà, listan rerenderar med nya kortet överst.
+
+Animation:
+- Enkelt fade-in + lite slide-up på ThoughtCard
+- Definiera keyframes i Styled Components
