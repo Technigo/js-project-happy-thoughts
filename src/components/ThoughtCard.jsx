@@ -20,8 +20,31 @@ const Card = styled.div`
   animation: ${appear} 0.4s ease-out;
 `;
 
+const CardContent = styled.div`
+  background-color: yellow;
+`;
+
+const CardLike = styled.div`
+  background-color: lightblue;
+`;
+
+const CardTime = styled.p`
+  background-color: pink;
+`;
+
 function ThoughtCard({ message }) {
-  return <Card>{message}</Card>;
+  return (
+    <Card>
+      {message}
+      <CardContent>
+        <CardLike>
+          <button>Like</button>
+          <p>x10</p>
+        </CardLike>
+        <CardTime>15 minutes ago</CardTime>
+      </CardContent>
+    </Card>
+  );
 }
 
 export default ThoughtCard;

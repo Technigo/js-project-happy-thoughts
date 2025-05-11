@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
+
+const FormLabel = styled.label`
+  background-color: pink;
+`;
 
 function ThoughtForm({ onNewThought }) {
   const [input, setInput] = useState('');
@@ -12,6 +17,8 @@ function ThoughtForm({ onNewThought }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <FormLabel>What’s making you happy right now?</FormLabel>
+
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
