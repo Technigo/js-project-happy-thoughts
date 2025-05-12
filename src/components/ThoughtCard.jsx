@@ -13,23 +13,49 @@ const appear = keyframes`
 `;
 
 const Card = styled.div`
-  background: #fff;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: solid black 1px;
+  padding: 1rem;
+  box-shadow: 12px 12px var(--color-black);
   animation: ${appear} 0.4s ease-out;
 `;
 
 const CardContent = styled.div`
-  background-color: yellow;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-dark-grey);
 `;
 
 const CardLike = styled.div`
-  background-color: lightblue;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
-const CardTime = styled.p`
-  background-color: pink;
+const CardTime = styled.p``;
+
+const Button = styled.button`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-grey);
+  border-radius: 50%;
+  border: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+
+  span {
+    margin-top: 4%;
+    display: inline-block;
+    padding: none;
+    line-height: 0;
+    padding: 0%;
+  }
 `;
 
 function ThoughtCard({ message }) {
@@ -38,8 +64,11 @@ function ThoughtCard({ message }) {
       {message}
       <CardContent>
         <CardLike>
-          <button>Like</button>
-          <p>x10</p>
+          <Button>
+            <span>{'\u2764\uFE0F'}</span>
+          </Button>
+          <span>x</span>
+          <p>10</p>
         </CardLike>
         <CardTime>15 minutes ago</CardTime>
       </CardContent>

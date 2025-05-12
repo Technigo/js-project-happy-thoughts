@@ -1,8 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+const Form = styled.form`
+  background-color: var(--color-grey);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  gap: 1rem;
+  padding: 1rem;
+`;
+
 const FormLabel = styled.label`
-  background-color: pink;
+  font-family: var(--font-ui);
+`;
+
+const Button = styled.button`
+  background-color: var(--color-red);
+  font-family: var(--font-ui);
+  width: fit-content;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 9999px;
 `;
 
 function ThoughtForm({ onNewThought }) {
@@ -16,7 +35,7 @@ function ThoughtForm({ onNewThought }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <FormLabel>What’s making you happy right now?</FormLabel>
 
       <textarea
@@ -24,8 +43,8 @@ function ThoughtForm({ onNewThought }) {
         onChange={(e) => setInput(e.target.value)}
         placeholder='Share a happy thought...'
       ></textarea>
-      <button>Send</button>
-    </form>
+      <Button type='submit'>❤️ Send Happy Thought ❤️</Button>
+    </Form>
   );
 }
 

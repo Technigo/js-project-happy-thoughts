@@ -2,28 +2,22 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 
-  /* Custom font */
-  @font-face {
-    font-family: 'TAN-Rosebud';
-    src: url('/fonts/TAN-Rosebud.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
 
   /* CSS Variables */
   :root {
-    font-size: 16px;
-    --font-main: monospace;
+    --font-main: 'Roboto Mono', monospace;
+    --font-ui: 'Lexend', sans-serif;    
     --color-bg: #FFFFFF;
     --color-bg-card: #F2F0F0;
-    --color-darkgrey: #C6C5C5;
+    --color-grey: #E6E4E4;
     --color-black: #000000;
     --color-text: #000000;
-    --color-like-grey: #EAEAEA;
-    --color-like-red: #FFAEAE;
+    --color-dark-grey: #AFADAD;
+    --color-red: #FFAEAE;
     --link-color: #000000;
     --link-hover-color: #FFAEAE;
+        font-size: 14px;
+
   }
 
   /* Global Reset & Base Styles */
@@ -41,13 +35,12 @@ const GlobalStyle = createGlobalStyle`
 
   html, body {
     height: 100%; /*Vet ej om jag behöver denna men ev vid sticky footer etc*/
-    font-family: var(--font-main);
+    font-family: var(--font-main), sans-serif;
     background-color: var(--color-bg);
     color: var(--color-text);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
-
   }
 
   #root {
@@ -61,6 +54,8 @@ const GlobalStyle = createGlobalStyle`
 
   input, button, textarea, select {
     font: inherit;
+    font-family: var(--font-main);
+
   }
 
   p, h1, h2, h3, h4, h5, h6 {

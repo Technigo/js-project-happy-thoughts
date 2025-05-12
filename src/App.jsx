@@ -6,7 +6,7 @@ import ThoughtList from './components/ThoughtList';
 const AppWrapper = styled.div`
   max-width: 600px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 1rem;
 `;
 
 export const App = () => {
