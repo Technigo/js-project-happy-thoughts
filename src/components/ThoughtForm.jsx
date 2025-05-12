@@ -8,11 +8,21 @@ const Form = styled.form`
   justify-content: center;
   align-items: left;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.5rem;
+  border: 1px solid black;
 `;
 
 const FormLabel = styled.label`
   font-family: var(--font-ui);
+`;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  height: 100px;
+  padding: 1rem;
+  border: 2px solid var(--color-dark-grey);
+  background-color: #f8f8f8;
+  resize: none;
 `;
 
 const Button = styled.button`
@@ -38,11 +48,11 @@ function ThoughtForm({ onNewThought }) {
     <Form onSubmit={handleSubmit}>
       <FormLabel>What’s making you happy right now?</FormLabel>
 
-      <textarea
+      <Textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder='Share a happy thought...'
-      ></textarea>
+      ></Textarea>
       <Button type='submit'>❤️ Send Happy Thought ❤️</Button>
     </Form>
   );
