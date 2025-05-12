@@ -64,9 +64,9 @@ function ThoughtForm({ onNewThought }) {
         placeholder='Share a happy thought...'
       ></Textarea>
       <Button type='submit'>
-        <img src='/public/heart.png' alt='heart emoji' />
+        <img src='/heart.png' alt='heart emoji' />
         Send Happy Thought
-        <img src='/public/heart.png' alt='heart emoji' />
+        <img src='/heart.png' alt='heart emoji' />
       </Button>
     </Form>
   );

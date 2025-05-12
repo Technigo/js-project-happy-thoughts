@@ -65,7 +65,7 @@ function ThoughtCard({ message }) {
       <CardContent>
         <CardLike>
           <Button>
-            <img src='/public/heart.png' alt='heart emoji' />
+            <img src='/heart.png' alt='heart emoji' />
           </Button>
           <span>x</span>
           <p>10</p>
