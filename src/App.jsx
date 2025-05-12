@@ -6,13 +6,21 @@ import ThoughtList from './components/ThoughtList';
 const AppWrapper = styled.div`
   max-width: 700px;
   margin: 0 auto;
-  padding: 5rem;
+  padding: 2rem;
+
+  @media (min-width: 768px) {
+    padding: 5rem;
+  }
 `;
 
 const LayoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
+
+  @media (min-width: 768px) {
+    gap: 4rem;
+  }
 `;
 
 export const App = () => {

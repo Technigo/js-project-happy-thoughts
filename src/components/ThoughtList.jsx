@@ -6,7 +6,10 @@ const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  margin-top: 24px;
+
+  @media (min-width: 768px) {
+    gap: 4rem;
+  }
 `;
 
 function ThoughtList({ thoughts }) {
