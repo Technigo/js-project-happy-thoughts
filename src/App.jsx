@@ -43,6 +43,10 @@ export const App = () => {
     <AppWrapper>
       <LayoutWrapper>
         <ThoughtForm onNewThought={handleNewThought} />
+        <p>
+          Currently under construction – soon to be powered by Technigo’s Happy
+          Thoughts API!
+        </p>
         <ThoughtList thoughts={thoughts} />
       </LayoutWrapper>
     </AppWrapper>
