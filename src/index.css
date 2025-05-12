@@ -1,3 +1,23 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+@import "tailwindcss";
+
+@layer utilities {
+  .shadow-sharp {
+    /* 9px right, 10px down, no blur, solid black */
+    box-shadow: 9px 10px 0 0 #000;
+  }
+  @keyframes fade-in {
+    0%   { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+}
+
+.font-ivymode {
+  font-family: ivymode, sans-serif;
+}
+
+.font-eixample {
+  font-family: eixample-dip, sans-serif;
 }
