@@ -10,6 +10,7 @@ const Form = styled.form`
   gap: 1rem;
   padding: 1.5rem;
   border: 1px solid black;
+  box-shadow: 12px 12px var(--color-black);
 `;
 
 const FormLabel = styled.label`
@@ -32,6 +33,15 @@ const Button = styled.button`
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  img {
+    width: 1.3rem;
+    height: auto;
+  }
 `;
 
 function ThoughtForm({ onNewThought }) {
@@ -53,7 +63,11 @@ function ThoughtForm({ onNewThought }) {
         onChange={(e) => setInput(e.target.value)}
         placeholder='Share a happy thought...'
       ></Textarea>
-      <Button type='submit'>❤️ Send Happy Thought ❤️</Button>
+      <Button type='submit'>
+        <img src='/public/heart.png' alt='heart emoji' />
+        Send Happy Thought
+        <img src='/public/heart.png' alt='heart emoji' />
+      </Button>
     </Form>
   );
 }

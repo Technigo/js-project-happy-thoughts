@@ -4,9 +4,15 @@ import ThoughtForm from './components/ThoughtForm';
 import ThoughtList from './components/ThoughtList';
 
 const AppWrapper = styled.div`
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 5rem;
+`;
+
+const LayoutWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 `;
 
 export const App = () => {
@@ -27,9 +33,10 @@ export const App = () => {
 
   return (
     <AppWrapper>
-      <h1>Happy Thoughts App</h1>
-      <ThoughtForm onNewThought={handleNewThought} />
-      <ThoughtList thoughts={thoughts} />
+      <LayoutWrapper>
+        <ThoughtForm onNewThought={handleNewThought} />
+        <ThoughtList thoughts={thoughts} />
+      </LayoutWrapper>
     </AppWrapper>
   );
 };

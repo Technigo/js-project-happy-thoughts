@@ -17,9 +17,13 @@ const Card = styled.div`
   flex-direction: column;
   gap: 1rem;
   border: solid black 1px;
-  padding: 1rem;
+  padding: 1.5rem;
   box-shadow: 12px 12px var(--color-black);
   animation: ${appear} 0.4s ease-out;
+`;
+
+const Message = styled.p`
+  font-size: 16px;
 `;
 
 const CardContent = styled.div`
@@ -38,34 +42,30 @@ const CardLike = styled.div`
 const CardTime = styled.p``;
 
 const Button = styled.button`
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--color-grey);
   border-radius: 50%;
   border: none;
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1rem;
+  height: 3rem;
+  width: 3rem;
   cursor: pointer;
 
-  span {
-    margin-top: 4%;
-    display: inline-block;
-    padding: none;
-    line-height: 0;
-    padding: 0%;
+  img {
+    width: 1.3rem;
+    height: auto;
   }
 `;
 
 function ThoughtCard({ message }) {
   return (
     <Card>
-      {message}
+      <Message>{message}</Message>
       <CardContent>
         <CardLike>
           <Button>
-            <span>{'\u2764\uFE0F'}</span>
+            <img src='/public/heart.png' alt='heart emoji' />
           </Button>
           <span>x</span>
           <p>10</p>

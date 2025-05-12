@@ -34,7 +34,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html, body {
-    height: 100%; /*Vet ej om jag behöver denna men ev vid sticky footer etc*/
     font-family: var(--font-main), sans-serif;
     background-color: var(--color-bg);
     color: var(--color-text);
