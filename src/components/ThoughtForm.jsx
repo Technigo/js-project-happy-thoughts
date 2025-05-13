@@ -12,7 +12,6 @@ const Form = styled.form`
 
 const TextArea = styled.textarea`
   width: 100%;
-  padding: 0.5rem;
   font-size: 1rem;
   font-family: inherit;
 `;
