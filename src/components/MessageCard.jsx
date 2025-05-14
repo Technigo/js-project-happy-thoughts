@@ -8,7 +8,7 @@ const CardWrapper = styled.section`
   position: relative;
   border-radius: 3px;
   border: 1px solid var(--color-border);
-  box-shadow: 4px 6px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 6px 8px 0 0 #000;
   width: 100%;
   max-width: 500px;
   height: 150px;

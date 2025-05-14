@@ -3,13 +3,13 @@ import styled from "styled-components"
 const FormWrapper = styled.form `
   border-radius: 3px;
   border: 1px solid var(--color-border);
-  box-shadow: 4px 6px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 6px 8px 0 0 #000;
   max-width: fit-content;
   margin: 0 auto;
   background-color: var(--color-background);
 
 
-  @media (min-width: 360px) {
+  @media (min-width: 480px) {
     display: flex; 
     flex-direction: column;
     gap: 10px; 
