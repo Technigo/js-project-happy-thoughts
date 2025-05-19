@@ -6,7 +6,12 @@ const handleLike = async (id) => {
         method: "POST",
       }
     );
-    return await response.json();
+    if (response.ok) {
+      return await response.json();
+    } else {
+      console.error("Failed to add heart 😞: Response not OK");
+      return null;
+    }
   } catch (error) {
     console.error("Unable to add heart 😞:", error);
     return null;

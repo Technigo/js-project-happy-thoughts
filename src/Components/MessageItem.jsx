@@ -46,7 +46,6 @@ const MessageItem = ({
             type="button"
             $heartCountColor={hearts}
             onClick={handleLikes}
-            disabled={hearts <= 0}
             aria-label={`Like this message. Current likes: ${hearts}`}
           >
             ❤️
