@@ -1,5 +1,7 @@
 import styled from "styled-components"
 import { useState } from "react"
+import TimeStamp from "../components/TimeStamp"
+import HeartsButton from "./HeartsButton"
 
 const FormContainer = styled.form`
   display: flex;
@@ -43,8 +45,24 @@ const MessageBoard = styled.div`
   }
 `
 
+const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  box-shadow: 8px 8px;
+  border: 2px solid black;
+  margin: 20px;
+
+  @media (min-width: 426px) {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
+  }
+`
+
 const FormButton = styled.button`
-  
   padding: 10px;
   background: #ffdbcdba;
   border: solid red;
@@ -59,6 +77,13 @@ const FormButton = styled.button`
     color: white;
     box-shadow: none;
   }
+`
+
+const BoardDetails = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 const Form = () => {
@@ -96,9 +121,16 @@ const Form = () => {
           ♥️ Share a happy thought! ♥️
           </FormButton>
       </FormContainer>
+
       <MessageBoard>
         <h2>The Happy Feed</h2>
-        <p>{submittedMessage}</p>
+          <CardContainer>
+            <p>{submittedMessage}</p>
+            <BoardDetails>
+              <HeartsButton />
+              <TimeStamp />
+            </BoardDetails>
+          </CardContainer>
       </MessageBoard>
   </>
   ) 
