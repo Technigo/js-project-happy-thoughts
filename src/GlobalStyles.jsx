@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    width: 100%;
+    width: 400px;
     margin: auto;
     margin-top: 40px;
     margin-bottom: 20px;

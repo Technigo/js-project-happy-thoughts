@@ -10,6 +10,10 @@ const FormContainer = styled.form`
   align-items: center;
   gap: 24px;
   margin-bottom: 24px;
+  background: #20b2abc4;
+  padding: 10px 20px;
+  box-shadow: 8px 8px;
+  border: 2px solid black;
 `
 
 const MessageBoard = styled.div`
@@ -34,6 +38,10 @@ const Form = () => {
       setMessageText('')
    }
 
+   const charCount = () => {
+    
+   }
+
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
@@ -45,6 +53,7 @@ const Form = () => {
             value={MessageText}
             placeholder=""
             />
+            <p>Characters: {charCount} / 140 </p>
         </label>
         <button
           type="sumbit"
