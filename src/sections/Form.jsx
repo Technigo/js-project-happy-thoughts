@@ -2,28 +2,63 @@ import styled from "styled-components"
 import { useState } from "react"
 
 const FormContainer = styled.form`
-  margin: 0 auto;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  max-width: 800px;
   align-items: center;
   gap: 24px;
-  margin-bottom: 24px;
-  background: #20b2abc4;
-  padding: 10px 20px;
+  background: #fabda5b3;
+  padding: 20px;
   box-shadow: 8px 8px;
   border: 2px solid black;
+  margin: 20px;
+
+  @media (min-width: 426px) {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
+  }
+`
+
+const FormTitle = styled.h2`
+  align-self: center;
+  font-size: 90%;
+  padding: 10px 0;
+
+  @media (min-width: 426px) {
+    font-size: 100%;
+  }
 `
 
 const MessageBoard = styled.div`
-  margin: 0 auto;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  max-width: 800px;
   align-items: center;
   gap: 24px;
+  padding: 20px;
+
+  @media (min-width: 426px) {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+  }
+`
+
+const FormButton = styled.button`
+  
+  padding: 10px;
+  background: #ffdbcdba;
+  border: solid red;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 0 3px 2px red;
+  
+
+  &:hover {
+    scale: 1.1;
+    border: solid white;
+    color: white;
+    box-shadow: none;
+  }
 `
 
 const Form = () => {
@@ -46,7 +81,7 @@ const Form = () => {
     <>
       <FormContainer onSubmit={handleSubmit}>
         <label htmlFor="">
-          <h2>What's making you happy right now?</h2>
+          <FormTitle>What's making you happy right now?</FormTitle>
           <textarea
             type="text"
             onChange={event => setMessageText(event.target.value)}
@@ -55,11 +90,11 @@ const Form = () => {
             />
             <p>Characters: {charCount} / 140 </p>
         </label>
-        <button
+        <FormButton
           type="sumbit"
           >
-          Share a happy thought!
-          </button>
+          ♥️ Share a happy thought! ♥️
+          </FormButton>
       </FormContainer>
       <MessageBoard>
         <h2>The Happy Feed</h2>
