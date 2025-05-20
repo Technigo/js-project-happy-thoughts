@@ -18,7 +18,6 @@ const App = () => {
       <Header />
       <Form />
       <MsgBoard />
-  
     </>
   )
 }

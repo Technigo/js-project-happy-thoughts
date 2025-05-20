@@ -40,10 +40,10 @@ export const MsgBoard = () => {
   return (
     <MessageBoard>
       {thoughts.map((e) => (
-        <CardContainer key={e} >{e.message}
+        <CardContainer key={e._id}>{e.message}
           <BoardDetails>
-              <HeartsButton />
-              <TimeStamp />
+              <HeartsButton  hearts={e.hearts}/>
+              <TimeStamp timeSubmitted={e.createdAt} />
           </BoardDetails>
         </CardContainer>
       ))}

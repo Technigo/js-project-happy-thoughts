@@ -18,13 +18,13 @@ const CountText = styled.p`
   color: #a2a3a4;
 `
 
-const HeartsButton = () => {
-  const [count, setCount] = useState(0)
+const HeartsButton = ({ hearts }) => {
+  const [count, setCount] = useState(hearts)
 
   return (
     <ButtonContainer> 
         <LikeButton
-          onClick={() => setCount((count) => count+1)}>♥️
+          onClick={() => setCount((prev) => prev+1)}>♥️
         </LikeButton>
         <CountText>x {count}</CountText>
       </ButtonContainer>

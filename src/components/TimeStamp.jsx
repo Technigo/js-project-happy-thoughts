@@ -5,9 +5,8 @@ const TimeStyle = styled.p`
   color: #a2a3a4;
 `
 
-const TimeStamp = () => {
-  const today = moment().format()
-  const msgTimeStamp = moment(today).fromNow()
+const TimeStamp = ({ timeSubmitted }) => {
+  const msgTimeStamp = moment(timeSubmitted).fromNow()
 
   return  <TimeStyle>{msgTimeStamp}</TimeStyle>
 }
