@@ -31,7 +31,7 @@ const FormTitle = styled.h2`
   }
 `
 
-const MessageBoard = styled.div`
+export const MessageBoard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,7 +45,7 @@ const MessageBoard = styled.div`
   }
 `
 
-const CardContainer = styled.div`
+export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,7 +79,7 @@ const FormButton = styled.button`
   }
 `
 
-const BoardDetails = styled.div`
+export const BoardDetails = styled.div`
   width: 100%;
   display: flex;
   align-items: center;

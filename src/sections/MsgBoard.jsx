@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react"
 import { Loader } from "../components/Loader"
+import { CardContainer, MessageBoard, BoardDetails } from "./Form"
+import HeartsButton from "./HeartsButton"
+import TimeStamp from "../components/TimeStamp"
+
 
 export const MsgBoard = () => {
   const [thoughts, setThoughts] = useState([])
@@ -34,11 +38,16 @@ export const MsgBoard = () => {
   } 
 
   return (
-    <div>
+    <MessageBoard>
       {thoughts.map((e) => (
-        <p>{e.message}</p>
+        <CardContainer key={e} >{e.message}
+          <BoardDetails>
+              <HeartsButton />
+              <TimeStamp />
+          </BoardDetails>
+        </CardContainer>
       ))}
-    </div>
+    </MessageBoard>
   )
 }
 
