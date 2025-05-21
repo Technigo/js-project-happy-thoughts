@@ -54,6 +54,11 @@ export const CardContainer = styled.div`
   box-shadow: 8px 8px;
   border: 2px solid black;
   margin: 20px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: normal;
+  width: 100%;
+  hyphens: auto;
 
   @media (min-width: 426px) {
     margin: 0 auto;
@@ -98,9 +103,7 @@ const Form = () => {
       setMessageText('')
    }
 
-   const charCount = () => {
-    
-   }
+   const msgLength = MessageText.length
 
   return (
     <>
@@ -113,13 +116,17 @@ const Form = () => {
             value={MessageText}
             placeholder=""
             />
-            <p>Characters: {charCount} / 140 </p>
+          <p>Characters: {msgLength} / 140</p>
         </label>
         <FormButton
-          type="sumbit"
+          type="submit"
+          disabled={msgLength < 5 || msgLength > 140}
           >
           ♥️ Share a happy thought! ♥️
           </FormButton>
+          {(msgLength < 5 || msgLength > 140) && (<p style={{ color: 'red'}}>
+            Message must be between 5 and 140 characters.
+          </p>)}
       </FormContainer>
 
       <MessageBoard>
