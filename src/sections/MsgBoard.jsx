@@ -3,6 +3,7 @@ import { Loader } from "../components/Loader"
 import { CardContainer, MessageBoard, BoardDetails } from "./Form"
 import HeartsButton from "./HeartsButton"
 import TimeStamp from "../components/TimeStamp"
+import BackToTop from "../components/BackToTop"
 
 
 export const MsgBoard = () => {
@@ -46,6 +47,7 @@ export const MsgBoard = () => {
           </BoardDetails>
         </CardContainer>
       ))}
+      <BackToTop />
     </MessageBoard>
   )
 }
