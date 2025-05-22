@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react"
-import { Loader } from "../components/Loader"
-import { CardContainer, MessageBoard, BoardDetails } from "./Form"
+import { CardContainer, MessageBoard, BoardDetails } from "../components/Styled-Comps"
 import HeartsButton from "./HeartsButton"
 import TimeStamp from "../components/TimeStamp"
 import BackToTop from "../components/BackToTop"
