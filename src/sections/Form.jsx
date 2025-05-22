@@ -23,6 +23,7 @@ const Form = ({ addNewThought }) => {
         const newThought = await response.json()
           addNewThought(newThought)
           setMessageText('')
+          
       } catch (error) {
         console.error("Error posting message:", error)
       }
