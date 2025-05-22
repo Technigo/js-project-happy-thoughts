@@ -1,22 +1,6 @@
 import { useState } from "react"
-import styled from "styled-components"
+import * as Styled from "../components/Styled-Comps"
 
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`
-
-const LikeButton = styled.button`
-  padding: 15px;
-  border-radius: 30px;
-  border: #b0b0b062;
-  background: #b0b0b062;
-`
-
-const CountText = styled.p`
-  color: #a2a3a4;
-`
 
 const HeartsButton = ({ hearts, id }) => {
   const [count, setCount] = useState(hearts)
@@ -42,12 +26,12 @@ const HeartsButton = ({ hearts, id }) => {
   }
 
   return (
-    <ButtonContainer> 
-        <LikeButton
+    <Styled.LikeButtonContainer> 
+        <Styled.LikeButton
           onClick={handleLike}>♥️
-        </LikeButton>
-        <CountText>x {count}</CountText>
-      </ButtonContainer>
+        </Styled.LikeButton>
+        <Styled.CountText>x {count}</Styled.CountText>
+      </Styled.LikeButtonContainer>
   )
 }
 

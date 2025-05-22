@@ -88,3 +88,20 @@ export const BoardDetails = styled.div`
   align-items: center;
   justify-content: space-between;
 `
+
+export const LikeButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+
+export const LikeButton = styled.button`
+  padding: 15px;
+  border-radius: 30px;
+  border: #b0b0b062;
+  background: #b0b0b062;
+`
+
+export const CountText = styled.p`
+  color: #a2a3a4;
+`
