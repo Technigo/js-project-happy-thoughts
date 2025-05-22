@@ -6,44 +6,14 @@ import TimeStamp from "../components/TimeStamp"
 import BackToTop from "../components/BackToTop"
 
 
-export const MsgBoard = () => {
-  const [thoughts, setThoughts] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  const url = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts"
-
-  const fetchAPI = async () => {
-    setLoading(true)
-    try {
-      const response = await fetch(url)
-      if (response.ok) {
-        const data = await response.json()
-        setThoughts(data)
-      }
-
-    } catch(error) {
-      console.log(error)
-
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchAPI()
-  }, [])
-
-  if (loading) {
-    return <Loader />
-  } 
-
+export const MsgBoard = ({ thoughts }) => {
   return (
     <MessageBoard>
-      {thoughts.map((e) => (
-        <CardContainer key={e._id}>{e.message}
+      {thoughts.map((t) => (
+        <CardContainer key={t._id}>{t.message}
           <BoardDetails>
-              <HeartsButton  hearts={e.hearts}/>
-              <TimeStamp timeSubmitted={e.createdAt} />
+              <HeartsButton  hearts={t.hearts} id={t._id}/>
+              <TimeStamp timeSubmitted={t.createdAt} />
           </BoardDetails>
         </CardContainer>
       ))}

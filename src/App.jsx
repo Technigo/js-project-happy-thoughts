@@ -1,23 +1,53 @@
 import { GlobalStyle } from "./GlobalStyles"
 import Header from "../src/sections/Header"
 import Form from "../src/sections/Form"
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { MsgBoard } from "./sections/MsgBoard"
+import { Loader } from "./components/Loader"
 
 const App = () => {
-  
-  
+
+  const [thoughts, setThoughts] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  const addNewThought = (newThought) => {
+    setThoughts(prev => [newThought, ...prev])
+  }
+
+  const url = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts"
+
+  const fetchAPI = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch(url)
+      if (response.ok) {
+        const data = await response.json()
+        setThoughts(data)
+      }
+
+    } catch(error) {
+      console.log(error)
+
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    console.log("mount")
-  })
+    fetchAPI()
+  }, [])
+
+  if (loading) {
+    return <Loader />
+  } 
  
 
   return (
     <>
       <GlobalStyle />
       <Header />
-      <Form />
-      <MsgBoard />
+      <Form addNewThought={addNewThought}/>
+      <MsgBoard thoughts={thoughts}/>
     </>
   )
 }

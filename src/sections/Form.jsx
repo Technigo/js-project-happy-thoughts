@@ -91,19 +91,32 @@ export const BoardDetails = styled.div`
   justify-content: space-between;
 `
 
-const Form = () => {
+const Form = (addNewThought) => {
 
    const [MessageText, setMessageText] = useState('')
-
-   const [submittedMessage, setSubmittedMessage] = useState()
-
-   const handleSubmit = (event) => {
-      event.preventDefault()
-      setSubmittedMessage(MessageText)
-      setMessageText('')
-   }
-
    const msgLength = MessageText.length
+
+   const handleSubmit = async (event) => {
+      event.preventDefault()    
+      
+      try {
+        const response = await fetch("https://technigo-thoughts.herokuapp.com/", {
+          method: "POST",
+          body: JSON.stringify({ message: MessageText }),
+          headers: { "Content-Type": "application/json" },
+        })
+
+        if (!response.ok) {
+          throw new Error("Failed to post message")
+        }
+
+        const newThought = await response.json()
+          addNewThought(newThought)
+          setMessageText('')
+      } catch (error) {
+        console.error("Error posting message:", error)
+      }
+    }
 
   return (
     <>
@@ -114,7 +127,7 @@ const Form = () => {
             type="text"
             onChange={event => setMessageText(event.target.value)}
             value={MessageText}
-            placeholder=""
+            placeholder="Hakuna Matata"
             />
           <p>Characters: {msgLength} / 140</p>
         </label>
@@ -124,22 +137,13 @@ const Form = () => {
           >
           ♥️ Share a happy thought! ♥️
           </FormButton>
-          {(msgLength < 5 || msgLength > 140) && (<p style={{ color: 'red'}}>
-            Message must be between 5 and 140 characters.
-          </p>)}
+          {(msgLength < 5 || msgLength > 140) && (
+            <p style={{ color: 'red'}}>
+              Message must be between 5 and 140 characters.
+            </p>
+          )}
       </FormContainer>
-
-      <MessageBoard>
-        <h2>The Happy Feed</h2>
-          <CardContainer>
-            <p>{submittedMessage}</p>
-            <BoardDetails>
-              <HeartsButton />
-              <TimeStamp />
-            </BoardDetails>
-          </CardContainer>
-      </MessageBoard>
-  </>
+    </>
   ) 
 }
 
