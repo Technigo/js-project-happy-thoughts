@@ -91,7 +91,7 @@ export const BoardDetails = styled.div`
   justify-content: space-between;
 `
 
-const Form = (addNewThought) => {
+const Form = ({ addNewThought }) => {
 
    const [MessageText, setMessageText] = useState('')
    const msgLength = MessageText.length
@@ -100,7 +100,7 @@ const Form = (addNewThought) => {
       event.preventDefault()    
       
       try {
-        const response = await fetch("https://technigo-thoughts.herokuapp.com/", {
+        const response = await fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
           method: "POST",
           body: JSON.stringify({ message: MessageText }),
           headers: { "Content-Type": "application/json" },
@@ -137,7 +137,7 @@ const Form = (addNewThought) => {
           >
           ♥️ Share a happy thought! ♥️
           </FormButton>
-          {(msgLength < 5 || msgLength > 140) && (
+          {msgLength > 0 && (msgLength < 5 || msgLength > 140) && (
             <p style={{ color: 'red'}}>
               Message must be between 5 and 140 characters.
             </p>
