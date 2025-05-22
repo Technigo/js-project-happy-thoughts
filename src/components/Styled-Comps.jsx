@@ -100,6 +100,24 @@ export const LikeButton = styled.button`
   border-radius: 30px;
   border: #b0b0b062;
   background: #b0b0b062;
+  transition: transform 0.6s ease;
+  perspective: 1000px; /* Needed for 3D effect */
+
+  &.spin {
+    animation: spinY 0.6s ease;
+  }
+
+  @keyframes spinY {
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(180deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
 `
 
 export const CountText = styled.p`

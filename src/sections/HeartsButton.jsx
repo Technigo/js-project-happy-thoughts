@@ -7,6 +7,12 @@ const HeartsButton = ({ hearts, id }) => {
 
   const handleLike = async (event) => {
     event.preventDefault()    
+
+    const button = event.currentTarget
+    button.classList.add("spin")
+    setTimeout(() => {
+      button.classList.remove("spin")
+    }, 600)
     
     try {
       const response = await fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
