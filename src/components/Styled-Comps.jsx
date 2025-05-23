@@ -7,15 +7,14 @@ export const FormContainer = styled.form`
   align-items: center;
   gap: 24px;
   background: #fabda5b3;
-  padding: 20px;
+  padding: 1.5rem;
   box-shadow: 8px 8px;
   border: 2px solid black;
   margin: 20px;
 
   @media (min-width: 426px) {
     margin: 0 auto;
-    width: 100%;
-    max-width: 900px;
+    max-width: 550px;
   }
 `
 
@@ -34,12 +33,12 @@ export const MessageBoard = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  padding: 20px;
+  padding: 1.5rem;
 
   @media (min-width: 426px) {
     margin: 0 auto;
     width: 100%;
-    max-width: 800px;
+    max-width: 500px;
   }
 `
 
@@ -48,15 +47,16 @@ export const CardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  padding: 20px;
+  padding: 1.5rem;
   box-shadow: 8px 8px;
   border: 2px solid black;
   margin: 20px;
   overflow-wrap: break-word;
-  word-wrap: break-word;
+  word-break: break-word;
   white-space: normal;
   width: 100%;
   hyphens: auto;
+  background-color: white;
 
   @media (min-width: 426px) {
     margin: 0 auto;
@@ -104,18 +104,27 @@ export const LikeButton = styled.button`
   perspective: 1000px; /* Needed for 3D effect */
 
   &.spin {
-    animation: spinY 0.6s ease;
+    animation: spinYColor 0.6s ease;
   }
 
-  @keyframes spinY {
+  @keyframes spinYColor {
     0% {
       transform: rotateY(0deg);
+      color: #b0b0b062;
+      border-color: #b0b0b062;
+      background: #b0b0b062;
     }
     50% {
       transform: rotateY(180deg);
+      color: red;          
+      border-color: red;
+      background: #ffdbcdba;
     }
     100% {
       transform: rotateY(360deg);
+      color: #b0b0b062; 
+      border-color: #b0b0b062;
+      background: #b0b0b062;
     }
   }
 `

@@ -8,10 +8,17 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    width: 400px;
-    margin: auto;
     margin-top: 40px;
     margin-bottom: 20px;
+    background: 
+    linear-gradient(
+        to bottom, 
+        rgba(255, 237, 230, 0.85), 
+        rgba(255, 237, 230, 0.3)
+      ),
+    url("pixel-heart.png") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #fff9f0;
   }
 
   a {
