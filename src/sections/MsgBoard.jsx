@@ -1,5 +1,5 @@
 import { CardContainer, MessageBoard, BoardDetails } from "../components/Styled-Comps"
-import HeartsButton from "./HeartsButton"
+import HeartsButton from "../components/HeartsButton"
 import TimeStamp from "../components/TimeStamp"
 import BackToTop from "../components/BackToTop"
 

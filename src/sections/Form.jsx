@@ -23,7 +23,7 @@ const Form = ({ addNewThought }) => {
         const newThought = await response.json()
           addNewThought(newThought)
           setMessageText('')
-          
+
       } catch (error) {
         console.error("Error posting message:", error)
       }
@@ -32,9 +32,10 @@ const Form = ({ addNewThought }) => {
   return (
     <>
       <Styled.FormContainer onSubmit={handleSubmit}>
-        <label htmlFor="">
+        <label aria-labelledby="message">
           <Styled.FormTitle>What's making you happy right now?</Styled.FormTitle>
-          <textarea
+          <Styled.MessageInput
+            id="message"
             type="text"
             onChange={event => setMessageText(event.target.value)}
             value={MessageText}

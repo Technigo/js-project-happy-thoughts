@@ -4,7 +4,7 @@ import styled from "styled-components"
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   gap: 24px;
   background: #fabda5b3;
   padding: 1.5rem;
@@ -19,13 +19,25 @@ export const FormContainer = styled.form`
 `
 
 export const FormTitle = styled.h2`
-  align-self: center;
   font-size: 90%;
   padding: 10px 0;
 
   @media (min-width: 426px) {
     font-size: 100%;
   }
+`
+
+export const MessageInput = styled.textarea`
+  width: 100%;           
+  padding: 12px 16px;     
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 100px;
+  box-sizing: border-box;
+  font-family: inherit;
+  margin-top: 8px;
 `
 
 export const MessageBoard = styled.div`
@@ -45,7 +57,6 @@ export const MessageBoard = styled.div`
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 24px;
   padding: 1.5rem;
   box-shadow: 8px 8px;

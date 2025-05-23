@@ -1,5 +1,5 @@
 import { useState } from "react"
-import * as Styled from "../components/Styled-Comps"
+import * as Styled from "./Styled-Comps"
 
 
 const HeartsButton = ({ hearts, id }) => {
