@@ -10,12 +10,14 @@ const scrollingTitle = keyframes`
   }
 `
 const TitleContainer = styled.div`
-  overflow: hidden;
-  white-space: nowrap;
-`
-const Title = styled.h1`
   margin: 0 auto;
   width: 100%;
+  width: clamp(300px, 80%, 600px);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0 1rem;
+`
+const Title = styled.h1`
   text-align: center;
   padding: 2rem 1rem;
   animation: ${scrollingTitle} 10s linear infinite;
