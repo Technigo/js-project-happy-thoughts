@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../styles/media';
 
 const Badge = styled.div`
   margin: 10px 0 20px 0;
@@ -12,12 +13,12 @@ const Badge = styled.div`
   align-items: center;
   gap: 8px;
 
-  @media (max-width: 480px) {
+  @media ${device.mobile} {
     padding: 6px 14px;
     font-size: 0.95rem;
   }
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     padding: 5px 12px;
     font-size: 0.9rem;
     gap: 6px;

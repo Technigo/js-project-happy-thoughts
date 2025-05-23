@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CharacterCount from './CharacterCount';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
+import { device } from '../styles/media';
 
 const FormContainer = styled.form`
   background: #f5f5f5;
@@ -14,11 +15,11 @@ const FormContainer = styled.form`
   max-width: 500px;
   width: 100%;
 
-  @media (max-width: 480px) {
+  @media ${device.mobile} {
     padding: 15px;
   }
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     padding: 12px;
   }
 `;
@@ -28,7 +29,7 @@ const Title = styled.h2`
   font-size: 1.2rem;
   color: #333;
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     font-size: 1.1rem;
   }
 `;
@@ -46,7 +47,7 @@ const TextArea = styled.textarea`
   overflow-wrap: break-word;
   word-break: break-word;
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     padding: 8px;
     font-size: 0.95rem;
     min-height: 70px;
@@ -60,7 +61,7 @@ const FormFooter = styled.div`
   align-items: flex-start;
   width: 100%;
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     gap: 8px;
   }
 `;

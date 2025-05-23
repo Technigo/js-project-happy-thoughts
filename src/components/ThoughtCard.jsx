@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Timestamp from './Timestamp';
 import Button from './Button';
+import { device } from '../styles/media';
 
 const LikeButtonWrapper = styled.div`
   display: inline-flex;
@@ -12,7 +13,7 @@ const LikeButtonWrapper = styled.div`
   background: ${props => props.$liked ? '#fff0f5' : 'none'};
   margin-right: 8px;
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     width: 36px;
     height: 36px;
     margin-right: 6px;
@@ -29,12 +30,12 @@ const Card = styled.div`
   max-width: 500px;
   width: 100%;
 
-  @media (max-width: 480px) {
+  @media ${device.mobile} {
     padding: 15px;
     margin-bottom: 15px;
   }
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     padding: 12px;
     margin-bottom: 12px;
     box-shadow: 4px 4px 0 #000;
@@ -51,7 +52,7 @@ const Message = styled.p`
   word-break: break-word;
   max-width: 100%;
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     font-size: 0.95rem;
     margin-bottom: 12px;
   }
@@ -64,7 +65,7 @@ const CardFooter = styled.div`
   flex-wrap: wrap;
   gap: 8px;
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     gap: 6px;
   }
 `;
@@ -75,7 +76,7 @@ const LeftGroup = styled.div`
   gap: 8px;
   flex-wrap: wrap;
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     gap: 6px;
   }
 `;

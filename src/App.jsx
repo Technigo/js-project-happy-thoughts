@@ -6,6 +6,7 @@ import ErrorMessage from './components/ErrorMessage';
 import LikedBadge from './components/LikedBadge';
 import HeroSection from './components/HeroSection';
 import GlobalStyle from './styles/GlobalStyles';
+import { device } from './styles/media';
 import { useThoughts } from './hooks/useThoughts';
 import { useLikedThoughts } from './hooks/useLikedThoughts';
 
@@ -19,15 +20,15 @@ const AppContainer = styled.div`
   min-height: 100vh;
   width: 100%;
 
-  @media (max-width: 768px) {
+  @media ${device.tablet} {
     padding: 15px;
   }
 
-  @media (max-width: 480px) {
+  @media ${device.mobile} {
     padding: 10px;
   }
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     padding: 8px;
   }
 `;

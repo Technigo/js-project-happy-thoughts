@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../styles/media';
 
 const Title = styled.h1`
   font-size: 6rem;
@@ -7,15 +8,15 @@ const Title = styled.h1`
   margin: 2rem 0;
   text-align: center;
 
-  @media (max-width: 768px) {
+  @media ${device.tablet} {
     font-size: 4rem;
   }
 
-  @media (max-width: 480px) {
+  @media ${device.mobile} {
     font-size: 3rem;
   }
 
-  @media (max-width: 320px) {
+  @media ${device.smallMobile} {
     font-size: 2.5rem;
   }
 `;
