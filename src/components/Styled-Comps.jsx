@@ -83,6 +83,7 @@ export const FormButton = styled.button`
   border-radius: 20px;
   font-weight: bold;
   box-shadow: 0 3px 2px red;
+  width: fit-content;
   
 
   &:hover {
