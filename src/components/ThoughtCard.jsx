@@ -9,7 +9,7 @@ const LikeButtonWrapper = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${props => props.$liked ? '#ffb6c1' : '#fff0f5'};
+  background: ${props => props.$liked ? '#fff0f5' : 'none'};
   margin-right: 8px;
 
   @media (max-width: 320px) {
@@ -87,7 +87,7 @@ const ThoughtCard = ({ message, createdAt, hearts = 0, _id, onLike, liked }) => 
       <CardFooter>
         <LeftGroup>
           <LikeButtonWrapper $liked={liked}>
-            <Button circle onClick={() => onLike(_id)}>
+            <Button circle onClick={() => onLike(_id)} disabled={liked} $liked={liked}>
               ❤️
             </Button>
           </LikeButtonWrapper>

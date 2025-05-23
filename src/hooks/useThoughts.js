@@ -52,7 +52,7 @@ export const useThoughts = () => {
 
   // Like a thought
   const handleLike = (thoughtId) => {
-    fetch(`${API_URL}/${thoughtId}/like`, {
+    return fetch(`${API_URL}/${thoughtId}/like`, {
       method: 'POST',
     })
       .then((res) => res.json())
