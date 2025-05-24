@@ -5,8 +5,18 @@ body {
   background: #f9f9f9;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 1rem 1rem 1rem;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
 h1 {
-  margin: 3rem 0;
+  font-size: 1.5rem;
+  margin: 1rem 0;
   text-align: center;
 }
 
@@ -15,9 +25,36 @@ h1 {
   height: auto;
 }
 
-.app-container {
+.outer-wrapper {
   max-width: 500px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
+
+.app-container {
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #FFA0C1;
+  margin-bottom: 1rem;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.7);
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 4rem;
+ }
+ 
+ .message-card {
+   width: 100%;
+   padding: 1rem;
+   box-sizing: border-box;
+   background: white;
+   border: 1px solid #FFA0C1;
+   word-break: break-word;
+   box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.7);
+ }
 
 .message-form {
   display: flex;
@@ -34,18 +71,18 @@ h1 {
   border: 1px solid #ccc;
 }
 
-.message-form textarea {
-  outline-color: rgb(186, 186, 186);
+.message-form textarea::placeholder {
+  color: #bbbbbb;
 }
 
 .message-form button {
-  width: 40%;
+  width: 100%;
   padding: 0.5rem;
   font-size: 1rem;
-  background-color: #fb90ff;
+  background-color: #FFA0C1;
   border: none;
   border-radius: 8px;
-  color: 1e1e1e;
+  color: #1e1e1e;
   cursor: pointer;
   transition: background 0.3s ease;
 }

@@ -12,15 +12,18 @@ const App = () => {
 
   return (
     <>
-      <h1>Happy Thoughts</h1>
-      <div className="app-container container-width">
-        <p>What makes you happy right now?</p>
-        <MessageForm onAddMessage={addMessage} />
-        {messages.length >= 3 && <p className="hit-3">You hit 3! 🎉</p>}
-      </div>
-      <div className="message-container message-section">
-        <MessageList messages={messages} />
-      </div>
+      <div className="header">
+        <h1>Happy Thoughts</h1>
+        <img src="./src/assets/images/Sharing_thoughts.png" alt="Sharing thoughts" />
+        </div>
+        <div className="outer-wrapper"></div>
+          <div className="app-container">
+            <p>What makes you happy right now?</p>
+            <MessageForm onAddMessage={addMessage} />
+          </div>
+          <div className="message-container">
+            <MessageList messages={messages} />
+          </div>
     </>
   );
 };
