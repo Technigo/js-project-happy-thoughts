@@ -10,6 +10,11 @@ h1 {
   text-align: center;
 }
 
+.header img {
+  width: 70px;
+  height: auto;
+}
+
 .app-container {
   max-width: 500px;
 }
@@ -94,6 +99,12 @@ h1 {
 }
 
 /* Responsive design */
+@media (min-width: 400px) {
+  .header img {
+    width: 80px;
+  }
+}
+
 @media (max-width: 600px) {
   .app-container {
     padding: 1rem;
