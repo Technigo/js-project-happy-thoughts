@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import MessageForm from './components/MessageForm';
 import MessageList from './components//MessageList';
+import sharingImage from './assets/images/Sharing_thoughts.png';
 import './App.css';
 
 const App = () => {
@@ -47,7 +48,7 @@ const App = () => {
     <>
       <div className="header">
         <h1>Happy Thoughts</h1>
-        <img src="./src/assets/images/Sharing_thoughts.png" alt="Sharing thoughts" />
+        <img src={sharingImage} alt="Sharing thoughts" />
       </div>
       <div className="outer-wrapper">
         <div className="app-container">
