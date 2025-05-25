@@ -96,47 +96,68 @@ h1 {
   gap: 1rem;
 }
 
-.message-card {
-  width: 500px;
-  background: white;
-  padding: 2rem;
-  text-align: left;
-  border: 1px solid rgb(219, 103, 219);
-  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.7);
+.message-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
-.container-width {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  border: 1px solid rgb(219, 103, 219);
-  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.7);
+.like-button {
+  background-color: rgb(233, 233, 233);
+  border: 1px solid rgb(233, 233, 233);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
 }
 
-.message-container {
-  margin: 0 auto;
-  max-width: 600px;
+/* When liked or enabled */
+.like-button.liked {
+  background-color: #FFA0C1; /* pink */
+  border-color: #FFA0C1;
 }
 
-.message-section {
-  margin-top: 3rem;
+.like-count {
+  margin-left: 8px;
+  font-size: 1rem;
+  color:grey;
+}
+
+.time-ago {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: grey;
 }
 
 .message-card small {
+  font-size: 0.9rem;
+  font-weight: 300;
   display: block;
-  margin-top: 0.5rem;
-  color: #666;
+  margin-top: 1rem;
+  color: grey;
 }
 
-/* Message when user hits 10 messages */
-.hit-3 {
-  font-weight: bold;
-  color: #ff4b7d;
+.message-card small {
+  font-size: 0.9rem;
+  font-weight: 300;
+  display: block;
+  margin-top: 1rem;
+  color: grey;
 }
+
 
 /* Responsive design */
 @media (min-width: 400px) {
+  .header h1 {
+    font-size: 2rem;
+    margin: 2rem 0;
+  }
+
   .header img {
     width: 80px;
   }
@@ -152,8 +173,24 @@ h1 {
   }
 }
 
-@media (min-width: 1600px) {
-  .app-container {
-    max-width: 800px;
+@media (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    justify-content: center;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .header h1 {
+    font-size: 2.25rem;
+    margin: 2rem 0;
+  }
+
+  .header img {
+    width: 100px;
+  }
+
+  .message-form button {
+    width: 50%;
   }
 }
