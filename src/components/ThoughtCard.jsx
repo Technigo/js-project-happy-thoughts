@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { format, formatDistanceToNow, isToday } from 'date-fns';
 
 const appear = keyframes`
   from {
@@ -64,14 +65,10 @@ const Button = styled.button`
 
 function ThoughtCard({ id, message, likes, createdAt, onLike, liking, error }) {
   const date = new Date(createdAt);
-  const formatted = date.toLocaleString('sv-SE', {
-    weekday: 'long', // veckodag, t.ex. "fredag"
-    hour: '2-digit', // tvåsiffrig timme
-    minute: '2-digit', // tvåsiffrig minut
-    hour12: false, // 24-timarsformat
-  });
-  // Kapitalisera första bokstaven:
-  const display = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+
+  const displayTime = isToday(date)
+    ? `Today ${format(date, 'h:mm a')}` // t.ex. “Today 12:30 PM”
+    : formatDistanceToNow(date, { addSuffix: true }); // t.ex. “2 days ago”
 
   return (
     <Card>
@@ -84,7 +81,7 @@ function ThoughtCard({ id, message, likes, createdAt, onLike, liking, error }) {
           <span>x</span>
           <span>{likes}</span>
         </CardLike>
-        <CardTime>{display}</CardTime>
+        <CardTime>{displayTime}</CardTime>
       </CardContent>
       {error && <ErrorMsg>Gilla misslyckades</ErrorMsg>}
     </Card>
