@@ -44,7 +44,7 @@ export const useLikeSystem = (thoughtId, initialHearts) => {
     updateLocalStorage(true)
 
     // Make API call for likes
-    const endpoint = `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${thoughtId}/like`
+    const endpoint = `https://happy-thoughts-api-4ful.onrender.com/${thoughtId}/like`
 
     fetch(endpoint, {
       method: 'POST',
