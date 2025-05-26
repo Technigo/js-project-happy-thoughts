@@ -4,7 +4,7 @@
 
 # High-level map of "Happy Thoughts"
 
-Here’s a high-level map of your “Happy Thoughts” app and how the pieces fit together:
+Here’s a high-level map of the “Happy Thoughts” app and how the pieces fit together:
 
 1. App.jsx  
    • Root of your UI.  
@@ -63,3 +63,7 @@ Here’s a high-level map of your “Happy Thoughts” app and how the pieces fi
 6. App re-renders, the new `<Thought/>` appears at the top.
 
 Everything that talks to the network lives in api.js; your custom hooks handle orchestration (state, optimistic updates, duplicate prevention), and components render the UI and wire user events back into those hooks.
+
+## New API
+
+https://happy-thoughts-api-4ful.onrender.com/ (not implemented yet)
