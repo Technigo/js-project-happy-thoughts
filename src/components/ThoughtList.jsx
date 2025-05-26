@@ -15,13 +15,13 @@ const ListWrapper = styled.div`
 function ThoughtList({ thoughts, onLike, liking, likeError }) {
   return (
     <ListWrapper>
-      {thoughts.map((thought) => (
+      {thoughts.map(({ id, text, hearts, createdAt }) => (
         <ThoughtCard
-          key={thought.id}
-          id={thought.id}
-          message={thought.text}
-          ikes={thought.hearts}
-          createdAt={thought.createdAt}
+          key={id} // ← Här måste du ha en unik key!
+          id={id}
+          message={text}
+          likes={hearts}
+          createdAt={createdAt}
           onLike={onLike}
           liking={liking}
           error={likeError}

@@ -8,9 +8,15 @@ function usePostThought(onSuccess) {
   const sendThought = (message) => {
     setPosting(true);
     postThought(message)
-      .then((newThought) => {
+      .then((t) => {
+        const mapped = {
+          id: t._id,
+          text: t.message,
+          hearts: t.hearts,
+          createdAt: t.createdAt,
+        };
         setError(null);
-        onSuccess(newThought); // <-- skicka vidare just det nya objektet
+        onSuccess(mapped);
       })
       .catch((error) => setError(error.message))
       .finally(() => setPosting(false));

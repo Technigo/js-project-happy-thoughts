@@ -5,21 +5,25 @@ function useLikeThought(onSuccess) {
   const [error, setError] = useState(null);
   const [liking, setLiking] = useState(false);
 
-  const likeThought = (id) => {
+  const like = (id) => {
     setLiking(true);
     setError(null);
 
     PostLikeThought(id)
-      .then((updatedThought) => {
-        onSuccess(updatedThought);
+      .then((t) => {
+        const mapped = {
+          id: t._id,
+          text: t.message,
+          hearts: t.hearts,
+          createdAt: t.createdAt,
+        };
+        onSuccess(mapped);
       })
-      .catch((error) => {
-        setError(error.message);
-      })
+      .catch((err) => setError(err.message))
       .finally(() => setLiking(false));
   };
 
-  return { likeThought, loading: liking, error };
+  return { like, loading: liking, error };
 }
 
 export default useLikeThought;

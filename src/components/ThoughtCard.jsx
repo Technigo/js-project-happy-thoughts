@@ -63,6 +63,16 @@ const Button = styled.button`
 `;
 
 function ThoughtCard({ id, message, likes, createdAt, onLike, liking, error }) {
+  const date = new Date(createdAt);
+  const formatted = date.toLocaleString('sv-SE', {
+    weekday: 'long', // veckodag, t.ex. "fredag"
+    hour: '2-digit', // tvåsiffrig timme
+    minute: '2-digit', // tvåsiffrig minut
+    hour12: false, // 24-timarsformat
+  });
+  // Kapitalisera första bokstaven:
+  const display = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+
   return (
     <Card>
       <Message>{message}</Message>
@@ -72,9 +82,9 @@ function ThoughtCard({ id, message, likes, createdAt, onLike, liking, error }) {
             <img src='/heart.png' alt='heart emoji' />
           </Button>
           <span>x</span>
-          <p>{likes}</p>
+          <span>{likes}</span>
         </CardLike>
-        <CardTime>{new Date(createdAt).toLocaleTimeString()}</CardTime>
+        <CardTime>{display}</CardTime>
       </CardContent>
       {error && <ErrorMsg>Gilla misslyckades</ErrorMsg>}
     </Card>

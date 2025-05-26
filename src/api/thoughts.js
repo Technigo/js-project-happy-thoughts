@@ -1,4 +1,4 @@
-const API_URL = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts';
+const API_URL = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
 
 export const fetchThoughts = async () => {
   const response = await fetch(`${API_URL}`);
