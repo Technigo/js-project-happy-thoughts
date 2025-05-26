@@ -40,4 +40,4 @@ Check out the live website at [Happy Thoughts on Netlify](https://happy-thoughts
 - Support for filtering or searching thoughts
 - Internationalization support (i18n)
 
-© 2025 Happy Thoughts App. All Rights Reserved. | Developed & Designed by DevByRico
+© 2025 Happy Thoughts App. All Rights Reserved. | Developed & Designed by [DevByRico]
