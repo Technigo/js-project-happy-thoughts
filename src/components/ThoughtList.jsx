@@ -12,11 +12,20 @@ const ListWrapper = styled.div`
   }
 `;
 
-function ThoughtList({ thoughts }) {
+function ThoughtList({ thoughts, onLike, liking, likeError }) {
   return (
     <ListWrapper>
-      {thoughts.map(({ id, text }) => (
-        <ThoughtCard key={id} message={text} />
+      {thoughts.map((thought) => (
+        <ThoughtCard
+          key={thought.id}
+          id={thought.id}
+          message={thought.text}
+          ikes={thought.hearts}
+          createdAt={thought.createdAt}
+          onLike={onLike}
+          liking={liking}
+          error={likeError}
+        />
       ))}
     </ListWrapper>
   );

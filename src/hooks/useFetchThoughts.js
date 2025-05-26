@@ -1,4 +1,4 @@
-import { fetchThought } from '../api/thoughts';
+import { fetchThoughts } from '../api/thoughts';
 import { useState, useEffect } from 'react';
 
 function useFetchThought() {
@@ -8,7 +8,7 @@ function useFetchThought() {
 
   const reload = () => {
     setLoading(true);
-    fetchThought()
+    fetchThoughts()
       .then((data) => {
         setThoughts(data);
         setError(null);

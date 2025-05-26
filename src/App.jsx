@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import ThoughtForm from './components/ThoughtForm';
-import ThoughtList from './components/ThoughtList';
+import ThoughtsBoard from './containers/ThoughtsBoard';
 
 const AppWrapper = styled.div`
   max-width: 700px;
@@ -24,30 +22,14 @@ const LayoutWrapper = styled.div`
 `;
 
 export const App = () => {
-  const [thoughts, setThoughts] = useState([]);
-
-  //Testa setThouts
-  useEffect(() => {
-    console.log('Uppdaterade thoughts:', thoughts);
-  }, [thoughts]);
-
-  const handleNewThought = (message) => {
-    const newThought = {
-      id: crypto.randomUUID(), //unikt id vid ev ta bort etc senare
-      text: message,
-    };
-    setThoughts((currentThoughts) => [newThought, ...currentThoughts]);
-  };
-
   return (
     <AppWrapper>
       <LayoutWrapper>
-        <ThoughtForm onNewThought={handleNewThought} />
+        <ThoughtsBoard />
         <p>
           Currently under construction – soon to be powered by Technigo’s Happy
           Thoughts API!
         </p>
-        <ThoughtList thoughts={thoughts} />
       </LayoutWrapper>
     </AppWrapper>
   );

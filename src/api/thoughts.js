@@ -1,6 +1,6 @@
 const API_URL = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts';
 
-export const fetchThought = async () => {
+export const fetchThoughts = async () => {
   const response = await fetch(`${API_URL}`);
   if (!response.ok) throw new Error('Failed to fetch thoughts');
   return response.json();

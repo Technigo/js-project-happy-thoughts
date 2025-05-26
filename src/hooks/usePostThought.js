@@ -3,20 +3,20 @@ import { useState } from 'react';
 
 function usePostThought(onSuccess) {
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [posting, setPosting] = useState(false);
 
   const sendThought = (message) => {
-    setLoading(true);
+    setPosting(true);
     postThought(message)
       .then((newThought) => {
         setError(null);
         onSuccess(newThought); // <-- skicka vidare just det nya objektet
       })
       .catch((error) => setError(error.message))
-      .finally(() => setLoading(false));
+      .finally(() => setPosting(false));
   };
 
-  return { sendThought, loading, error };
+  return { sendThought, loading: posting, error };
 }
 
 export default usePostThought;

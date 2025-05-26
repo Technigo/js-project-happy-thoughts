@@ -51,6 +51,10 @@ const Button = styled.button`
   height: 3rem;
   width: 3rem;
   cursor: pointer;
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 
   img {
     width: 1.3rem;
@@ -58,20 +62,21 @@ const Button = styled.button`
   }
 `;
 
-function ThoughtCard({ message }) {
+function ThoughtCard({ id, message, likes, createdAt, onLike, liking, error }) {
   return (
     <Card>
       <Message>{message}</Message>
       <CardContent>
         <CardLike>
-          <Button>
+          <Button onClick={() => onLike(id)} disabled={liking}>
             <img src='/heart.png' alt='heart emoji' />
           </Button>
           <span>x</span>
-          <p>10</p>
+          <p>{likes}</p>
         </CardLike>
-        <CardTime>15 minutes ago</CardTime>
+        <CardTime>{new Date(createdAt).toLocaleTimeString()}</CardTime>
       </CardContent>
+      {error && <ErrorMsg>Gilla misslyckades</ErrorMsg>}
     </Card>
   );
 }

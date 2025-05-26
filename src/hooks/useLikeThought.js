@@ -3,10 +3,10 @@ import { useState } from 'react';
 
 function useLikeThought(onSuccess) {
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [liking, setLiking] = useState(false);
 
   const likeThought = (id) => {
-    setLoading(true);
+    setLiking(true);
     setError(null);
 
     PostLikeThought(id)
@@ -16,10 +16,10 @@ function useLikeThought(onSuccess) {
       .catch((error) => {
         setError(error.message);
       })
-      .finally(() => setLoading(false));
+      .finally(() => setLiking(false));
   };
 
-  return { likeThought, loading, error };
+  return { likeThought, loading: liking, error };
 }
 
 export default useLikeThought;

@@ -44,7 +44,7 @@ const Button = styled.button`
   }
 `;
 
-function ThoughtForm({ onNewThought }) {
+function ThoughtForm({ onNewThought, disbaled, error }) {
   const [input, setInput] = useState('');
 
   const handleSubmit = (e) => {
@@ -63,11 +63,13 @@ function ThoughtForm({ onNewThought }) {
         onChange={(e) => setInput(e.target.value)}
         placeholder='Share a happy thought...'
       ></Textarea>
-      <Button type='submit'>
+      <Button type='submit' disabled={disbaled}>
+        {/* {disabled ? 'Sending…' : 'Send'} */}
         <img src='/heart.png' alt='heart emoji' />
         Send Happy Thought
         <img src='/heart.png' alt='heart emoji' />
       </Button>
+      {error && <p>{error}</p>}
     </Form>
   );
 }
