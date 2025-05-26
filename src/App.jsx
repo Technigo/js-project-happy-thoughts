@@ -10,7 +10,7 @@ const App = () => {
 
   const fetchThoughts = () => {
     setLoading(true);
-    fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts')
+    fetch('https://happy-thoughts-api-4ful.onrender.com/thoughts')
       .then(res => res.json())
       .then(data => {
         setMessages(data.slice(0, 5));
@@ -31,7 +31,7 @@ const App = () => {
   };
 
   const handleLike = (id) => {
-    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
+    fetch(`https://happy-thoughts-api-4ful.onrender.com/thoughts/${id}/like`, {
       method: 'POST'
     })
       .then(res => res.json())
