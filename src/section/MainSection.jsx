@@ -11,7 +11,7 @@ export const MainSection = () => {
   const [apiError, setApiError] = useState("")
   const [likedCount, setLikedCount] = useState(0)
 
-  const url = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts"
+  const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
 
   const fetchData = () => {
     setIsLoading(true)
