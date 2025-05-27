@@ -15,7 +15,7 @@ const HeartsButton = ({ hearts, id }) => {
     }, 600)
     
     try {
-      const response = await fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
+      const response = await fetch(`https://happy-thoughts-api-4ful.onrender.com/thoughts/${id}/like`, {
         method: "POST",
       })
 
