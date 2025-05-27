@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import MessageList from "./components/MessageList";
 import MessageForm from "./components/MessageForm";
-import handleLike from "./components/HandlesLikes";
+import handleLike from "./components/HandlesLike";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { Footer } from "./styles/Footer";
 
