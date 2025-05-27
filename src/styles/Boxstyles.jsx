@@ -28,7 +28,12 @@ const BoxStyle = styled.form`
   box-shadow: 8px 8px 0px 0px black;
   margin: 2rem 0;
   align-self: center;
-  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  hyphens: auto;
+
   p {
     font-family: "Avenir", sans-serif;
     font-weight: 500;

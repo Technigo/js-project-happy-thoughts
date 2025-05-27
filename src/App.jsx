@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import MessageList from "./Components/MessageList";
-import MessageForm from "./Components/MessageForm";
-import { FooterStyles } from "./Components/FooterStyles";
-import handleLike from "./Components/HandlesLikes";
-import LoadingSpinner from "./Components/LoadingSpinner";
+import MessageList from "./components/MessageList";
+import MessageForm from "./components/MessageForm";
+import { Footer } from "./styles/Footer";
+import handleLike from "./components/HandlesLikes";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 export const App = () => {
   const [thoughts, setThoughts] = useState([]);
@@ -59,7 +59,7 @@ export const App = () => {
           </>
         )}
       </main>
-      <FooterStyles>
+      <Footer>
         <div>
           Made with ❤️ by{" "}
           <a
@@ -70,7 +70,7 @@ export const App = () => {
             <p>Jonny Hicks </p>
           </a>
         </div>
-      </FooterStyles>
+      </Footer>
     </>
   );
 };

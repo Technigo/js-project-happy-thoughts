@@ -1,4 +1,4 @@
-import { PinkButton, BoxStyle, BoxFooterStyle } from "./Boxstyles";
+import { PinkButton, BoxStyle, BoxFooterStyle } from "../styles/Boxstyles";
 import styled from "styled-components";
 import { DateTime } from "luxon";
 

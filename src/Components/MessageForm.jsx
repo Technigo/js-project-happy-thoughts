@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PinkButton, BoxStyle, TextAreaStyle } from "./Boxstyles";
+import { PinkButton, BoxStyle, TextAreaStyle } from "../styles/Boxstyles";
 
 const MessageForm = ({ onSubmit }) => {
   const [message, setMessage] = useState("");
@@ -13,7 +13,7 @@ const MessageForm = ({ onSubmit }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true); // Set loading state to true
-    fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
+    fetch("https://happy-thoughts-api-4ful.onrender.com//thoughts", {
       method: "POST",
       body: JSON.stringify({ message }),
       headers: { "Content-Type": "application/json" },
