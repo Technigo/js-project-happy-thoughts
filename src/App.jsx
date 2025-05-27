@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import MessageList from "./components/MessageList";
+import MessageList from "./components/MessageListData";
 import MessageForm from "./components/MessageForm";
 import { Footer } from "./styles/Footer";
 import handleLike from "./components/HandlesLikes";
