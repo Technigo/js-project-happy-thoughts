@@ -26,7 +26,7 @@ const FlareIcon = styled.span`
   ${({ $show }) =>
     $show &&
     css`
-      animation: ${flare} 1.2s ease-out;
+      animation: ${flare} 1.5s ease-out;
       opacity: 1;
     `}
 `
@@ -34,7 +34,7 @@ const StyledButton = styled.button`
     padding: 10px;
     cursor: pointer;
     border-radius: 50%;
-    background-color: ${(props) => (props.hasLiked ? "#f78a8a" : "#ccc")} ;
+    background-color: ${(props) => (props.$hasLiked ? "#f78a8a" : "#ccc")} ;
     border: none;
     margin-right: 5px;
   `
@@ -93,7 +93,7 @@ const MessageItem = ({ text, createdAt, isNewest, likes, onLike }) => {
       {isNewest && <FlareIcon $show={showFlare}>✨</FlareIcon>}
       <p>{text}</p>
       <StyledLikeContainer>
-        <p> <StyledButton hasLiked={hasLiked} onClick={onLike}>❤️  </StyledButton>
+        <p> <StyledButton $hasLiked={hasLiked} onClick={onLike}>❤️  </StyledButton>
           x {likes}  </p>
         <p>{timeAgo(createdAt)}</p>
       </StyledLikeContainer>

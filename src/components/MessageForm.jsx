@@ -39,7 +39,6 @@ const StyledForm = styled.form`
 `
 
 
-
 const MessageForm = ({ messageText, setMessageText, onSubmit }) => {
   return (
     <StyledForm onSubmit={onSubmit}>
