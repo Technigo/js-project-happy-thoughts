@@ -1,6 +1,6 @@
-import { useState } from "react"
-import styled from "styled-components"
-import moment from "moment"
+import { useState } from "react";
+import styled from "styled-components";
+import moment from "moment";
 
 const CardWrapper = styled.section`
   display: flex;
@@ -15,7 +15,7 @@ const CardWrapper = styled.section`
   gap: 15px;
   margin: 20px auto;
   background-color: var(--color-background);
-`
+`;
 
 const MessageText = styled.p`
   font-size: 16px;
@@ -27,7 +27,7 @@ const MessageText = styled.p`
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
-`
+`;
 
 const FooterContainer = styled.div`
   display: flex;
@@ -35,14 +35,13 @@ const FooterContainer = styled.div`
   width: 100%;
   padding: 0 5px;
   margin-top: auto;
-`
+`;
 
-const LikeWrapper = styled.div `
+const LikeWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-
-`
+`;
 
 const Button = styled.button`
   background-color: var(--color-likebutton);
@@ -59,49 +58,50 @@ const Button = styled.button`
   &:focus {
     background-color: var(--color-button);
   }
-`
-const Paragraph = styled.div `
-font-size: 12px;
-color: var(--color-text);
-margin-top: 5px;
-margin-bottom: 20px;
-
-`
-const TimeStamp = styled.div`
+`;
+const Paragraph = styled.div`
+  font-size: 12px;
+  color: var(--color-text);
+  margin-top: 5px;
+  margin-bottom: 20px;
+`;
+const TimeStamp = styled.time`
   font-size: 12px;
   color: var(--color-text);
   margin-right: 10px;
   margin-top: 15px;
   margin-bottom: 5px;
-`
+`;
 
-const MessageCard = ({ message }) => { //receive message (like,time,message)
-const [likes, setLikes] = useState(message.hearts || 0) //tracks likes + update
+const MessageCard = ({ message }) => {
+  //receive message (like,time,message)
+  const [likes, setLikes] = useState(message.hearts || 0); //tracks likes + update
 
   //sends or post "like" to API so it can update
   const handleLike = () => {
-    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${message._id}/like`, {
-      method: "POST",
-    })
+    fetch(
+      `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${message._id}/like`,
+      {
+        method: "POST",
+      }
+    )
       .then((response) => response.json())
       .then(() => setLikes(likes + 1))
-      .catch((error) => console.error("Failed to like the thought", error))
-  }
+      .catch((error) => console.error("Failed to like the thought", error));
+  };
 
   return (
     <CardWrapper>
       <MessageText>{message.message}</MessageText>
       <FooterContainer>
         <LikeWrapper>
-        <Button onClick={handleLike}>❤️</Button>
-        <Paragraph> x {likes} </Paragraph>
+          <Button onClick={handleLike}>❤️</Button>
+          <Paragraph> x {likes} </Paragraph>
         </LikeWrapper>
         <TimeStamp>{moment(message.createdAt).fromNow()} </TimeStamp>
       </FooterContainer>
     </CardWrapper>
-  )
-}
+  );
+};
 
-export default MessageCard
-
-
+export default MessageCard;

@@ -1,15 +1,15 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle` 
 
 :root {
-    --color-text:  #36454F;
-    --color-button: pink;
-    --color-border: #202020;
-    --color-background: #F5F5F5;
-    --color-likebutton: #E0E0E0;
-    --color-headline: #C08081;
-}
+  --color-text:  #36454F;
+  --color-button: pink;
+  --color-border: #202020;
+  --color-background: #F5F5F5;
+  --color-likebutton: #E0E0E0;
+  --color-headline: #C08081;
+  }
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -22,11 +22,11 @@ body {
 
 
 @media (min-width: 668px) {
-font-size: 16px;
+  font-size: 16px;
 }
 
 @media (min-width: 1024px) {
-font-size: 18px;
+  font-size: 18px;
 }
 
 }
@@ -38,14 +38,14 @@ h1 {
 
 
 @media (min-width: 668px) {
-font-size: 34px;
+  font-size: 34px;
 }
 
 @media (min-width: 1024px) {
-font-size: 40px;
+  font-size: 40px;
 }
 
 }
 
-  `
-export default GlobalStyle
+  `;
+export default GlobalStyle;

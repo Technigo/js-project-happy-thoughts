@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import GlobalStyle from "./styles/GlobalStyle.jsx";
 import QuestionCard from "./components/QuestionCard.jsx";
 import MessageList from "./components/MessageList.jsx";
+import styled from "styled-components";
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
 
 export const App = () => {
   const [messageText, setMessageText] = useState(""); //what the user types
@@ -59,7 +67,11 @@ export const App = () => {
   };
 
   if (loading) {
-    return <p>Loading Thoughts...</p>;
+    return (
+      <LoadingWrapper>
+        <p>Loading Thoughts...</p>
+      </LoadingWrapper>
+    );
   }
 
   //renders app layout

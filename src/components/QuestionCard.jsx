@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-const FormWrapper = styled.form `
+const FormWrapper = styled.form`
   border-radius: 3px;
   border: 1px solid var(--color-border);
   box-shadow: 6px 8px 0 0 #000;
@@ -8,111 +8,98 @@ const FormWrapper = styled.form `
   margin: 0 auto;
   background-color: var(--color-background);
 
-
   @media (min-width: 480px) {
-    display: flex; 
+    display: flex;
     flex-direction: column;
-    gap: 10px; 
+    gap: 10px;
     align-items: flex-start;
     max-width: 600px;
     width: 100%;
-  
-  
-    width: auto; 
-    max-width: 500px; 
+
+    width: auto;
+    max-width: 500px;
     margin-left: 10px;
     margin: 0 auto;
-    
   }
 
   @media (min-width: 1024px) and (max-width: 1600px) {
     display: flex;
     flex-direction: column;
-    gap: 10px; 
+    gap: 10px;
     align-items: flex-start;
     max-width: 600px;
     width: 100%;
 
-
     width: auto;
-    max-width: 500px; 
+    max-width: 500px;
     margin-left: 10px;
     margin: 0 auto;
-    
-}
-`
+  }
+`;
 
-const Label = styled.label `
+const Label = styled.label`
   margin: 10px 7px 7px 12px;
-`
+`;
 
-const Textarea = styled.textarea `
+const Textarea = styled.textarea`
   margin: 7px 7px 7px 12px;
   resize: none;
   width: 90%;
   height: 60px;
 
-
-
-   @media (min-width: 360px) {
+  @media (min-width: 360px) {
     margin-left: 12px;
-}
+  }
 
-@media (min-width: 1024px) and (max-width: 1600px) {
+  @media (min-width: 1024px) and (max-width: 1600px) {
     margin-left: 12px;
-  
-}
-`
+  }
+`;
 
-const Button = styled.button `
+const Button = styled.button`
   border-radius: 20px;
   background-color: var(--color-button);
   width: auto;
   padding: 12px;
   content: cover;
   border: none;
-  margin:6px 6px 12px 12px;
-
+  margin: 6px 6px 12px 12px;
 
   Button:focus {
-  border: 2px solid var(--color-border);
+    border: 2px solid var(--color-border);
+  }
 
-}
-
-@media (min-width: 360px) {
-  width: auto;
-  max-width: 500px; 
-  margin-left: 10px;
-}
-
-@media (min-width: 1024px) and (max-width: 1600px) {
+  @media (min-width: 360px) {
     width: auto;
-    max-width: 500px; 
+    max-width: 500px;
     margin-left: 10px;
-    
-}
-`
+  }
+
+  @media (min-width: 1024px) and (max-width: 1600px) {
+    width: auto;
+    max-width: 500px;
+    margin-left: 10px;
+  }
+`;
 const Error = styled.p`
   color: var(--color-text);
   margin-left: 10px;
-`
+`;
 
-
-// Form to send message and handle message 
+// Form to send message and handle message
 const Form = ({ messageText, setMessageText, handleMessage, error }) => {
   return (
     <FormWrapper onSubmit={handleMessage}>
-        <Label htmlFor="input">What's making you happy right now?</Label>
-        <Textarea
-          id="input"
-          value={messageText}
-          onChange={(event) => setMessageText(event.target.value)}
-        />
-        <Button type="submit"> ❤️ Send Happy Thought! ❤️</Button>
-        {error && <Error>{error.toString()}</Error>}
-
+      <Label htmlFor="input">What's making you happy right now?</Label>
+      <Textarea
+        id="input"
+        value={messageText}
+        onChange={(event) => setMessageText(event.target.value)}
+      />
+      <Button type="submit"> ❤️ Send Happy Thought! ❤️</Button>
+      {error && <Error>{error.toString()}</Error>}
     </FormWrapper>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;
