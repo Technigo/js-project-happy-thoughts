@@ -3,14 +3,21 @@ import * as Styled from "../components/Styled-Comps"
 
 const Form = ({ addNewThought }) => {
 
-   const [MessageText, setMessageText] = useState('')
+   const [MessageText, setMessageText] = useState("")
+   const [error, setError] = useState("")
    const msgLength = MessageText.length
 
    const handleSubmit = async (event) => {
       event.preventDefault()    
+      setError("")
+
+      if (msgLength < 5 || msgLength < 140)  {
+        setError("Message must be between 5 and 140 characters.")
+        return
+      }
       
       try {
-        const response = await fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
+        const response = await fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts", {
           method: "POST",
           body: JSON.stringify({ message: MessageText }),
           headers: { "Content-Type": "application/json" },
@@ -25,7 +32,7 @@ const Form = ({ addNewThought }) => {
           setMessageText('')
 
       } catch (error) {
-        console.error("Error posting message:", error)
+        setError(error.message)
       }
     }
 
@@ -49,9 +56,9 @@ const Form = ({ addNewThought }) => {
           >
           ♥️ Share a happy thought! ♥️
           </Styled.FormButton>
-          {msgLength > 0 && (msgLength < 5 || msgLength > 140) && (
+          {msgLength > 0 && error && (
             <p style={{ color: 'red'}}>
-              Message must be between 5 and 140 characters.
+             {error}
             </p>
           )}
       </Styled.FormContainer>

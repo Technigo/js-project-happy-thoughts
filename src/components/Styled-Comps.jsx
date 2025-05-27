@@ -86,11 +86,12 @@ export const FormButton = styled.button`
   width: fit-content;
   
 
-  &:hover {
+  &:not(:disabled):hover {
     scale: 1.1;
     border: solid white;
     color: white;
     box-shadow: none;
+    cursor: pointer;
   }
 `
 

@@ -14,7 +14,7 @@ const App = () => {
     setThoughts(prev => [newThought, ...prev])
   }
 
-  const url = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts"
+  const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
 
   const fetchAPI = async () => {
     setLoading(true)
