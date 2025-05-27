@@ -1,22 +1,9 @@
 import { useState } from "react"
-import { useEffect } from "react"
 
 export const Form = () => {
   const [answer, setAnswer] = useState("")
-  const [showSummary, setShowSummary] = useState(false)
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    setShowSummary(true)
-  }
-
-  const heartButton = (event) => {
-    event.preventDefault();
-    setShowSummary(true);
-    setAnswer(event.target.value);
-  };
-
-  const [thoughts, setThoughts] = useState([]);
+  const [THOUGHTS, setThoughts] = useState([]);
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -43,6 +30,11 @@ export const Form = () => {
         />
       </label>
       <button type="submit">Send</button>
+      <ul>
+        {THOUGHTS.map((thought, index) => (
+          <li key={index}>{thought.message}</li>
+        ))}
+      </ul>
     </form>
   );
 }
