@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import MessageList from "./components/MessageListData";
+import MessageList from "./components/MessageList";
 import MessageForm from "./components/MessageForm";
-import { Footer } from "./styles/Footer";
 import handleLike from "./components/HandlesLikes";
 import LoadingSpinner from "./components/LoadingSpinner";
+import { Footer } from "./styles/Footer";
 
 export const App = () => {
   const [thoughts, setThoughts] = useState([]);
