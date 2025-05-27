@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PinkButton, BoxStyle, TextAreaStyle } from "../styles/MessageStyles";
+import { PinkButton, BoxStyle, TextAreaStyle } from "../styles/Messagestyles";
 
 const MessageForm = ({ onSubmit }) => {
   const [message, setMessage] = useState("");
