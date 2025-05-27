@@ -1,3 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import "tailwindcss";
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: #fff6f6;
+  font-family: "Roboto", sans-serif;
+  --color-primary: #ee5555;
+  --color-secondary: #eaeaea;
+  --color-accent: #ffadad;
+}
+
+@layer utilities {
+  .animate-fadeIn {
+    animation: fadeIn 0.5s;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
