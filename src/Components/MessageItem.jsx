@@ -39,7 +39,7 @@ const MessageItem = ({
 
   return (
     <BoxStyle className={className}>
-      <p style={{ fontSize: "1.25rem" }}>{message}</p>
+      <p style={{ fontSize: "1.25rem, " }}>{message}</p>
       <BoxFooterStyle>
         <HeartContainer>
           <HeartButton

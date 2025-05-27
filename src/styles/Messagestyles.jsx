@@ -64,6 +64,7 @@ const TextAreaStyle = styled.textarea`
   border: 2px solid lightgray;
   resize: none;
   overflow-wrap: break-word;
+  word-break: break-all;
 
   @media (max-width: 543px) {
     width: 100%;
