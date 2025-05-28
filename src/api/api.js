@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://happy-thoughts-api-4ful.onrender.com/'
+const API_BASE_URL = 'https://happy-thoughts-api-4ful.onrender.com'
 
 // Simple request deduplication system
 const pendingRequests = new Map()
