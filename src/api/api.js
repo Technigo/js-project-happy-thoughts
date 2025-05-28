@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://happy-thoughts-api-4ful.onrender.com'
+export const API_BASE_URL = 'https://happy-thoughts-api-4ful.onrender.com'
 
 // Simple request deduplication system
 const pendingRequests = new Map()
@@ -52,6 +52,18 @@ export const api = {
       return await response.json()
     })
   },
+
+  // Delete a thought
+  /*   deleteThought: async (id) => {
+    console.log('API: Deleting thought:', id)
+    const response = await fetch(`${API_BASE_URL}/thoughts/${id}`, {
+      method: 'DELETE'
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to delete thought: ${response.status}`)
+    }
+    return response.json()
+  }, */
 
   // Like a thought
   likeThought: async (id) => {

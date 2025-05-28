@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { api } from '../api/api'
 
 export const useLikeSystem = (thoughtId, initialHearts) => {
   // Track the total like count, starting with the hearts from API
@@ -35,7 +36,7 @@ export const useLikeSystem = (thoughtId, initialHearts) => {
       setIsLiked(false)
       setLikeCount((prevCount) => prevCount - 1)
       updateLocalStorage(false)
-      return // Don't make API call for unlikes since API doesn't support it
+      return // TODO: Update to make API call for unlikig
     }
 
     // For likes, update UI optimistically and make API call
@@ -43,20 +44,9 @@ export const useLikeSystem = (thoughtId, initialHearts) => {
     setLikeCount((prevCount) => prevCount + 1)
     updateLocalStorage(true)
 
-    // Make API call for likes
-    const endpoint = `https://happy-thoughts-api-4ful.onrender.com/${thoughtId}/like`
-
-    fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ thoughtId: thoughtId })
-    })
-      .then((response) => {
-        console.log('Response status:', response.status)
-        return response.json().catch(() => ({}))
-      })
+    // Use the centralized API function instead of direct fetch
+    api
+      .likeThought(thoughtId)
       .then((data) => {
         console.log('Response data:', data)
         // Update like count with the server's value
