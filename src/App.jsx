@@ -1,5 +1,15 @@
+import { Cards } from "./section/cards/Cards";
+import { Titlte } from "./styling/Typography"
+import { Footer } from "./section/Footer";
+
 export const App = () => {
+
   return (
-    <h1>Happy Thoughts</h1>
+    <>
+      <Titlte>Happy Thoughts</Titlte>
+      <Cards />
+      <Footer />
+    </>
   )
 }
+
