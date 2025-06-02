@@ -40,6 +40,10 @@ export const MessageInput = styled.textarea`
   margin-top: 8px;
 `
 
+export const CharCount = styled.p`
+  color: ${props => (props.invalid ? "red" : "black")};
+`
+
 export const MessageBoard = styled.div`
   display: flex;
   flex-direction: column;

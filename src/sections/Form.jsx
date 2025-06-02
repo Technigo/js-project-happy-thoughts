@@ -11,7 +11,7 @@ const Form = ({ addNewThought }) => {
       event.preventDefault()    
       setError("")
 
-      if (msgLength < 5 || msgLength < 140)  {
+      if (msgLength < 5 || msgLength > 140)  {
         setError("Message must be between 5 and 140 characters.")
         return
       }
@@ -44,11 +44,16 @@ const Form = ({ addNewThought }) => {
           <Styled.MessageInput
             id="message"
             type="text"
-            onChange={event => setMessageText(event.target.value)}
+            onChange={event => {
+              setMessageText(event.target.value)
+              setError("")  
+            }}
             value={MessageText}
             placeholder="Hakuna Matata"
             />
-          <p>Characters: {msgLength} / 140</p>
+          <Styled.CharCount invalid={msgLength < 5 || msgLength > 140}>
+            Characters: {msgLength} / 140
+          </Styled.CharCount>
         </label>
         <Styled.FormButton
           type="submit"
