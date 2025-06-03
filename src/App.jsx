@@ -11,7 +11,7 @@ export const App = () => {
 
   // Fetch thoughts when the app loads
   useEffect(() => {
-    fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts")
+    fetch("http://localhost:9000/thoughts")
       .then((res) => res.json())
       .then((data) => {
         setThoughts(data);

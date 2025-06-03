@@ -13,7 +13,7 @@ const MessageForm = ({ onSubmit }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true); // Set loading state to true
-    fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts", {
+    fetch("http://localhost:9000/thoughts", {
       method: "POST",
       body: JSON.stringify({ message }),
       headers: { "Content-Type": "application/json" },
