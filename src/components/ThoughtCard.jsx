@@ -35,15 +35,24 @@ const LikeButton = styled.button`
   font-size: 1rem;
 `;
 
-export const ThoughtCard = ({ thought, onLike }) => {
-  const minutesAgo = Math.floor((Date.now() - new Date(thought.createdAt)) / 60000);
+const formatTimeAgo = (dateString) => {
+  const now = new Date();
+  const then = new Date(dateString);
+  const diff = Math.floor((now - then) / 1000);
 
+  if (diff < 60) return `${diff} seconds ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+  return `${Math.floor(diff / 86400)} days ago`;
+};
+
+export const ThoughtCard = ({ thought, onLike }) => {
   return (
     <Card>
       <p>{thought.message}</p>
       <Footer>
         <LikeButton onClick={() => onLike(thought._id)}>❤️ x {thought.hearts}</LikeButton>
-        <span>{minutesAgo} minutes ago</span>
+        <span>{formatTimeAgo(thought.createdAt)}</span>
       </Footer>
     </Card>
   );

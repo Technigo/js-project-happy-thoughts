@@ -1,9 +1,9 @@
-// App.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ThoughtForm } from './components/ThoughtForm';
 import { ThoughtList } from './components/ThoughtList';
 
+const API_URL = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
 
 const Main = styled.main`
   max-width: 600px;
@@ -22,23 +22,20 @@ export const App = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts')
+    fetch(API_URL)
       .then((res) => res.json())
       .then((data) => {
         setThoughts(data);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.error('Error fetching thoughts:', err);
+      .catch(() => {
         setIsLoading(false);
       });
   }, []);
 
-
-
   const submitMessage = (message) => {
     setIsLoading(true);
-    fetch('https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts', {
+    fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message }),
@@ -47,28 +44,26 @@ export const App = () => {
       .then((newThought) => {
         setThoughts((prevThoughts) => [newThought, ...prevThoughts]);
       })
-      .catch((err) => {
-        console.error('Error posting thought:', err);
-      })
       .finally(() => {
         setIsLoading(false);
       });
   };
+
   const likeThought = (id) => {
-    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
-      method: 'POST'
+    fetch(`${API_URL}/${id}/like`, {
+      method: 'POST',
     })
       .then((res) => res.json())
       .then(() => {
         setThoughts((prevThoughts) =>
           prevThoughts.map((thought) =>
-            thought._id === id ? { ...thought, hearts: thought.hearts + 1 } : thought
+            thought._id === id
+              ? { ...thought, hearts: thought.hearts + 1 }
+              : thought
           )
         );
-      })
-      .catch((err) => console.error('Error liking thought:', err));
+      });
   };
-
 
   return (
     <Main>
@@ -77,5 +72,4 @@ export const App = () => {
       {isLoading ? <p>Loading...</p> : <ThoughtList thoughts={thoughts} onLike={likeThought} />}
     </Main>
   );
-
 };
