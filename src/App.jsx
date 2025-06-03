@@ -53,7 +53,6 @@ export const App = () => {
     fetch(`${API_URL}/${id}/like`, {
       method: 'PATCH',
     })
-
       .then((res) => res.json())
       .then(() => {
         setThoughts((prevThoughts) =>
@@ -66,11 +65,28 @@ export const App = () => {
       });
   };
 
+  const deleteThought = (id) => {
+    fetch(`${API_URL}/${id}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (res.ok) {
+          setThoughts((prevThoughts) =>
+            prevThoughts.filter((thought) => thought._id !== id)
+          );
+        }
+      });
+  };
+
   return (
     <Main>
       <Heading>Happy Thoughts</Heading>
       <ThoughtForm onSubmitMessage={submitMessage} isLoading={isLoading} />
-      {isLoading ? <p>Loading...</p> : <ThoughtList thoughts={thoughts} onLike={likeThought} />}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <ThoughtList thoughts={thoughts} onLike={likeThought} onDelete={deleteThought} />
+      )}
     </Main>
   );
 };

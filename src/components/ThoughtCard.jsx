@@ -35,6 +35,15 @@ const LikeButton = styled.button`
   font-size: 1rem;
 `;
 
+const DeleteButton = styled.button`
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 1rem;
+  color: red;
+`;
+
 const formatTimeAgo = (dateString) => {
   const now = new Date();
   const then = new Date(dateString);
@@ -46,12 +55,15 @@ const formatTimeAgo = (dateString) => {
   return `${Math.floor(diff / 86400)} days ago`;
 };
 
-export const ThoughtCard = ({ thought, onLike }) => {
+export const ThoughtCard = ({ thought, onLike, onDelete }) => {
   return (
     <Card>
       <p>{thought.message}</p>
       <Footer>
-        <LikeButton onClick={() => onLike(thought._id)}>❤️ x {thought.hearts}</LikeButton>
+        <div>
+          <LikeButton onClick={() => onLike(thought._id)}>❤️ x {thought.hearts}</LikeButton>
+          <DeleteButton onClick={() => onDelete(thought._id)}>🗑</DeleteButton>
+        </div>
         <span>{formatTimeAgo(thought.createdAt)}</span>
       </Footer>
     </Card>
