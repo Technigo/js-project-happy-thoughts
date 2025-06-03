@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ThoughtForm } from './components/ThoughtForm';
 import { ThoughtList } from './components/ThoughtList';
 
-const API_URL = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
+const API_URL = 'https://happy-thoughts-api-xvxs.onrender.com/thoughts';
 
 const Main = styled.main`
   max-width: 600px;
@@ -51,8 +51,9 @@ export const App = () => {
 
   const likeThought = (id) => {
     fetch(`${API_URL}/${id}/like`, {
-      method: 'POST',
+      method: 'PATCH',
     })
+
       .then((res) => res.json())
       .then(() => {
         setThoughts((prevThoughts) =>
