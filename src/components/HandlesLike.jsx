@@ -1,8 +1,11 @@
 const handleLike = async (id) => {
   try {
-    const response = await fetch(`http://localhost:9000/thoughts/${id}/like`, {
-      method: "POST",
-    });
+    const response = await fetch(
+      `https://js-project-api-k17p.onrender.com//thoughts/${id}/like`,
+      {
+        method: "POST",
+      }
+    );
     if (response.ok) {
       return await response.json();
     } else {

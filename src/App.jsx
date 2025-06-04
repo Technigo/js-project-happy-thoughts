@@ -11,7 +11,7 @@ export const App = () => {
 
   // Fetch thoughts when the app loads
   useEffect(() => {
-    fetch("http://localhost:9000/thoughts")
+    fetch("https://js-project-api-k17p.onrender.com/thoughts")
       .then((res) => res.json())
       .then((data) => {
         setThoughts(data);

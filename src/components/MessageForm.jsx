@@ -13,7 +13,7 @@ const MessageForm = ({ onSubmit }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true); // Set loading state to true
-    fetch("http://localhost:9000/thoughts", {
+    fetch("https://js-project-api-k17p.onrender.com/thoughts", {
       method: "POST",
       body: JSON.stringify({ message }),
       headers: { "Content-Type": "application/json" },
