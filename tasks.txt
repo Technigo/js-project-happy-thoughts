@@ -18,29 +18,29 @@
 ## Phase 2: Authentication System Implementation
 
 ### Task 2.1: Create Authentication Context
-- [ ] Create `src/contexts/AuthContext.js`
-- [ ] Implement AuthProvider component with useState for user and token
-- [ ] Add login, signup, logout functions to context
-- [ ] Store/retrieve token from localStorage
-- [ ] Export useAuth hook for consuming components
-- [ ] Validation: Test context provides and consumes values correctly
+- [x] Create `src/contexts/AuthContext.js`
+- [x] Implement AuthProvider component with useState for user and token
+- [x] Add login, signup, logout functions to context
+- [x] Store/retrieve token from localStorage
+- [x] Export useAuth hook for consuming components
+- [x] Validation: Test context provides and consumes values correctly
 
 ### Task 2.2: Create Authentication Components
-- [ ] Create `src/components/LoginForm.jsx`
-- [ ] Implement controlled form with email and password fields
-- [ ] Add form validation and error display
-- [ ] Connect to login function from AuthContext
-- [ ] Create `src/components/SignupForm.jsx` (similar structure)
-- [ ] Add toggle between login and signup modes
-- [ ] Validation: Forms render without errors and handle input changes
+- [x] Create `src/components/LoginForm.jsx`
+- [x] Implement controlled form with email and password fields
+- [x] Add form validation and error display
+- [x] Connect to login function from AuthContext
+- [x] Create `src/components/SignupForm.jsx` (similar structure)
+- [x] Add toggle between login and signup modes
+- [x] Validation: Forms render without errors and handle input changes
 
 ### Task 2.3: Create Authentication Helper
-- [ ] Create `src/utils/authFetch.js`
-- [ ] Implement authenticatedFetch function that adds Bearer token header
-- [ ] Handle token retrieval from localStorage
-- [ ] Add error handling for 401 responses
-- [ ] Export function for use in API calls
-- [ ] Validation: Function adds correct Authorization header when token exists
+- [x] Create `src/utils/authFetch.js`
+- [x] Implement authenticatedFetch function that adds Bearer token header
+- [x] Handle token retrieval from localStorage
+- [x] Add error handling for 401 responses
+- [x] Export function for use in API calls
+- [x] Validation: Function adds correct Authorization header when token exists
 
 ## Phase 3: Update API Calls
 
