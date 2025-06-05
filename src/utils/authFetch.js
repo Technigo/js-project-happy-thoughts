@@ -1,3 +1,14 @@
+import { handleError, createErrorFromResponse, ERROR_TYPES } from './errorHandler';
+
+/**
+ * Global logout handler reference - will be set by AuthContext
+ */
+let globalForceLogout = null;
+
+export const setGlobalLogoutHandler = (logoutHandler) => {
+  globalForceLogout = logoutHandler;
+};
+
 /**
  * Authenticated fetch utility that automatically adds Bearer token header
  * and handles common authentication scenarios
@@ -22,14 +33,28 @@ export const authenticatedFetch = async (url, options = {}) => {
     if (response.status === 401) {
       // Token is likely expired or invalid
       localStorage.removeItem('token');
-      // Optionally trigger a logout in the app
-      window.dispatchEvent(new CustomEvent('auth:logout'));
-      throw new Error('Authentication required');
+      
+      // Call the global logout handler if available
+      if (globalForceLogout) {
+        globalForceLogout('Your session has expired. Please log in again.');
+      } else {
+        // Fallback to custom event
+        window.dispatchEvent(new CustomEvent('auth:logout'));
+      }
+      
+      const error = await createErrorFromResponse(response);
+      const handledError = handleError(error, { url, method: options.method || 'GET' });
+      throw error;
     }
 
     return response;
   } catch (error) {
-    // Re-throw the error so calling code can handle it
+    // If it's not a 401 error, handle other errors
+    if (error.statusCode !== 401) {
+      const handledError = handleError(error, { url, method: options.method || 'GET' });
+      // For non-401 errors, we can enhance the error but still throw it
+      error.handledError = handledError;
+    }
     throw error;
   }
 };
@@ -41,8 +66,8 @@ export const authenticatedApiCall = async (url, options = {}) => {
   const response = await authenticatedFetch(url, options);
   
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.details || errorData.error || `HTTP ${response.status}`);
+    const error = await createErrorFromResponse(response);
+    throw error;
   }
   
   return response.json();

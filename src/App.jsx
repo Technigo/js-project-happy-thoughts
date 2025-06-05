@@ -66,7 +66,7 @@ const WelcomeText = styled.span`
 `;
 
 const AuthenticatedApp = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth();
   const { thoughts, loading, error, addThought, handleLike, updateThought, deleteThought } = useThoughts();
 
   return (
@@ -77,14 +77,14 @@ const AuthenticatedApp = () => {
       <UserInfo>
         <WelcomeText>Welcome back,</WelcomeText>
         <UserEmail>{user?.email}</UserEmail>
-        <Button onClick={logout}>
-          Logout
+        <Button onClick={logout} disabled={authLoading}>
+          {authLoading ? 'Logging out...' : 'Logout'}
         </Button>
       </UserInfo>
 
-      <HappyThoughtForm onSubmit={addThought} loading={loading} />
+      <HappyThoughtForm onSubmit={addThought} loading={loading || authLoading} />
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      {loading && <Loader />}
+      {(loading || authLoading) && <Loader />}
       <ThoughtList 
         thoughts={thoughts} 
         onLike={handleLike}

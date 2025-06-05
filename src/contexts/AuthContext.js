@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { API_URL } from '../config/api';
+import { handleError, createErrorFromResponse, ERROR_TYPES } from '../utils/errorHandler';
+import { setGlobalLogoutHandler } from '../utils/authFetch';
 
 const AuthContext = createContext();
 
@@ -25,6 +27,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  // Set up global logout handler for authFetch
+  useEffect(() => {
+    setGlobalLogoutHandler(forceLogout);
+  }, []);
+
   const login = async (email, password) => {
     setLoading(true);
     try {
@@ -34,18 +41,20 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password })
       });
       
-      const data = await response.json();
-      
       if (response.ok) {
+        const data = await response.json();
         setToken(data.token);
         setUser(data.user);
         localStorage.setItem('token', data.token);
         return { success: true, user: data.user };
       } else {
-        return { success: false, error: data.error, details: data.details };
+        const error = await createErrorFromResponse(response);
+        const handledError = handleError(error, { action: 'login', email });
+        return { success: false, error: handledError.message, type: handledError.type };
       }
     } catch (error) {
-      return { success: false, error: 'Network error', details: 'Could not connect to server' };
+      const handledError = handleError(error, { action: 'login', email });
+      return { success: false, error: handledError.message, type: handledError.type };
     } finally {
       setLoading(false);
     }
@@ -60,27 +69,44 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password })
       });
       
-      const data = await response.json();
-      
       if (response.ok) {
+        const data = await response.json();
         setToken(data.token);
         setUser(data.user);
         localStorage.setItem('token', data.token);
         return { success: true, user: data.user };
       } else {
-        return { success: false, error: data.error, details: data.details };
+        const error = await createErrorFromResponse(response);
+        const handledError = handleError(error, { action: 'signup', email });
+        return { success: false, error: handledError.message, type: handledError.type };
       }
     } catch (error) {
-      return { success: false, error: 'Network error', details: 'Could not connect to server' };
+      const handledError = handleError(error, { action: 'signup', email });
+      return { success: false, error: handledError.message, type: handledError.type };
     } finally {
       setLoading(false);
     }
   };
 
   const logout = () => {
+    setLoading(true);
+    // Simulate brief loading for UX consistency
+    setTimeout(() => {
+      setToken(null);
+      setUser(null);
+      localStorage.removeItem('token');
+      setLoading(false);
+    }, 300);
+  };
+
+  const forceLogout = (reason = 'Session expired') => {
+    console.warn('Force logout triggered:', reason);
     setToken(null);
     setUser(null);
     localStorage.removeItem('token');
+    // No loading state for force logout as it's immediate
+    // You could also show a toast notification here
+    // toast.warning(reason);
   };
 
   const value = {
@@ -90,6 +116,7 @@ export const AuthProvider = ({ children }) => {
     login,
     signup,
     logout,
+    forceLogout,
     isAuthenticated: !!token
   };
 
