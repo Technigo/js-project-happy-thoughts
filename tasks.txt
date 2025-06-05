@@ -9,11 +9,11 @@
 - [ ] Validation: Ensure backend is running on localhost:8080 before testing
 
 ### Task 1.2: Create Environment Configuration
-- [ ] Create `src/config/api.js` file
-- [ ] Move API_URL constant to this file for centralized configuration
-- [ ] Export API_URL from config file
-- [ ] Update `src/hooks/useThoughts.js` to import API_URL from config
-- [ ] Validation: Verify import works and no console errors
+- [x] Create `src/config/api.js` file
+- [x] Move API_URL constant to this file for centralized configuration
+- [x] Export API_URL from config file
+- [x] Update `src/hooks/useThoughts.js` to import API_URL from config
+- [x] Validation: Verify import works and no console errors
 
 ## Phase 2: Authentication System Implementation
 

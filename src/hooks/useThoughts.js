@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-
-const API_URL = 'http://localhost:8080';
+import { API_URL } from '../config/api';
 
 export const useThoughts = () => {
   const [thoughts, setThoughts] = useState([]);
