@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/media';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 
@@ -60,6 +60,27 @@ const Input = styled.input`
   }
 `;
 
+const PasswordRequirements = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  margin: -10px 0 5px 0;
+  padding: 8px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #ddd;
+`;
+
+const RequirementItem = styled.div`
+  color: ${props => props.valid ? '#4CAF50' : '#666'};
+  margin: 2px 0;
+  
+  &:before {
+    content: '${props => props.valid ? '✓' : '•'}';
+    margin-right: 5px;
+    font-weight: bold;
+  }
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,6 +115,16 @@ const SignupForm = ({ onToggleMode }) => {
   const [error, setError] = useState('');
   const { signup, loading } = useAuth();
 
+  // Password validation checks
+  const passwordChecks = {
+    length: password.length >= 6,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /\d/.test(password)
+  };
+
+  const isPasswordValid = Object.values(passwordChecks).every(check => check);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -108,8 +139,8 @@ const SignupForm = ({ onToggleMode }) => {
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+    if (!isPasswordValid) {
+      setError('Password must meet all requirements shown below');
       return;
     }
 
@@ -129,7 +160,7 @@ const SignupForm = ({ onToggleMode }) => {
     }
   };
 
-  const isFormValid = email.trim() && password.trim() && confirmPassword.trim() && password === confirmPassword;
+  const isFormValid = email.trim() && isPasswordValid && confirmPassword.trim() && password === confirmPassword;
 
   return (
     <FormContainer>
@@ -147,10 +178,26 @@ const SignupForm = ({ onToggleMode }) => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password (min 6 characters)"
+          placeholder="Password"
           required
           disabled={loading}
         />
+        {password && (
+          <PasswordRequirements>
+            <RequirementItem valid={passwordChecks.length}>
+              At least 6 characters
+            </RequirementItem>
+            <RequirementItem valid={passwordChecks.uppercase}>
+              One uppercase letter (A-Z)
+            </RequirementItem>
+            <RequirementItem valid={passwordChecks.lowercase}>
+              One lowercase letter (a-z)
+            </RequirementItem>
+            <RequirementItem valid={passwordChecks.number}>
+              One number (0-9)
+            </RequirementItem>
+          </PasswordRequirements>
+        )}
         <Input
           type="password"
           value={confirmPassword}

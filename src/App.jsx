@@ -11,7 +11,7 @@ import SignupForm from './components/SignupForm';
 import Button from './components/Button';
 import GlobalStyle from './styles/GlobalStyles';
 import { device } from './styles/media';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
 import { useThoughts } from './hooks/useThoughts';
 
 

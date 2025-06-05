@@ -149,7 +149,7 @@
 
 ### Task 6.1: Authentication Flow Testing
 - [ ] Test signup with new email/password
-- [ ] Verify JWT token storage in localStorage
+- [ ] Verify JWT token storage in localStorage  
 - [ ] Test login with created credentials
 - [ ] Test logout functionality
 - [ ] Test page refresh maintains authentication state

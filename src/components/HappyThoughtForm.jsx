@@ -4,7 +4,7 @@ import CharacterCount from './CharacterCount';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import { device } from '../styles/media';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 const FormContainer = styled.form`
   background: #f5f5f5;
