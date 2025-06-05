@@ -45,42 +45,42 @@
 ## Phase 3: Update API Calls
 
 ### Task 3.1: Update Fetch Thoughts
-- [ ] In `src/hooks/useThoughts.js`, update fetch URL to `${API_URL}/thoughts`
-- [ ] Add pagination support (page and limit parameters)
-- [ ] Update useEffect to handle new response format
-- [ ] Test without authentication (should still work for viewing)
-- [ ] Validation: Thoughts load correctly from new backend
+- [x] In `src/hooks/useThoughts.js`, update fetch URL to `${API_URL}/thoughts`
+- [x] Add pagination support (page and limit parameters)
+- [x] Update useEffect to handle new response format
+- [x] Test without authentication (should still work for viewing)
+- [x] Validation: Thoughts load correctly from new backend
 
 ### Task 3.2: Update Create Thought
-- [ ] In `src/hooks/useThoughts.js`, update addThought function
-- [ ] Change fetch URL to `${API_URL}/thoughts`
-- [ ] Import and use authenticatedFetch instead of regular fetch
-- [ ] Update error handling for new backend error format
-- [ ] Handle authentication requirement
-- [ ] Validation: Can create thoughts when authenticated, gets error when not
+- [x] In `src/hooks/useThoughts.js`, update addThought function
+- [x] Change fetch URL to `${API_URL}/thoughts`
+- [x] Import and use authenticatedFetch instead of regular fetch
+- [x] Update error handling for new backend error format
+- [x] Handle authentication requirement
+- [x] Validation: Can create thoughts when authenticated, gets error when not
 
 ### Task 3.3: Update Like Functionality
-- [ ] In `src/hooks/useThoughts.js`, update handleLike function
-- [ ] Change URL to `${API_URL}/thoughts/${thoughtId}/like`
-- [ ] Use authenticatedFetch for authentication requirement
-- [ ] Update to handle toggle behavior (like/unlike)
-- [ ] Remove local liked tracking from `useLikedThoughts.js` (server now handles this)
-- [ ] Validation: Like/unlike works when authenticated
+- [x] In `src/hooks/useThoughts.js`, update handleLike function
+- [x] Change URL to `${API_URL}/thoughts/${thoughtId}/like`
+- [x] Use authenticatedFetch for authentication requirement
+- [x] Update to handle toggle behavior (like/unlike)
+- [x] Remove local liked tracking from `useLikedThoughts.js` (server now handles this)
+- [x] Validation: Like/unlike works when authenticated
 
 ### Task 3.4: Add Edit Functionality
-- [ ] Add updateThought function to `src/hooks/useThoughts.js`
-- [ ] Implement PUT request to `${API_URL}/thoughts/${thoughtId}`
-- [ ] Use authenticatedFetch with thought message in body
-- [ ] Add to useThoughts hook return object
-- [ ] Validation: Can update thoughts when owner, gets error when not owner
+- [x] Add updateThought function to `src/hooks/useThoughts.js`
+- [x] Implement PUT request to `${API_URL}/thoughts/${thoughtId}`
+- [x] Use authenticatedFetch with thought message in body
+- [x] Add to useThoughts hook return object
+- [x] Validation: Can update thoughts when owner, gets error when not owner
 
 ### Task 3.5: Add Delete Functionality
-- [ ] Add deleteThought function to `src/hooks/useThoughts.js`
-- [ ] Implement DELETE request to `${API_URL}/thoughts/${thoughtId}`
-- [ ] Use authenticatedFetch
-- [ ] Remove thought from local state on success
-- [ ] Add to useThoughts hook return object
-- [ ] Validation: Can delete thoughts when owner, gets error when not owner
+- [x] Add deleteThought function to `src/hooks/useThoughts.js`
+- [x] Implement DELETE request to `${API_URL}/thoughts/${thoughtId}`
+- [x] Use authenticatedFetch
+- [x] Remove thought from local state on success
+- [x] Add to useThoughts hook return object
+- [x] Validation: Can delete thoughts when owner, gets error when not owner
 
 ## Phase 4: Update UI Components
 
