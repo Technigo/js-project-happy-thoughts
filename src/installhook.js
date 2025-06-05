@@ -1,47 +1,52 @@
 (() => {
     var e = {
         4659: (e, t, n) => {
-        try {
-            // Add code here that might throw an error
-        } catch (error) {
-            console.error(error); // Handle the error appropriately
-        }
-            // Add code here that might throw an error
-            console.error(error); // Handle the error appropriately
-        }
-        }
-            // code that might throw an error
+            try {
+                // Add code here that might throw an error
+            } catch (error) {
+                console.error(error); // Handle the error appropriately
+                // Add code here that might throw an error
+            } catch (error) {
+                console.error(error); // Handle the error appropriately
+            // Remove the extraneous closing brace
+            try {
+                // Add code here that might throw an error
+            } catch (error) {
+                console.error(error); // Handle the error appropriately
+            try {
+                // Add code here that might throw an error
+            } catch (error) {
+                console.error(error); // Handle the error appropriately
+            }
             try {
                 // code that might throw an error
-            try {
-                // Add code here that might throw an error
-            } 
+            } catch (error) {
+                // handle error
+            }
             try {
                 // Add code here that might throw an error
             } catch (error) {
                 // handle error
+            }
+            try {
+                // code that might throw an error
             } catch (error) {
                 // handle error
-                                                // Remove this extraneous closing brace
-                                            });
-                            // Remove this extraneous closing brace
-        try {
-            // code that might throw an error
-        } catch (error) {
-            // handle error
+            }
+            try {
+                // Add code here that might throw an error
+            } catch (error) {
+                // handle error
+            }
+            try {
+                // code that might throw an error
+            } catch (error) {
+                // handle error
+            }
         }
-        try {
-            // Add code here that might throw an error
-        } catch (error) {
-            // handle error
-        }
-        try {
-            // code that might throw an error
-        } catch (error) {
-            // handle error
-        }
-    } // Properly close the IIFE with a semicolon
-                if (null === p) {
+    };
+
+    if (p === null) {
                     var e = new Map;
                     try {
                         // code that might throw an error
@@ -124,14 +129,14 @@
                             return null
                         }), (function () {
                             return null
-                        }));
+                        });
                         g.useDeferredValue(null);
                         g.useMemo((function () {
                             return null
-                        }));
+                        });
                         g.useOptimistic(null, (function (e) {
                             return e
-                        }));
+                        });
                         g.useFormState((function (e) {
                             return e
                         }), null);
@@ -1348,7 +1353,7 @@
             e.exports = n(5945)
         }
         ,
-        8715: function(e, t, n) {
+        8715: function myFunction(e, t, n) {
             var r, o, i;
             !function(a, l) {
                 "use strict";
@@ -1462,7 +1467,7 @@
                                                                         source: t
                                                                     });
                                                                 }
-                                                            }));
+                                                            });
                                                         }
                                                     }
                                                 }
