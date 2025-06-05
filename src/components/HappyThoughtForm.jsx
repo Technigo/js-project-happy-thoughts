@@ -4,6 +4,7 @@ import CharacterCount from './CharacterCount';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import { device } from '../styles/media';
+import { useAuth } from '../contexts/AuthContext';
 
 const FormContainer = styled.form`
   background: #f5f5f5;
@@ -69,6 +70,7 @@ const FormFooter = styled.div`
 const HappyThoughtForm = ({ onSubmit, loading }) => {
   const [thought, setThought] = useState('');
   const [error, setError] = useState('');
+  const { isAuthenticated } = useAuth();
   const maxLength = 140;
   const minLength = 5;
 
@@ -77,6 +79,12 @@ const HappyThoughtForm = ({ onSubmit, loading }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
+    
+    if (!isAuthenticated) {
+      setError('Please log in to post a thought');
+      return;
+    }
+    
     if (isInvalid) return;
     onSubmit(thought, (apiError) => setError(apiError));
     setThought('');
@@ -88,14 +96,18 @@ const HappyThoughtForm = ({ onSubmit, loading }) => {
       <TextArea
         value={thought}
         onChange={(e) => setThought(e.target.value)}
-        placeholder="Type your happy thought..."
+        placeholder={
+          isAuthenticated 
+            ? "Type your happy thought..." 
+            : "Please log in to post a thought..."
+        }
         rows={3}
-        disabled={loading}
+        disabled={loading || !isAuthenticated}
       />
       <FormFooter>
         <CharacterCount count={maxLength - thought.length} isError={thought.length > maxLength} />
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <Button type="submit" disabled={loading || isInvalid}>
+        <Button type="submit" disabled={loading || isInvalid || !isAuthenticated}>
           ❤️ Send Happy Thought ❤️
         </Button>
       </FormFooter>

@@ -11,7 +11,13 @@ const List = styled.div`
   margin: 0 auto;
 `;
 
-const ThoughtList = ({ thoughts, onLike, likedThoughtIds = [] }) => {
+const ThoughtList = ({ 
+  thoughts, 
+  onLike, 
+  currentUser, 
+  onUpdate, 
+  onDelete 
+}) => {
   return (
     <List>
       {thoughts.map((thought) => (
@@ -21,8 +27,13 @@ const ThoughtList = ({ thoughts, onLike, likedThoughtIds = [] }) => {
           message={thought.message}
           createdAt={thought.createdAt}
           hearts={thought.hearts}
+          likesCount={thought.likesCount}
+          owner={thought.owner}
           onLike={onLike}
-          liked={likedThoughtIds.includes(thought._id)}
+          liked={thought.isLikedByUser} // This will come from backend
+          currentUser={currentUser}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
         />
       ))}
     </List>

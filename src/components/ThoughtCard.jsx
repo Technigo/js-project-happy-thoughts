@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Timestamp from './Timestamp';
 import Button from './Button';
@@ -81,10 +82,171 @@ const LeftGroup = styled.div`
   }
 `;
 
-const ThoughtCard = ({ message, createdAt, hearts = 0, _id, onLike, liked }) => {
+const RightGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+`;
+
+const OwnerActions = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-left: 8px;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+`;
+
+const EditInput = styled.textarea`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 10px;
+  font-family: inherit;
+
+  @media ${device.smallMobile} {
+    padding: 8px;
+    font-size: 0.95rem;
+    min-height: 70px;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #ff4d4d;
+  }
+`;
+
+const EditActions = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+  }
+`;
+
+const OwnerInfo = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 8px;
+`;
+
+const ThoughtCard = ({ 
+  message, 
+  createdAt, 
+  hearts = 0, 
+  _id, 
+  onLike, 
+  liked, 
+  currentUser, 
+  onUpdate, 
+  onDelete,
+  owner,
+  likesCount 
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editMessage, setEditMessage] = useState(message);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // Check if current user is the owner of this thought
+  const isOwner = currentUser && owner && currentUser._id === owner._id;
+
+  const handleEditSave = async () => {
+    if (!editMessage.trim() || editMessage === message) {
+      setIsEditing(false);
+      setEditMessage(message);
+      return;
+    }
+
+    setIsUpdating(true);
+    try {
+      const result = await onUpdate(_id, editMessage.trim());
+      if (result.success) {
+        setIsEditing(false);
+      } else {
+        alert(result.error || 'Failed to update thought');
+        setEditMessage(message); // Reset on error
+      }
+    } catch (error) {
+      alert('Failed to update thought');
+      setEditMessage(message); // Reset on error
+    }
+    setIsUpdating(false);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditing(false);
+    setEditMessage(message); // Reset to original message
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this thought?')) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const result = await onDelete(_id);
+      if (!result.success) {
+        alert(result.error || 'Failed to delete thought');
+      }
+      // If successful, the thought will be removed from the list automatically
+    } catch (error) {
+      alert('Failed to delete thought');
+    }
+    setIsDeleting(false);
+  };
+
   return (
     <Card>
-      <Message>{message}</Message>
+      {/* Show owner info if available */}
+      {owner && (
+        <OwnerInfo>
+          By: {owner.email}
+        </OwnerInfo>
+      )}
+      
+      {isEditing ? (
+        <>
+          <EditInput
+            value={editMessage}
+            onChange={(e) => setEditMessage(e.target.value)}
+            disabled={isUpdating}
+            maxLength={140}
+          />
+          <EditActions>
+            <Button onClick={handleEditCancel} disabled={isUpdating}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleEditSave} 
+              disabled={isUpdating || !editMessage.trim()}
+            >
+              {isUpdating ? 'Saving...' : 'Save'}
+            </Button>
+          </EditActions>
+        </>
+      ) : (
+        <Message>{message}</Message>
+      )}
+      
       <CardFooter>
         <LeftGroup>
           <LikeButtonWrapper $liked={liked}>
@@ -92,9 +254,22 @@ const ThoughtCard = ({ message, createdAt, hearts = 0, _id, onLike, liked }) => 
               ❤️
             </Button>
           </LikeButtonWrapper>
-          <span>x {hearts}</span>
+          <span>x {likesCount || hearts}</span>
         </LeftGroup>
-        <Timestamp date={createdAt} />
+        
+        <RightGroup>
+          <Timestamp date={createdAt} />
+          {isOwner && !isEditing && (
+            <OwnerActions>
+              <Button onClick={() => setIsEditing(true)} disabled={isDeleting}>
+                ✏️ Edit
+              </Button>
+              <Button onClick={handleDelete} disabled={isDeleting}>
+                {isDeleting ? 'Deleting...' : '🗑️ Delete'}
+              </Button>
+            </OwnerActions>
+          )}
+        </RightGroup>
       </CardFooter>
     </Card>
   );
