@@ -1,0 +1,228 @@
+# Happy Thoughts Frontend Integration Tasks
+
+## Phase 1: Backend Setup & API URL Configuration
+
+### Task 1.1: Update API Base URL
+- [ ] Open `src/hooks/useThoughts.js`
+- [ ] Change `API_URL` from `'https://happy-thoughts-api-4ful.onrender.com//thoughts'` to `'http://localhost:8080'`
+- [ ] Remove the `/thoughts` suffix since the new backend has different endpoint structure
+- [ ] Validation: Ensure backend is running on localhost:8080 before testing
+
+### Task 1.2: Create Environment Configuration
+- [ ] Create `src/config/api.js` file
+- [ ] Move API_URL constant to this file for centralized configuration
+- [ ] Export API_URL from config file
+- [ ] Update `src/hooks/useThoughts.js` to import API_URL from config
+- [ ] Validation: Verify import works and no console errors
+
+## Phase 2: Authentication System Implementation
+
+### Task 2.1: Create Authentication Context
+- [ ] Create `src/contexts/AuthContext.js`
+- [ ] Implement AuthProvider component with useState for user and token
+- [ ] Add login, signup, logout functions to context
+- [ ] Store/retrieve token from localStorage
+- [ ] Export useAuth hook for consuming components
+- [ ] Validation: Test context provides and consumes values correctly
+
+### Task 2.2: Create Authentication Components
+- [ ] Create `src/components/LoginForm.jsx`
+- [ ] Implement controlled form with email and password fields
+- [ ] Add form validation and error display
+- [ ] Connect to login function from AuthContext
+- [ ] Create `src/components/SignupForm.jsx` (similar structure)
+- [ ] Add toggle between login and signup modes
+- [ ] Validation: Forms render without errors and handle input changes
+
+### Task 2.3: Create Authentication Helper
+- [ ] Create `src/utils/authFetch.js`
+- [ ] Implement authenticatedFetch function that adds Bearer token header
+- [ ] Handle token retrieval from localStorage
+- [ ] Add error handling for 401 responses
+- [ ] Export function for use in API calls
+- [ ] Validation: Function adds correct Authorization header when token exists
+
+## Phase 3: Update API Calls
+
+### Task 3.1: Update Fetch Thoughts
+- [ ] In `src/hooks/useThoughts.js`, update fetch URL to `${API_URL}/thoughts`
+- [ ] Add pagination support (page and limit parameters)
+- [ ] Update useEffect to handle new response format
+- [ ] Test without authentication (should still work for viewing)
+- [ ] Validation: Thoughts load correctly from new backend
+
+### Task 3.2: Update Create Thought
+- [ ] In `src/hooks/useThoughts.js`, update addThought function
+- [ ] Change fetch URL to `${API_URL}/thoughts`
+- [ ] Import and use authenticatedFetch instead of regular fetch
+- [ ] Update error handling for new backend error format
+- [ ] Handle authentication requirement
+- [ ] Validation: Can create thoughts when authenticated, gets error when not
+
+### Task 3.3: Update Like Functionality
+- [ ] In `src/hooks/useThoughts.js`, update handleLike function
+- [ ] Change URL to `${API_URL}/thoughts/${thoughtId}/like`
+- [ ] Use authenticatedFetch for authentication requirement
+- [ ] Update to handle toggle behavior (like/unlike)
+- [ ] Remove local liked tracking from `useLikedThoughts.js` (server now handles this)
+- [ ] Validation: Like/unlike works when authenticated
+
+### Task 3.4: Add Edit Functionality
+- [ ] Add updateThought function to `src/hooks/useThoughts.js`
+- [ ] Implement PUT request to `${API_URL}/thoughts/${thoughtId}`
+- [ ] Use authenticatedFetch with thought message in body
+- [ ] Add to useThoughts hook return object
+- [ ] Validation: Can update thoughts when owner, gets error when not owner
+
+### Task 3.5: Add Delete Functionality
+- [ ] Add deleteThought function to `src/hooks/useThoughts.js`
+- [ ] Implement DELETE request to `${API_URL}/thoughts/${thoughtId}`
+- [ ] Use authenticatedFetch
+- [ ] Remove thought from local state on success
+- [ ] Add to useThoughts hook return object
+- [ ] Validation: Can delete thoughts when owner, gets error when not owner
+
+## Phase 4: Update UI Components
+
+### Task 4.1: Update App.jsx for Authentication
+- [ ] Wrap App component with AuthProvider
+- [ ] Add useAuth hook to get authentication state
+- [ ] Implement conditional rendering (auth forms vs main app)
+- [ ] Add logout button when user is authenticated
+- [ ] Show user email/info when logged in
+- [ ] Validation: Shows login form when not authenticated, shows app when authenticated
+
+### Task 4.2: Update ThoughtCard for Owner Actions
+- [ ] In `src/components/ThoughtCard.jsx`, add props for user and edit/delete functions
+- [ ] Add conditional rendering for edit/delete buttons (owner only)
+- [ ] Check if current user is thought owner using thought.owner._id
+- [ ] Add edit mode toggle functionality
+- [ ] Add delete confirmation dialog
+- [ ] Validation: Edit/delete buttons only show for thought owner
+
+### Task 4.3: Update ThoughtCard for New Data Format
+- [ ] Update ThoughtCard to handle new backend response format
+- [ ] Display thought.owner.email if available
+- [ ] Update like count to use thought.likesCount
+- [ ] Update like button state based on server data instead of local storage
+- [ ] Remove dependency on `liked` prop from local tracking
+- [ ] Validation: Displays new data fields correctly
+
+### Task 4.4: Update HappyThoughtForm for Authentication
+- [ ] In `src/components/HappyThoughtForm.jsx`, add authentication check
+- [ ] Show login prompt if user not authenticated
+- [ ] Disable form submission when not authenticated
+- [ ] Update error handling for authentication errors
+- [ ] Validation: Form only works when authenticated
+
+### Task 4.5: Remove Local Like Tracking
+- [ ] Remove `src/hooks/useLikedThoughts.js` file
+- [ ] Remove LikedBadge component usage from App.jsx
+- [ ] Remove likedThoughtIds props from ThoughtList and ThoughtCard
+- [ ] Clean up any localStorage.getItem('likedThoughtIds') references
+- [ ] Validation: No console errors, like functionality works from server state
+
+## Phase 5: Error Handling & UX Improvements
+
+### Task 5.1: Implement Global Error Handling
+- [ ] Create `src/utils/errorHandler.js`
+- [ ] Handle different error types (401, 403, 500, network errors)
+- [ ] Add automatic logout on 401 errors
+- [ ] Show appropriate user-friendly error messages
+- [ ] Validation: Different error scenarios show appropriate messages
+
+### Task 5.2: Add Loading States for Authentication
+- [ ] Add loading state to AuthContext during login/signup
+- [ ] Show loading spinners during authentication
+- [ ] Disable form submissions during loading
+- [ ] Add loading state to logout action
+- [ ] Validation: Loading states display correctly during auth operations
+
+### Task 5.3: Add Optimistic Updates
+- [ ] Update like functionality to show immediate UI feedback
+- [ ] Revert on API failure
+- [ ] Add optimistic updates for thought creation
+- [ ] Handle edit operations optimistically
+- [ ] Validation: UI responds immediately, reverts on failure
+
+## Phase 6: Testing & Validation
+
+### Task 6.1: Authentication Flow Testing
+- [ ] Test signup with new email/password
+- [ ] Verify JWT token storage in localStorage
+- [ ] Test login with created credentials
+- [ ] Test logout functionality
+- [ ] Test page refresh maintains authentication state
+- [ ] Validation: Complete auth flow works without errors
+
+### Task 6.2: CRUD Operations Testing
+- [ ] Test viewing thoughts without authentication
+- [ ] Test creating thoughts (requires authentication)
+- [ ] Test editing own thoughts (owner only)
+- [ ] Test deleting own thoughts (owner only)
+- [ ] Test attempting to edit/delete others' thoughts (should fail)
+- [ ] Validation: All CRUD operations work with proper permissions
+
+### Task 6.3: Error Scenarios Testing
+- [ ] Test login with wrong credentials
+- [ ] Test creating thoughts without authentication
+- [ ] Test token expiration handling
+- [ ] Test network error handling
+- [ ] Test invalid thought ID operations
+- [ ] Validation: All error scenarios handled gracefully
+
+### Task 6.4: Cross-Browser Testing
+- [ ] Test in Chrome, Firefox, Safari
+- [ ] Test localStorage persistence across sessions
+- [ ] Test form submissions and API calls
+- [ ] Verify responsive design still works
+- [ ] Validation: Works consistently across browsers
+
+## Phase 7: Code Cleanup & Documentation
+
+### Task 7.1: Remove Unused Code
+- [ ] Remove `src/hooks/useLikedThoughts.js`
+- [ ] Remove `src/components/LikedBadge.jsx`
+- [ ] Clean up unused imports in all files
+- [ ] Remove any old API URL references
+- [ ] Validation: No unused files or imports remain
+
+### Task 7.2: Update Documentation
+- [ ] Update README.md with new setup instructions
+- [ ] Document authentication requirements
+- [ ] Add backend setup prerequisites
+- [ ] Document new environment variables needed
+- [ ] Validation: Documentation is clear and complete
+
+### Task 7.3: Code Review & Refactoring
+- [ ] Ensure consistent error handling patterns
+- [ ] Verify all components use proper prop types
+- [ ] Check for any hardcoded values that should be configurable
+- [ ] Ensure media queries still work after changes
+- [ ] Validation: Code follows consistent patterns and best practices
+
+## Validation Checklist (Final)
+
+### Functional Testing
+- [ ] Can create account and login
+- [ ] Can view thoughts without authentication
+- [ ] Can create, edit, delete own thoughts when authenticated
+- [ ] Cannot edit/delete others' thoughts
+- [ ] Like/unlike functionality works
+- [ ] Logout works and clears authentication
+- [ ] Page refresh maintains proper state
+
+### Technical Testing
+- [ ] No console errors in browser
+- [ ] All API calls use correct endpoints
+- [ ] Authentication headers sent correctly
+- [ ] Error messages display appropriately
+- [ ] Loading states work correctly
+- [ ] Responsive design maintained
+
+### User Experience Testing
+- [ ] Smooth transition between authenticated/unauthenticated states
+- [ ] Clear feedback for all user actions
+- [ ] Intuitive navigation and form interactions
+- [ ] Appropriate error messaging
+- [ ] No broken UI elements

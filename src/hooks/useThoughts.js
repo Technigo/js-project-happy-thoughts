@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
+const API_URL = 'http://localhost:8080';
 
 export const useThoughts = () => {
   const [thoughts, setThoughts] = useState([]);
