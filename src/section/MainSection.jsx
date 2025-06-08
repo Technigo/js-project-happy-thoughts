@@ -15,6 +15,7 @@ export const MainSection = () => {
 
   const fetchData = () => {
     setIsLoading(true)
+    setApiError("")
     fetch(url)
       .then(res => res.json())
       .then(data => {
@@ -23,6 +24,7 @@ export const MainSection = () => {
       })
       .catch(err => {
         console.error(err)
+        setApiError("Could not load messages. Please try again later")
       })
       .finally(() => {
         setIsLoading(false)
@@ -65,6 +67,27 @@ export const MainSection = () => {
       })
   }
 
+  const deleteMessage = (id) => {
+    setApiError("")
+    fetch(`${url}/${id}`, {
+      method: "DELETE"
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to delete the message")
+        }
+        return res.json()
+      })
+      .then(() => {
+        setMessages((prev) => prev.filter((msg) => msg._id !== id))
+      })
+      .catch(err => {
+        console.log(err)
+        setApiError("Could not delete message. Please try again later.")
+      })
+
+  }
+
   const handleLike = (id) => {
     likeMessage(id)
     setLikedCount(c => c + 1)
@@ -85,7 +108,8 @@ export const MainSection = () => {
 
       <MessageList
         messages={messages}
-        onLike={handleLike} />
+        onLike={handleLike}
+        onDelete={deleteMessage} />
     </section>
   )
 }
