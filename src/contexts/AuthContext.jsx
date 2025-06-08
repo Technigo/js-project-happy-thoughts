@@ -21,11 +21,41 @@ export const AuthProvider = ({ children }) => {
   // Check if user is authenticated on mount
   useEffect(() => {
     if (token) {
-      // TODO: Optionally verify token with backend
-      // For now, just assume token exists = user is logged in
-      // In a real app, you might want to validate the token
+      // If we have a token but no user, try to get user info from a test API call
+      // This helps restore the user state after page refresh
+      const verifyToken = async () => {
+        try {
+          const response = await fetch(`${API_URL}/thoughts?limit=1`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
+          if (response.ok) {
+            // Token is valid - we could decode it to get user info, but for now
+            // we'll just set a minimal user object so the UI works
+            if (!user) {
+              // Extract email from localStorage if available, or use placeholder
+              const storedEmail = localStorage.getItem('userEmail');
+              setUser({ 
+                email: storedEmail || 'user@example.com', 
+                id: 'current-user' 
+              });
+            }
+          } else {
+            // Token is invalid, clear it
+            localStorage.removeItem('token');
+            localStorage.removeItem('userEmail');
+            setToken(null);
+            setUser(null);
+          }
+        } catch (error) {
+          console.warn('Token verification failed:', error);
+          // Keep the token for now, let other parts of the app handle auth errors
+        }
+      };
+
+      verifyToken();
     }
-  }, [token]);
+  }, [token, user]);
 
   // Set up global logout handler for authFetch
   useEffect(() => {
@@ -46,6 +76,7 @@ export const AuthProvider = ({ children }) => {
         setToken(data.token);
         setUser(data.user);
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userEmail', data.user.email);
         return { success: true, user: data.user };
       } else {
         const error = await createErrorFromResponse(response);
@@ -74,6 +105,7 @@ export const AuthProvider = ({ children }) => {
         setToken(data.token);
         setUser(data.user);
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userEmail', data.user.email);
         return { success: true, user: data.user };
       } else {
         const error = await createErrorFromResponse(response);
@@ -95,6 +127,7 @@ export const AuthProvider = ({ children }) => {
       setToken(null);
       setUser(null);
       localStorage.removeItem('token');
+      localStorage.removeItem('userEmail');
       setLoading(false);
     }, 300);
   };
@@ -104,6 +137,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
     // No loading state for force logout as it's immediate
     // You could also show a toast notification here
     // toast.warning(reason);

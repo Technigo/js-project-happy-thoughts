@@ -70,7 +70,9 @@ const PasswordRequirements = styled.div`
   border-left: 3px solid #ddd;
 `;
 
-const RequirementItem = styled.div`
+const RequirementItem = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'valid',
+})`
   color: ${props => props.valid ? '#4CAF50' : '#666'};
   margin: 2px 0;
   
