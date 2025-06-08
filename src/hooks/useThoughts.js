@@ -26,7 +26,7 @@ export const useThoughts = () => {
         const thoughtsArray = data.thoughts || data;
         setThoughts(thoughtsArray);
         setLoading(false);
-      } catch (err) {
+      } catch {
         setError('Could not load happy thoughts. Please try again later.');
         setLoading(false);
       }

@@ -158,7 +158,7 @@ const SignupForm = ({ onToggleMode }) => {
         setError(result.details || result.error || 'Signup failed');
       }
       // If successful, the AuthContext will handle state updates
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
     }
   };

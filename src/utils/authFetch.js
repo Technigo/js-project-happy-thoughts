@@ -43,7 +43,7 @@ export const authenticatedFetch = async (url, options = {}) => {
       }
       
       const error = await createErrorFromResponse(response);
-      const handledError = handleError(error, { url, method: options.method || 'GET' });
+      handleError(error, { url, method: options.method || 'GET' });
       throw error;
     }
 
@@ -51,9 +51,8 @@ export const authenticatedFetch = async (url, options = {}) => {
   } catch (error) {
     // If it's not a 401 error, handle other errors
     if (error.statusCode !== 401) {
-      const handledError = handleError(error, { url, method: options.method || 'GET' });
+      handleError(error, { url, method: options.method || 'GET' });
       // For non-401 errors, we can enhance the error but still throw it
-      error.handledError = handledError;
     }
     throw error;
   }

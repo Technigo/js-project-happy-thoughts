@@ -184,7 +184,7 @@ const ThoughtCard = ({
         alert(result.error || 'Failed to update thought');
         setEditMessage(message); // Reset on error
       }
-    } catch (error) {
+    } catch {
       alert('Failed to update thought');
       setEditMessage(message); // Reset on error
     }
@@ -208,7 +208,7 @@ const ThoughtCard = ({
         alert(result.error || 'Failed to delete thought');
       }
       // If successful, the thought will be removed from the list automatically
-    } catch (error) {
+    } catch {
       alert('Failed to delete thought');
     }
     setIsDeleting(false);
