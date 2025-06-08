@@ -6,30 +6,28 @@ export const MessageCard = ({ message, onLike, onDelete }) => {
   return (
     <div className="flex flex-col gap-5 bg-white p-5 border rounded-xs shadow-[10px_10px] shadow-black h-max break-words">
       <div className="flex justify-between">
-        <p className="max-w-full">{message.message}</p>
+        <p className="max-w-60">{message.message}</p>
         <div className="flex gap-3">
           <button
-            className="p-2 bg-blue-100 rounded-xl"
+            className="p-2 bg-blue-100 rounded-xl w-max h-max"
             type="button"
           >
             <img
-              className="w-5 h-5"
+              className="max-w-5 max-h-5"
               src="assets/edit.png"
-              alt=""
+              alt="Edit message"
             />
           </button>
           <button
-            className="p-2 bg-blue-100 rounded-xl"
+            className="p-2 bg-blue-100 rounded-xl w-max h-max"
             type="button"
             onClick={onDelete}>
             <img
               className="w-5 h-5"
               src="assets/set.png"
-              alt="" />
+              alt="Delete message" />
           </button>
         </div>
-
-
       </div>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2" >

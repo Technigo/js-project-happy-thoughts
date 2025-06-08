@@ -11,7 +11,9 @@ export const MainSection = () => {
   const [apiError, setApiError] = useState("")
   const [likedCount, setLikedCount] = useState(0)
 
-  const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
+  // const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
+  //Local API
+  const url = "http://localhost:8080/thoughts" 
 
   const fetchData = () => {
     setIsLoading(true)
@@ -19,7 +21,10 @@ export const MainSection = () => {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        setMessages(data)
+        if (!data.success) {
+          throw new Error("API response indicated failure")
+        }
+        setMessages(data.response)
 
       })
       .catch(err => {
