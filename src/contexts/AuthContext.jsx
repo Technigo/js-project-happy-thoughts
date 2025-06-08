@@ -73,9 +73,10 @@ export const AuthProvider = ({ children }) => {
       
       if (response.ok) {
         const data = await response.json();
-        setToken(data.token);
+        const token = data.accessToken || data.token; // Handle both possible field names
+        setToken(token);
         setUser(data.user);
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', token);
         localStorage.setItem('userEmail', data.user.email);
         return { success: true, user: data.user };
       } else {
@@ -91,20 +92,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (email, password) => {
+  const signup = async (name, email, password) => {
     setLoading(true);
     try {
       const response = await fetch(`${API_URL}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ name, email, password })
       });
       
       if (response.ok) {
         const data = await response.json();
-        setToken(data.token);
+        const token = data.accessToken || data.token; // Handle both possible field names
+        setToken(token);
         setUser(data.user);
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', token);
         localStorage.setItem('userEmail', data.user.email);
         return { success: true, user: data.user };
       } else {

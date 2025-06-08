@@ -148,12 +148,12 @@
 ## Phase 6: Testing & Validation
 
 ### Task 6.1: Authentication Flow Testing
-- [ ] Test signup with new email/password
-- [ ] Verify JWT token storage in localStorage  
-- [ ] Test login with created credentials
-- [ ] Test logout functionality
-- [ ] Test page refresh maintains authentication state
-- [ ] Validation: Complete auth flow works without errors
+- [x] Test signup with new email/password (Fixed: Added name field, fixed token handling)
+- [x] Verify JWT token storage in localStorage (Fixed: Handle accessToken from backend)
+- [x] Test login with created credentials (Fixed: Token format compatibility)
+- [x] Test logout functionality (Updated: Clear both token and userEmail)
+- [x] Test page refresh maintains authentication state (Fixed: Added token verification)
+- [x] Validation: Complete auth flow works without errors
 
 ### Task 6.2: CRUD Operations Testing
 - [ ] Test viewing thoughts without authentication

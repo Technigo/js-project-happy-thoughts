@@ -111,6 +111,7 @@ const ToggleLink = styled.button`
 `;
 
 const SignupForm = ({ onToggleMode }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -131,7 +132,7 @@ const SignupForm = ({ onToggleMode }) => {
     e.preventDefault();
     setError('');
 
-    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
       setError('Please fill in all fields');
       return;
     }
@@ -152,7 +153,7 @@ const SignupForm = ({ onToggleMode }) => {
     }
 
     try {
-      const result = await signup(email, password);
+      const result = await signup(name, email, password);
       if (!result.success) {
         setError(result.details || result.error || 'Signup failed');
       }
@@ -162,12 +163,20 @@ const SignupForm = ({ onToggleMode }) => {
     }
   };
 
-  const isFormValid = email.trim() && isPasswordValid && confirmPassword.trim() && password === confirmPassword;
+  const isFormValid = name.trim() && email.trim() && isPasswordValid && confirmPassword.trim() && password === confirmPassword;
 
   return (
     <FormContainer>
       <Title>Join the Happy Community!</Title>
       <Form onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Your name"
+          required
+          disabled={loading}
+        />
         <Input
           type="email"
           value={email}
