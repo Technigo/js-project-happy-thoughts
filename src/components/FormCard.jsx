@@ -41,6 +41,15 @@ export const FormCard = ({ onSubmit, apiError }) => {
     }
   }
 
+
+  const handleKeyDown = (event) => {
+
+    if (event.key === "Enter" && !event.sheftKey) {
+      event.preventDefault()
+      handleSubmit(event)
+    }
+  }
+
   return (
     <>
       <form
@@ -59,8 +68,10 @@ export const FormCard = ({ onSubmit, apiError }) => {
           id="happy"
           className="resize-none bg-white w-full border-2 border-gray-300 focus:outline-red-200"
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           value={message}
-          maxLength={maxChars}>
+          maxLength={maxChars}
+        >
         </textarea>
 
         <div className="flex flex-col w-full">
