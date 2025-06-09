@@ -6,27 +6,43 @@ function useFetchThoughts() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const reload = () => {
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
     setLoading(true);
-    fetchThoughts()
+    fetchThoughts(page)
       .then((data) => {
-        // Mappa om varje object till { id, text, hearts, createdAt } för att slippa _id
-        const mapped = data.map((t) => ({
-          id: t._id,
-          text: t.message,
-          hearts: t.hearts,
-          createdAt: t.createdAt,
+        const mapped = data.results.map((thought) => ({
+          id: thought._id,
+          message: thought.message,
+          likes: thought.likes,
+          createdAt: thought.createdAt,
         }));
-        setThoughts(mapped);
+        setThoughts((prev) => [...prev, ...mapped]);
+        setTotalPages(data.totalPages);
         setError(null);
       })
       .catch((error) => setError(error.message))
       .finally(() => setLoading(false));
+  }, [page]);
+
+  //För att kunna ladda om hela listan
+  const reload = () => {
+    setThoughts([]);
+    setPage(1);
   };
 
-  useEffect(reload, []);
-
-  return { loading, thoughts, error, reload, setThoughts };
+  return {
+    thoughts,
+    loading,
+    error,
+    reload,
+    page,
+    setPage,
+    totalPages,
+    setThoughts,
+  };
 }
 
 export default useFetchThoughts;

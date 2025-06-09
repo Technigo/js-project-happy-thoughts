@@ -11,7 +11,11 @@ export default function ThoughtsBoard() {
     loading,
     error: fetchError,
     setThoughts,
+    page,
+    setPage,
+    totalPages,
   } = useFetchThoughts();
+
   const {
     sendThought,
     posting,
@@ -19,6 +23,7 @@ export default function ThoughtsBoard() {
   } = usePostThought((newThought) => {
     setThoughts((prev) => [newThought, ...prev]);
   });
+
   const {
     like,
     loading: liking,
@@ -36,14 +41,12 @@ export default function ThoughtsBoard() {
 
   return (
     <>
-      {/* Formulär */}
       <ThoughtForm
         onNewThought={sendThought}
         disabled={posting}
         error={postError && 'Could not post, please try again'}
       />
 
-      {/* Lista eller fallback */}
       {loading && <p>Loading…</p>}
 
       {!loading && fetchError && (
@@ -57,6 +60,12 @@ export default function ThoughtsBoard() {
           liking={liking}
           likeError={likeError}
         />
+      )}
+
+      {!loading && page < totalPages && (
+        <button onClick={() => setPage((prev) => prev + 1)}>
+          Visa fler tankar
+        </button>
       )}
     </>
   );

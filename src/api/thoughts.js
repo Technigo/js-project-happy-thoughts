@@ -1,7 +1,7 @@
-const API_URL = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
+const API_URL = 'http://localhost:8080/api/thoughts';
 
-export const fetchThoughts = async () => {
-  const response = await fetch(`${API_URL}`);
+export const fetchThoughts = async (page = 1, limit = 5) => {
+  const response = await fetch(`${API_URL}?page=${page}&limit=${limit}`);
   if (!response.ok) throw new Error('Failed to fetch thoughts');
   return response.json();
 };
