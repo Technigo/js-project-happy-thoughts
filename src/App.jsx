@@ -3,7 +3,8 @@ import ThoughtForm from "./components/ThoughtForm";
 import ThoughtList from "./components/ThoughtList";
 import "./App.css";
 
-const API_URL = "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts";
+// New URL from reviewers
+const API_URL = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
 
 export default function App() {
   const [thoughts, setThoughts] = useState([]);
