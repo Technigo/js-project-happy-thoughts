@@ -7,6 +7,28 @@ export const useThoughts = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Helper function to add isLikedByUser field to thoughts
+  const processThought = (thought) => {
+    const token = localStorage.getItem('token');
+    let userId = null;
+    
+    // Try to extract user ID from token (you might need to adjust this based on your token structure)
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        userId = payload.userId || payload.id || payload.sub;
+      } catch (error) {
+        console.warn('Could not parse token:', error);
+      }
+    }
+    
+    return {
+      ...thought,
+      isLikedByUser: userId ? thought.likedBy?.includes(userId) : false,
+      likesCount: thought.likesCount || thought.hearts || 0
+    };
+  };
+
   // Fetch thoughts from API on mount
   useEffect(() => {
     const fetchThoughts = async (page = 1, limit = 20) => {
@@ -24,7 +46,9 @@ export const useThoughts = () => {
         
         // Handle both paginated and direct array responses
         const thoughtsArray = data.thoughts || data;
-        setThoughts(thoughtsArray);
+        const processedThoughts = thoughtsArray.map(processThought);
+        console.log('Fetched thoughts:', processedThoughts);
+        setThoughts(processedThoughts);
         setLoading(false);
       } catch {
         setError('Could not load happy thoughts. Please try again later.');
@@ -64,9 +88,10 @@ export const useThoughts = () => {
       
       if (response.ok && data.message && data._id) {
         // Successfully created thought, replace optimistic version
+        const processedThought = processThought(data);
         setThoughts((prev) => 
           prev.map((thought) => 
-            thought._id === optimisticThought._id ? data : thought
+            thought._id === optimisticThought._id ? processedThought : thought
           )
         );
       } else {
@@ -127,11 +152,12 @@ export const useThoughts = () => {
       
       if (response.ok) {
         const updatedThought = await response.json();
+        const processedThought = processThought(updatedThought);
         
         // Update with the actual server response
         setThoughts((prev) =>
           prev.map((thought) =>
-            thought._id === updatedThought._id ? updatedThought : thought
+            thought._id === updatedThought._id ? processedThought : thought
           )
         );
         
@@ -185,15 +211,16 @@ export const useThoughts = () => {
       
       if (response.ok) {
         const updatedThought = await response.json();
+        const processedThought = processThought(updatedThought);
         
         // Update with the actual server response
         setThoughts((prev) =>
           prev.map((thought) =>
-            thought._id === updatedThought._id ? updatedThought : thought
+            thought._id === updatedThought._id ? processedThought : thought
           )
         );
         
-        return { success: true, thought: updatedThought };
+        return { success: true, thought: processedThought };
       } else {
         // Revert optimistic update on error
         setThoughts((prev) =>
