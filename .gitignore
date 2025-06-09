@@ -23,3 +23,9 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
+
+
+requirements.txt
+Example.png
+documentation.txt
+tasks.txt

@@ -1,0 +1,278 @@
+import { useState } from 'react';
+import styled from 'styled-components';
+import Timestamp from './Timestamp';
+import Button from './Button';
+import { device } from '../styles/media';
+
+const LikeButtonWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: ${props => props.$liked ? '#fff0f5' : 'none'};
+  margin-right: 8px;
+
+  @media ${device.smallMobile} {
+    width: 36px;
+    height: 36px;
+    margin-right: 6px;
+  }
+`;
+
+const Card = styled.div`
+  background: white;
+  border-radius: 0;
+  border: 1px solid #bbb;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 6px 6px 0 #000;
+  max-width: 500px;
+  width: 100%;
+
+  @media ${device.mobile} {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  @media ${device.smallMobile} {
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow: 4px 4px 0 #000;
+  }
+`;
+
+const Message = styled.p`
+  margin: 0 0 15px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+
+  @media ${device.smallMobile} {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+`;
+
+const CardFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+  }
+`;
+
+const LeftGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+  }
+`;
+
+const RightGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+`;
+
+const OwnerActions = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-left: 8px;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+`;
+
+const EditInput = styled.textarea`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 10px;
+  font-family: inherit;
+
+  @media ${device.smallMobile} {
+    padding: 8px;
+    font-size: 0.95rem;
+    min-height: 70px;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #ff4d4d;
+  }
+`;
+
+const EditActions = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+
+  @media ${device.smallMobile} {
+    gap: 6px;
+  }
+`;
+
+const OwnerInfo = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 8px;
+`;
+
+const ThoughtCard = ({ 
+  message, 
+  createdAt, 
+  hearts = 0, 
+  _id, 
+  onLike, 
+  liked, 
+  currentUser, 
+  onUpdate, 
+  onDelete,
+  owner,
+  likesCount 
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editMessage, setEditMessage] = useState(message);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // Check if current user is the owner of this thought
+  const isOwner = currentUser && owner && currentUser._id === owner._id;
+
+  const handleEditSave = async () => {
+    if (!editMessage.trim() || editMessage === message) {
+      setIsEditing(false);
+      setEditMessage(message);
+      return;
+    }
+
+    setIsUpdating(true);
+    try {
+      const result = await onUpdate(_id, editMessage.trim());
+      if (result.success) {
+        setIsEditing(false);
+      } else {
+        alert(result.error || 'Failed to update thought');
+        setEditMessage(message); // Reset on error
+      }
+    } catch {
+      alert('Failed to update thought');
+      setEditMessage(message); // Reset on error
+    }
+    setIsUpdating(false);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditing(false);
+    setEditMessage(message); // Reset to original message
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this thought?')) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const result = await onDelete(_id);
+      if (!result.success) {
+        alert(result.error || 'Failed to delete thought');
+      }
+      // If successful, the thought will be removed from the list automatically
+    } catch {
+      alert('Failed to delete thought');
+    }
+    setIsDeleting(false);
+  };
+
+  return (
+    <Card>
+      {/* Show owner info if available */}
+      {owner && (
+        <OwnerInfo>
+          By: {owner.email}
+        </OwnerInfo>
+      )}
+      
+      {isEditing ? (
+        <>
+          <EditInput
+            value={editMessage}
+            onChange={(e) => setEditMessage(e.target.value)}
+            disabled={isUpdating}
+            maxLength={140}
+          />
+          <EditActions>
+            <Button onClick={handleEditCancel} disabled={isUpdating}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleEditSave} 
+              disabled={isUpdating || !editMessage.trim()}
+            >
+              {isUpdating ? 'Saving...' : 'Save'}
+            </Button>
+          </EditActions>
+        </>
+      ) : (
+        <Message>{message}</Message>
+      )}
+      
+      <CardFooter>
+        <LeftGroup>
+          <LikeButtonWrapper $liked={liked}>
+            <Button circle onClick={() => onLike(_id)} disabled={liked} $liked={liked}>
+              ❤️
+            </Button>
+          </LikeButtonWrapper>
+          <span>x {likesCount || hearts}</span>
+        </LeftGroup>
+        
+        <RightGroup>
+          <Timestamp date={createdAt} />
+          {isOwner && !isEditing && (
+            <OwnerActions>
+              <Button onClick={() => setIsEditing(true)} disabled={isDeleting}>
+                ✏️ Edit
+              </Button>
+              <Button onClick={handleDelete} disabled={isDeleting}>
+                {isDeleting ? 'Deleting...' : '🗑️ Delete'}
+              </Button>
+            </OwnerActions>
+          )}
+        </RightGroup>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default ThoughtCard; 
