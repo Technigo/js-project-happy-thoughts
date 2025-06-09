@@ -17,16 +17,20 @@ export const extractUserFromToken = (token) => {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const userId = payload.userId || payload.id || payload.sub;
     const storedEmail = localStorage.getItem('userEmail');
+    const storedName = localStorage.getItem('userName');
     
     return { 
       _id: userId,
-      email: storedEmail || 'user@example.com'
+      email: storedEmail || 'user@example.com',
+      name: storedName || null
     };
   } catch {
     const storedEmail = localStorage.getItem('userEmail');
+    const storedName = localStorage.getItem('userName');
     return { 
       _id: 'unknown',
-      email: storedEmail || 'user@example.com'
+      email: storedEmail || 'user@example.com',
+      name: storedName || null
     };
   }
 };
@@ -37,6 +41,7 @@ export const extractUserFromToken = (token) => {
 export const clearAuthStorage = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('userEmail');
+  localStorage.removeItem('userName');
 };
 
 /**
@@ -45,6 +50,9 @@ export const clearAuthStorage = () => {
 export const saveAuthData = (token, user) => {
   localStorage.setItem('token', token);
   localStorage.setItem('userEmail', user.email);
+  if (user.name) {
+    localStorage.setItem('userName', user.name);
+  }
 };
 
 /**
