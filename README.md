@@ -192,11 +192,38 @@ Update `src/config/api.js` with your production API URL:
 export const API_URL = "https://your-production-api.com";
 ```
 
-### **Deployment Platforms**
+### **Netlify Deployment** (Recommended)
 
-This app can be deployed to:
+This app is optimized for Netlify deployment with the included `netlify.toml` configuration.
 
-- **Netlify** - Static site hosting
+**Quick Deploy:**
+
+1. **Connect to Git:**
+
+   ```bash
+   git add .
+   git commit -m "Ready for Netlify deployment"
+   git push origin main
+   ```
+
+2. **Deploy to Netlify:**
+   - Go to [netlify.com](https://netlify.com) and login
+   - Click "New site from Git"
+   - Connect your repository
+   - Netlify will automatically use the `netlify.toml` configuration
+   - Deploy!
+
+**Manual Deploy:**
+
+```bash
+npm run build
+# Upload the dist/ folder to Netlify
+```
+
+### **Other Deployment Platforms**
+
+This app can also be deployed to:
+
 - **Vercel** - Frontend platform
 - **GitHub Pages** - Free static hosting
 - **AWS S3** - Cloud storage with CloudFront
