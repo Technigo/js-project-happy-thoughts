@@ -6,6 +6,9 @@ const ErrorWrapper = styled.div`
   font-size: 1rem;
 `;
 
+/**
+ * Displays error messages with consistent styling
+ */
 const ErrorMessage = ({ children }) => <ErrorWrapper>{children}</ErrorWrapper>;
 
 export default ErrorMessage; 

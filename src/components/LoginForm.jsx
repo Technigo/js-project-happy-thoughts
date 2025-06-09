@@ -4,6 +4,7 @@ import { device } from '../styles/media';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
+import { validateLoginForm } from '../utils/validation';
 
 const FormContainer = styled.div`
   background: #f5f5f5;
@@ -93,17 +94,14 @@ const LoginForm = ({ onToggleMode }) => {
   const [error, setError] = useState('');
   const { login, loading } = useAuth();
 
+  const isFormValid = validateLoginForm(email, password);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (!email.trim() || !password.trim()) {
-      setError('Please fill in all fields');
-      return;
-    }
-
-    if (!email.includes('@')) {
-      setError('Please enter a valid email address');
+    if (!isFormValid) {
+      setError('Please enter a valid email and password');
       return;
     }
 
@@ -112,7 +110,6 @@ const LoginForm = ({ onToggleMode }) => {
       if (!result.success) {
         setError(result.details || result.error || 'Login failed');
       }
-      // If successful, the AuthContext will handle state updates
     } catch {
       setError('An unexpected error occurred');
     }
@@ -140,7 +137,7 @@ const LoginForm = ({ onToggleMode }) => {
         />
         <ButtonContainer>
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          <Button type="submit" disabled={loading || !email.trim() || !password.trim()}>
+          <Button type="submit" disabled={loading || !isFormValid}>
             {loading ? 'Logging in...' : '❤️ Log In ❤️'}
           </Button>
           <ToggleText>

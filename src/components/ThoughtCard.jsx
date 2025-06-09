@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Timestamp from './Timestamp';
 import Button from './Button';
 import { device } from '../styles/media';
+import { isResourceOwner, confirmAction, processMessageEdit } from '../utils/validation';
+import { getTimeAgo } from '../utils/dateHelpers';
 
 const LikeButtonWrapper = styled.div`
   display: inline-flex;
@@ -147,6 +148,14 @@ const OwnerInfo = styled.div`
   margin-bottom: 8px;
 `;
 
+const Time = styled.span`
+  color: #666;
+  font-size: 0.9rem;
+`;
+
+/**
+ * Card component displaying a single thought with like, edit, and delete functionality
+ */
 const ThoughtCard = ({ 
   message, 
   createdAt, 
@@ -166,52 +175,40 @@ const ThoughtCard = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // Check if current user is the owner of this thought
-  const isOwner = currentUser && owner && currentUser._id === owner._id;
+  const isOwner = isResourceOwner(currentUser, owner);
 
   const handleEditSave = async () => {
-    if (!editMessage.trim() || editMessage === message) {
+    const { isValid, processedMessage } = processMessageEdit(editMessage, message);
+    
+    if (!isValid) {
       setIsEditing(false);
       setEditMessage(message);
       return;
     }
 
     setIsUpdating(true);
-    try {
-      const result = await onUpdate(_id, editMessage.trim());
-      
-      if (result.success) {
-        setIsEditing(false);
-      } else {
-        alert(result.error || 'Failed to update thought');
-        setEditMessage(message); // Reset on error
-      }
-    } catch (error) {
-      alert('Failed to update thought');
-      setEditMessage(message); // Reset on error
+    const result = await onUpdate(_id, processedMessage);
+    
+    if (result.success) {
+      setIsEditing(false);
+    } else {
+      setEditMessage(message);
     }
     setIsUpdating(false);
   };
 
   const handleEditCancel = () => {
     setIsEditing(false);
-    setEditMessage(message); // Reset to original message
+    setEditMessage(message);
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this thought?')) {
+    if (!confirmAction('Are you sure you want to delete this thought?')) {
       return;
     }
 
     setIsDeleting(true);
-    try {
-      const result = await onDelete(_id);
-      if (!result.success) {
-        alert(result.error || 'Failed to delete thought');
-      }
-    } catch {
-      alert('Failed to delete thought');
-    }
+    await onDelete(_id);
     setIsDeleting(false);
   };
 
@@ -259,7 +256,7 @@ const ThoughtCard = ({
         </LeftGroup>
         
         <RightGroup>
-          <Timestamp date={createdAt} />
+          <Time>{getTimeAgo(createdAt)}</Time>
           {/* Show edit/delete buttons only for thought owner */}
           {isOwner && !isEditing && !isOptimistic && (
             <OwnerActions>

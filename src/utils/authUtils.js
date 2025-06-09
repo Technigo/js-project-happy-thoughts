@@ -1,4 +1,4 @@
-import { handleError, createErrorFromResponse, ERROR_TYPES } from './errorHandler';
+import { handleError, createErrorFromResponse } from './errorHandler';
 
 /**
  * Global logout handler reference - will be set by AuthContext
@@ -10,14 +10,50 @@ export const setGlobalLogoutHandler = (logoutHandler) => {
 };
 
 /**
+ * Extracts user information from a JWT token
+ */
+export const extractUserFromToken = (token) => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userId = payload.userId || payload.id || payload.sub;
+    const storedEmail = localStorage.getItem('userEmail');
+    
+    return { 
+      _id: userId,
+      email: storedEmail || 'user@example.com'
+    };
+  } catch {
+    const storedEmail = localStorage.getItem('userEmail');
+    return { 
+      _id: 'unknown',
+      email: storedEmail || 'user@example.com'
+    };
+  }
+};
+
+/**
+ * Clears authentication data from localStorage
+ */
+export const clearAuthStorage = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userEmail');
+};
+
+/**
+ * Saves authentication data to localStorage
+ */
+export const saveAuthData = (token, user) => {
+  localStorage.setItem('token', token);
+  localStorage.setItem('userEmail', user.email);
+};
+
+/**
  * Authenticated fetch utility that automatically adds Bearer token header
  * and handles common authentication scenarios
  */
 export const authenticatedFetch = async (url, options = {}) => {
   const token = localStorage.getItem('token');
-  console.log('Using token for request:', token ? `${token.substring(0, 20)}...` : 'No token');
   
-  // Prepare headers with authorization if token exists
   const headers = {
     'Content-Type': 'application/json',
     ...(token && { Authorization: `Bearer ${token}` }),
@@ -30,36 +66,24 @@ export const authenticatedFetch = async (url, options = {}) => {
       headers
     });
 
-    // Handle 401 Unauthorized responses
     if (response.status === 401) {
-      console.log('401 Unauthorized response:', {
-        url,
-        status: response.status,
-        statusText: response.statusText
-      });
+      clearAuthStorage();
       
-      // Token is likely expired or invalid
-      localStorage.removeItem('token');
-      
-      // Call the global logout handler if available
       if (globalForceLogout) {
-        globalForceLogout('Your session has expired. Please log in again.');
+        globalForceLogout();
       } else {
-        // Fallback to custom event
         window.dispatchEvent(new CustomEvent('auth:logout'));
       }
       
       const error = await createErrorFromResponse(response);
-      handleError(error, { url, method: options.method || 'GET' });
+      handleError(error);
       throw error;
     }
 
     return response;
   } catch (error) {
-    // If it's not a 401 error, handle other errors
     if (error.statusCode !== 401) {
-      handleError(error, { url, method: options.method || 'GET' });
-      // For non-401 errors, we can enhance the error but still throw it
+      handleError(error);
     }
     throw error;
   }

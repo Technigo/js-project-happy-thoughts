@@ -1,4 +1,3 @@
-// Global error handler utility
 export const ERROR_TYPES = {
   NETWORK: 'NETWORK',
   AUTHENTICATION: 'AUTHENTICATION',
@@ -17,6 +16,9 @@ export const ERROR_MESSAGES = {
   [ERROR_TYPES.UNKNOWN]: 'An unexpected error occurred. Please try again.'
 };
 
+/**
+ * Custom error class with type and status information
+ */
 export class AppError extends Error {
   constructor(type, message, statusCode = null, originalError = null) {
     super(message);
@@ -27,67 +29,99 @@ export class AppError extends Error {
   }
 }
 
-export const handleError = (error, context = {}) => {
-  console.error('Error occurred:', error, 'Context:', context);
-  
-  let errorType = ERROR_TYPES.UNKNOWN;
-  let userMessage = ERROR_MESSAGES[ERROR_TYPES.UNKNOWN];
-  let shouldLogout = false;
+const getHttpErrorDetails = (status, error) => {
+  switch (status) {
+    case 401:
+      return {
+        type: ERROR_TYPES.AUTHENTICATION,
+        message: 'Your session has expired. Please log in again.',
+        shouldLogout: true
+      };
+    case 403:
+      return {
+        type: ERROR_TYPES.AUTHORIZATION,
+        message: ERROR_MESSAGES[ERROR_TYPES.AUTHORIZATION],
+        shouldLogout: false
+      };
+    case 400:
+      return {
+        type: ERROR_TYPES.VALIDATION,
+        message: error.message || ERROR_MESSAGES[ERROR_TYPES.VALIDATION],
+        shouldLogout: false
+      };
+    case 404:
+      return {
+        type: ERROR_TYPES.UNKNOWN,
+        message: 'The requested resource was not found.',
+        shouldLogout: false
+      };
+    case 429:
+      return {
+        type: ERROR_TYPES.UNKNOWN,
+        message: 'Too many requests. Please wait a moment and try again.',
+        shouldLogout: false
+      };
+    case 500:
+    case 502:
+    case 503:
+    case 504:
+      return {
+        type: ERROR_TYPES.SERVER,
+        message: ERROR_MESSAGES[ERROR_TYPES.SERVER],
+        shouldLogout: false
+      };
+    default:
+      return {
+        type: ERROR_TYPES.UNKNOWN,
+        message: error.message || ERROR_MESSAGES[ERROR_TYPES.UNKNOWN],
+        shouldLogout: false
+      };
+  }
+};
 
+/**
+ * Handles errors and returns standardized error information
+ */
+export const handleError = (error) => {
   if (error instanceof AppError) {
-    errorType = error.type;
-    userMessage = error.message;
-  } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
-    // Network errors
-    errorType = ERROR_TYPES.NETWORK;
-    userMessage = ERROR_MESSAGES[ERROR_TYPES.NETWORK];
-  } else if (error.status || error.statusCode) {
-    // HTTP errors
+    return {
+      type: error.type,
+      message: error.message,
+      shouldLogout: false,
+      originalError: error
+    };
+  }
+
+  if (error.name === 'TypeError' && error.message.includes('fetch')) {
+    return {
+      type: ERROR_TYPES.NETWORK,
+      message: ERROR_MESSAGES[ERROR_TYPES.NETWORK],
+      shouldLogout: false,
+      originalError: error
+    };
+  }
+
+  if (error.status || error.statusCode) {
     const status = error.status || error.statusCode;
+    const details = getHttpErrorDetails(status, error);
     
-    switch (status) {
-      case 401:
-        errorType = ERROR_TYPES.AUTHENTICATION;
-        userMessage = 'Your session has expired. Please log in again.';
-        shouldLogout = true;
-        break;
-      case 403:
-        errorType = ERROR_TYPES.AUTHORIZATION;
-        userMessage = ERROR_MESSAGES[ERROR_TYPES.AUTHORIZATION];
-        break;
-      case 400:
-        errorType = ERROR_TYPES.VALIDATION;
-        userMessage = error.message || ERROR_MESSAGES[ERROR_TYPES.VALIDATION];
-        break;
-      case 404:
-        userMessage = 'The requested resource was not found.';
-        break;
-      case 429:
-        userMessage = 'Too many requests. Please wait a moment and try again.';
-        break;
-      case 500:
-      case 502:
-      case 503:
-      case 504:
-        errorType = ERROR_TYPES.SERVER;
-        userMessage = ERROR_MESSAGES[ERROR_TYPES.SERVER];
-        break;
-      default:
-        userMessage = error.message || ERROR_MESSAGES[ERROR_TYPES.UNKNOWN];
-    }
-  } else if (error.message) {
-    // Use the error message if available
-    userMessage = error.message;
+    return {
+      ...details,
+      originalError: error
+    };
   }
 
   return {
-    type: errorType,
-    message: userMessage,
-    shouldLogout,
+    type: ERROR_TYPES.UNKNOWN,
+    message: error.message || ERROR_MESSAGES[ERROR_TYPES.UNKNOWN],
+    shouldLogout: false,
     originalError: error
   };
 };
 
+/**
+ * Creates an AppError from a failed HTTP response
+ */
 export const createErrorFromResponse = async (response) => {
   let errorMessage = `HTTP ${response.status}`;
   
@@ -95,7 +129,6 @@ export const createErrorFromResponse = async (response) => {
     const errorData = await response.json();
     errorMessage = errorData.message || errorData.error || errorMessage;
   } catch {
-    // If we can't parse JSON, use status text
     errorMessage = response.statusText || errorMessage;
   }
 
@@ -104,20 +137,4 @@ export const createErrorFromResponse = async (response) => {
     errorMessage,
     response.status
   );
-};
-
-export const withErrorHandling = (asyncFunction) => {
-  return async (...args) => {
-    try {
-      return await asyncFunction(...args);
-    } catch (error) {
-      const handledError = handleError(error);
-      throw new AppError(
-        handledError.type,
-        handledError.message,
-        error.status || error.statusCode,
-        error
-      );
-    }
-  };
 }; 

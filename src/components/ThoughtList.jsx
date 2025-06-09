@@ -11,6 +11,9 @@ const List = styled.div`
   margin: 0 auto;
 `;
 
+/**
+ * Renders a list of thought cards
+ */
 const ThoughtList = ({ 
   thoughts, 
   onLike, 

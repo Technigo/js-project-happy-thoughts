@@ -1,10 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { API_URL } from '../config/api';
-import { handleError, createErrorFromResponse, ERROR_TYPES } from '../utils/errorHandler';
-import { setGlobalLogoutHandler } from '../utils/authFetch';
+import { handleError, createErrorFromResponse } from '../utils/errorHandler';
+import { setGlobalLogoutHandler, extractUserFromToken, clearAuthStorage, saveAuthData } from '../utils/authUtils';
 
 const AuthContext = createContext();
 
+/**
+ * Custom hook to access authentication context
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -13,16 +16,16 @@ export const useAuth = () => {
   return context;
 };
 
+/**
+ * Authentication context provider component
+ */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(false);
 
-  // Check if user is authenticated on mount
   useEffect(() => {
-    if (token) {
-      // If we have a token but no user, try to get user info from a test API call
-      // This helps restore the user state after page refresh
+    if (token && !user) {
       const verifyToken = async () => {
         try {
           const response = await fetch(`${API_URL}/thoughts?limit=1`, {
@@ -30,38 +33,14 @@ export const AuthProvider = ({ children }) => {
           });
           
           if (response.ok) {
-            // Token is valid - extract user info from the token
-            if (!user) {
-              try {
-                // Decode the JWT token to get user info
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const userId = payload.userId || payload.id || payload.sub;
-                const storedEmail = localStorage.getItem('userEmail');
-                
-                setUser({ 
-                  _id: userId,
-                  email: storedEmail || 'user@example.com'
-                });
-              } catch (error) {
-                console.warn('Could not decode token:', error);
-                // Fallback to minimal user object
-                const storedEmail = localStorage.getItem('userEmail');
-                setUser({ 
-                  _id: 'unknown',
-                  email: storedEmail || 'user@example.com'
-                });
-              }
-            }
+            setUser(extractUserFromToken(token));
           } else {
-            // Token is invalid, clear it
-            localStorage.removeItem('token');
-            localStorage.removeItem('userEmail');
+            clearAuthStorage();
             setToken(null);
             setUser(null);
           }
-        } catch (error) {
-          console.warn('Token verification failed:', error);
-          // Keep the token for now, let other parts of the app handle auth errors
+        } catch {
+          // Keep token for now, let other parts handle auth errors
         }
       };
 
@@ -69,7 +48,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token, user]);
 
-  // Set up global logout handler for authFetch
   useEffect(() => {
     setGlobalLogoutHandler(forceLogout);
   }, []);
@@ -85,19 +63,20 @@ export const AuthProvider = ({ children }) => {
       
       if (response.ok) {
         const data = await response.json();
-        const token = data.accessToken || data.token; // Handle both possible field names
-        setToken(token);
+        const authToken = data.accessToken || data.token;
+        
+        setToken(authToken);
         setUser(data.user);
-        localStorage.setItem('token', token);
-        localStorage.setItem('userEmail', data.user.email);
+        saveAuthData(authToken, data.user);
+        
         return { success: true, user: data.user };
       } else {
         const error = await createErrorFromResponse(response);
-        const handledError = handleError(error, { action: 'login', email });
+        const handledError = handleError(error);
         return { success: false, error: handledError.message, type: handledError.type };
       }
     } catch (error) {
-      const handledError = handleError(error, { action: 'login', email });
+      const handledError = handleError(error);
       return { success: false, error: handledError.message, type: handledError.type };
     } finally {
       setLoading(false);
@@ -115,19 +94,20 @@ export const AuthProvider = ({ children }) => {
       
       if (response.ok) {
         const data = await response.json();
-        const token = data.accessToken || data.token; // Handle both possible field names
-        setToken(token);
+        const authToken = data.accessToken || data.token;
+        
+        setToken(authToken);
         setUser(data.user);
-        localStorage.setItem('token', token);
-        localStorage.setItem('userEmail', data.user.email);
+        saveAuthData(authToken, data.user);
+        
         return { success: true, user: data.user };
       } else {
         const error = await createErrorFromResponse(response);
-        const handledError = handleError(error, { action: 'signup', email });
+        const handledError = handleError(error);
         return { success: false, error: handledError.message, type: handledError.type };
       }
     } catch (error) {
-      const handledError = handleError(error, { action: 'signup', email });
+      const handledError = handleError(error);
       return { success: false, error: handledError.message, type: handledError.type };
     } finally {
       setLoading(false);
@@ -136,25 +116,18 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setLoading(true);
-    // Simulate brief loading for UX consistency
     setTimeout(() => {
       setToken(null);
       setUser(null);
-      localStorage.removeItem('token');
-      localStorage.removeItem('userEmail');
+      clearAuthStorage();
       setLoading(false);
     }, 300);
   };
 
-  const forceLogout = (reason = 'Session expired') => {
-    console.warn('Force logout triggered:', reason);
+  const forceLogout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('userEmail');
-    // No loading state for force logout as it's immediate
-    // You could also show a toast notification here
-    // toast.warning(reason);
+    clearAuthStorage();
   };
 
   const value = {

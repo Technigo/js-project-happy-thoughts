@@ -4,6 +4,7 @@ import { device } from '../styles/media';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
+import { validateSignupForm, validatePassword } from '../utils/validation';
 
 const FormContainer = styled.div`
   background: #f5f5f5;
@@ -118,37 +119,15 @@ const SignupForm = ({ onToggleMode }) => {
   const [error, setError] = useState('');
   const { signup, loading } = useAuth();
 
-  // Password validation checks
-  const passwordChecks = {
-    length: password.length >= 6,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    number: /\d/.test(password)
-  };
-
-  const isPasswordValid = Object.values(passwordChecks).every(check => check);
+  const { checks: passwordChecks } = validatePassword(password);
+  const { isValid: isFormValid } = validateSignupForm(name, email, password, confirmPassword);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
-      setError('Please fill in all fields');
-      return;
-    }
-
-    if (!email.includes('@')) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    if (!isPasswordValid) {
-      setError('Password must meet all requirements shown below');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
+    if (!isFormValid) {
+      setError('Please fill in all fields correctly and ensure passwords match');
       return;
     }
 
@@ -157,13 +136,10 @@ const SignupForm = ({ onToggleMode }) => {
       if (!result.success) {
         setError(result.details || result.error || 'Signup failed');
       }
-      // If successful, the AuthContext will handle state updates
     } catch {
       setError('An unexpected error occurred');
     }
   };
-
-  const isFormValid = name.trim() && email.trim() && isPasswordValid && confirmPassword.trim() && password === confirmPassword;
 
   return (
     <FormContainer>

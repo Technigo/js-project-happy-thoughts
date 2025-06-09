@@ -6,6 +6,9 @@ const LoaderWrapper = styled.div`
   color: #888;
 `;
 
+/**
+ * Simple loading indicator component
+ */
 const Loader = () => <LoaderWrapper>Loading...</LoaderWrapper>;
 
 export default Loader; 
