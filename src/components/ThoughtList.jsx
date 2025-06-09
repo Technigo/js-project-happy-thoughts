@@ -34,6 +34,7 @@ const ThoughtList = ({
           currentUser={currentUser}
           onUpdate={onUpdate}
           onDelete={onDelete}
+          isOptimistic={thought.isOptimistic}
         />
       ))}
     </List>

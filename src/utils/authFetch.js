@@ -15,6 +15,7 @@ export const setGlobalLogoutHandler = (logoutHandler) => {
  */
 export const authenticatedFetch = async (url, options = {}) => {
   const token = localStorage.getItem('token');
+  console.log('Using token for request:', token ? `${token.substring(0, 20)}...` : 'No token');
   
   // Prepare headers with authorization if token exists
   const headers = {
@@ -31,6 +32,12 @@ export const authenticatedFetch = async (url, options = {}) => {
 
     // Handle 401 Unauthorized responses
     if (response.status === 401) {
+      console.log('401 Unauthorized response:', {
+        url,
+        status: response.status,
+        statusText: response.statusText
+      });
+      
       // Token is likely expired or invalid
       localStorage.removeItem('token');
       

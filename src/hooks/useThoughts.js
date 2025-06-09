@@ -47,7 +47,6 @@ export const useThoughts = () => {
         // Handle both paginated and direct array responses
         const thoughtsArray = data.thoughts || data;
         const processedThoughts = thoughtsArray.map(processThought);
-        console.log('Fetched thoughts:', processedThoughts);
         setThoughts(processedThoughts);
         setLoading(false);
       } catch {
@@ -64,14 +63,30 @@ export const useThoughts = () => {
     setError('');
     setLoading(true);
     
-    // Create optimistic thought
+    // Get current user for optimistic thought
+    const token = localStorage.getItem('token');
+    let currentUserId = null;
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        currentUserId = payload.userId || payload.id || payload.sub;
+      } catch (error) {
+        console.warn('Could not parse token for optimistic thought:', error);
+      }
+    }
+
+    // Create optimistic thought with proper owner
     const optimisticThought = {
       _id: `temp-${Date.now()}`, // Temporary ID
       message,
       createdAt: new Date().toISOString(),
       likesCount: 0,
       isLikedByUser: false,
-      owner: null, // Will be set by server
+      owner: currentUserId ? {
+        _id: currentUserId,
+        email: localStorage.getItem('userEmail') || 'current-user@example.com',
+        name: 'You'
+      } : null,
       isOptimistic: true // Flag to track optimistic updates
     };
 
@@ -85,10 +100,12 @@ export const useThoughts = () => {
       });
       
       const data = await response.json();
+      console.log('Create thought response from backend:', data);
       
       if (response.ok && data.message && data._id) {
         // Successfully created thought, replace optimistic version
         const processedThought = processThought(data);
+        console.log('Processed thought after creation:', processedThought);
         setThoughts((prev) => 
           prev.map((thought) => 
             thought._id === optimisticThought._id ? processedThought : thought
@@ -230,6 +247,11 @@ export const useThoughts = () => {
         );
 
         const errorData = await response.json();
+        console.error('Backend error response:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorData: errorData
+        });
         const errorMessage = errorData.details || errorData.error || 'Failed to update thought';
         return { success: false, error: errorMessage };
       }
