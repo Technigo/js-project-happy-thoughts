@@ -11,8 +11,8 @@ function usePostThought(onSuccess) {
       .then((t) => {
         const mapped = {
           id: t._id,
-          text: t.message,
-          hearts: t.hearts,
+          message: t.message,
+          likes: t.likes,
           createdAt: t.createdAt,
         };
         setError(null);
