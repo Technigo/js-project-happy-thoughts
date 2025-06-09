@@ -1,0 +1,91 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 1em;
+}
+
+main.light {
+  background: #fff;
+  color: #000;
+}
+
+main.dark {
+  background: #121212;
+  color: #fff;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+form {
+  margin-bottom: 2em;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.char-limit {
+  font-size: 0.9em;
+  color: grey;
+}
+
+.char-limit.red {
+  color: red;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.9em;
+}
+
+.thought-card {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+main.dark .thought-card {
+  background: #1e1e1e;
+  border-color: #333;
+}
+
+.thought-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5em;
+}
+
+.spinner {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 2em;
+}
+
+button {
+  background: hotpink;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: lightgray;
+  cursor: not-allowed;
+}
