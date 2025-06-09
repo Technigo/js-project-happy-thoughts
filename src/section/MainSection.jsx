@@ -13,7 +13,11 @@ export const MainSection = () => {
 
   // const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
   //Local API
-  const url = "http://localhost:8080/thoughts" 
+  //const url = "http://localhost:8080/thoughts" 
+
+  //My render url 
+  const url = "https://js-project-api-mk0z.onrender.com"
+
 
   const fetchData = () => {
     setIsLoading(true)
@@ -48,7 +52,7 @@ export const MainSection = () => {
         return res.json()
       })
       .then(newMessage => {
-        setMessages(prev => [newMessage, ...prev])
+        setMessages(prev => [newMessage.response, ...prev])
         console.log(newMessage)
       })
       .catch(err => setApiError(err.message))
