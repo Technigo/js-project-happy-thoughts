@@ -16,7 +16,7 @@ export const MainSection = () => {
   //const url = "http://localhost:8080/thoughts" 
 
   //My render url 
-  const url = "https://js-project-api-mk0z.onrender.com"
+  const url = "https://js-project-api-mk0z.onrender.com/thoughts"
 
 
   const fetchData = () => {
@@ -58,12 +58,18 @@ export const MainSection = () => {
       .catch(err => setApiError(err.message))
   }
 
-  const likeMessage = (id) => {
-    fetch(`${url}/${id}/like`, {
-      method: "POST"
+  const likeMessage = (id, currentLikes) => {
+    fetch(`${url}/${id}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ newLikes: currentLikes + 1 })
+
     })
       .then(res => res.json())
-      .then(updatedMessage => {
+      .then(data => {
+        const updatedMessage = data.response
         setMessages(prev =>
           prev.map(msg =>
             msg._id === id ? { ...msg, hearts: updatedMessage.hearts } : msg
