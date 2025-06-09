@@ -167,6 +167,14 @@ const ThoughtCard = ({
 
   // Check if current user is the owner of this thought
   const isOwner = currentUser && owner && currentUser._id === owner._id;
+  
+  // Debug logging
+  console.log('Ownership check:', {
+    currentUserId: currentUser?._id,
+    ownerId: owner?._id,
+    isOwner,
+    thoughtId: _id
+  });
 
   const handleEditSave = async () => {
     if (!editMessage.trim() || editMessage === message) {

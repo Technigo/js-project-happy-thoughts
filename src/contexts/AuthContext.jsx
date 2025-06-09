@@ -30,15 +30,27 @@ export const AuthProvider = ({ children }) => {
           });
           
           if (response.ok) {
-            // Token is valid - we could decode it to get user info, but for now
-            // we'll just set a minimal user object so the UI works
+            // Token is valid - extract user info from the token
             if (!user) {
-              // Extract email from localStorage if available, or use placeholder
-              const storedEmail = localStorage.getItem('userEmail');
-              setUser({ 
-                email: storedEmail || 'user@example.com', 
-                id: 'current-user' 
-              });
+              try {
+                // Decode the JWT token to get user info
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const userId = payload.userId || payload.id || payload.sub;
+                const storedEmail = localStorage.getItem('userEmail');
+                
+                setUser({ 
+                  _id: userId,
+                  email: storedEmail || 'user@example.com'
+                });
+              } catch (error) {
+                console.warn('Could not decode token:', error);
+                // Fallback to minimal user object
+                const storedEmail = localStorage.getItem('userEmail');
+                setUser({ 
+                  _id: 'unknown',
+                  email: storedEmail || 'user@example.com'
+                });
+              }
             }
           } else {
             // Token is invalid, clear it
