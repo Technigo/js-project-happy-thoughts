@@ -4,6 +4,8 @@
 export const getTimeAgo = (timestamp) => {
   const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
   
+  // Handle just posted (negative or very small positive values)
+  if (seconds <= 0) return 'just now';
   if (seconds < 60) return `${seconds} seconds ago`;
   
   const minutes = Math.floor(seconds / 60);
