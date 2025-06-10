@@ -59,28 +59,21 @@ export const MainSection = () => {
   }
 
   const likeMessage = (id) => {
-    fetch(`${url}/${id}`, {
+    setApiError("")
+    // Use the same base URL as above, just append /:id/like
+    console.log(id)
+    fetch(`${url}/${id}/like`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      }
     })
       .then(res => {
         if (!res.ok) throw new Error("Could not like thought")
         return res.json()
       })
-      .then(data => {
-        console.log("💾 PATCH response data:", data)
-        const updatedMessage = data.response
-        console.log(updatedMessage)
-        console.log("Hello")
-
+      .then(updatedLikes => {
         setMessages(prev =>
           prev.map(msg =>
-            
-            msg._id === id ? { ...msg, hearts: updatedMessage.hearts } : msg
+            msg._id === id ? { ...msg, hearts: updatedLikes.response.hearts } : msg
           )
-
         )
       })
       .catch(err => {
