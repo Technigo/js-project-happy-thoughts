@@ -1,57 +1,27 @@
-import { useEffect, useState } from "react"
-import { API_URL } from "./utils/constants"
+import { useEffect } from "react"
 
 import Form from "../src/sections/Form"
 import Header from "../src/sections/Header"
 import { Loader } from "./components/Loader"
 import { GlobalStyle } from "./GlobalStyles"
 import { MsgBoard } from "./sections/MsgBoard"
+import { useThoughtStore } from "./store/useThoughtStore"
 
 const App = () => {
 
-  const [thoughts, setThoughts] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  const addNewThought = (newThought) => {
-    setThoughts(prev => [newThought, ...prev])
-  }
-
-  const deleteThought = (idToDelete) => {
-    setThoughts((prev) => prev.filter(t => t._id !== idToDelete))
-  }
-
-  const fetchAPI = async () => {
-    setLoading(true)
-    try {
-      const response = await fetch(API_URL)
-      if (response.ok) {
-        const data = await response.json()
-        setThoughts(data.response)
-      }
-
-    } catch(error) {
-      console.log(error)
-
-    } finally {
-      setLoading(false)
-    }
-  }
+  const fetchThoughts = useThoughtStore((state) => state.fetchThoughts)
+  const loading = useThoughtStore((state) => state.loading)
 
   useEffect(() => {
-    fetchAPI()
-  }, [])
-
-  if (loading) {
-    return <Loader />
-  } 
- 
+    fetchThoughts()
+  }, [fetchThoughts])
 
   return (
     <>
       <GlobalStyle />
       <Header />
-      <Form addNewThought={addNewThought}/>
-      <MsgBoard thoughts={thoughts} deleteThought={deleteThought}/>
+      <Form />
+      {loading ? <Loader /> : <MsgBoard />}
     </>
   )
 }

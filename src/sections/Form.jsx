@@ -1,10 +1,12 @@
 import { useState } from "react"
+import { useThoughtStore } from "../store/useThoughtStore"
 import { API_URL } from "../utils/constants"
 
 import * as Styled from "../components/Styled-Comps"
 
-const Form = ({ addNewThought }) => {
+const Form = () => {
 
+  const addThought = useThoughtStore(state => state.addThought)
    const [MessageText, setMessageText] = useState("")
    const [error, setError] = useState("")
    const msgLength = MessageText.length
@@ -30,8 +32,8 @@ const Form = ({ addNewThought }) => {
         }
 
         const newThought = await response.json()
-          addNewThought(newThought.response)
-          setMessageText('')
+          addThought(newThought.response)
+          setMessageText("")
 
       } catch (error) {
         setError(error.message)

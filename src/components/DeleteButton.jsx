@@ -1,25 +1,17 @@
 import { IoTrashOutline } from "react-icons/io5"
-import { API_URL } from "../utils/constants"
+import { useThoughtStore } from "../store/useThoughtStore"
 
-const DeleteButton = ({ id, onDelete }) => {
+const DeleteButton = ({ id }) => {
+  const deleteThought = useThoughtStore(state => state.deleteThought)
   
   const handleDelete = async (event) => {
-    event.preventDefault()
-
-    try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "delete"
-      })
-      if (!response.ok){
-        throw new Error("Failed to delete thought")
-      }
-
-      onDelete(id)
-
-    } catch (error) {
-      console.log("Error deleting message", error)
+    event.preventDefault() 
+    const confirm = window.confirm("Are you sure you want to delete this thought?")
+    if (confirm) {
+      await deleteThought(id)
     }
   }
+
   return (
     <button onClick={handleDelete}>
       <IoTrashOutline />
