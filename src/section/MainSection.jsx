@@ -13,7 +13,7 @@ export const MainSection = () => {
 
   // const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
   //Local API
-  //const url = "http://localhost:8080/thoughts" 
+  // const url = "http://localhost:8080/thoughts"
 
   //My render url 
   const url = "https://js-project-api-mk0z.onrender.com/thoughts"
@@ -58,22 +58,29 @@ export const MainSection = () => {
       .catch(err => setApiError(err.message))
   }
 
-  const likeMessage = (id, currentLikes) => {
-    fetch(`${url}/${id}/`, {
+  const likeMessage = (id) => {
+    fetch(`${url}/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ newLikes: currentLikes + 1 })
-
+      }
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Could not like thought")
+        return res.json()
+      })
       .then(data => {
+        console.log("💾 PATCH response data:", data)
         const updatedMessage = data.response
+        console.log(updatedMessage)
+        console.log("Hello")
+
         setMessages(prev =>
           prev.map(msg =>
+            
             msg._id === id ? { ...msg, hearts: updatedMessage.hearts } : msg
           )
+
         )
       })
       .catch(err => {
