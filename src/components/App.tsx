@@ -1,10 +1,7 @@
-// Removed duplicate import of useState
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import Card from './Card.tsx';
-// Removed conflicting import of App
 import './index.css'
-// Removed self-import to avoid circular dependency issues
 import './components/Card.css'
 import './components/Card.tsx'
 import './components/Card.jsx'
@@ -20,19 +17,10 @@ import './components/tests.ts'
 import './components/index.html'
 import './components/tests.tsx'
 import './form.css';
-import { Form } from './form';
-// Removed invalid import of index.json
-// Removed duplicate import of main
+import { Form } from './form'
 import './App.css';
-// Removed invalid import of App.js
-// Removed invalid import of App.jsx
 import './index.css';
-// Removed invalid import of index.js
-// Removed invalid import of installhook.js
 import main from './main.jsx';
-// Removed invalid import of tests
-
-// Removed conflicting import of App
 import Main from './main.tsx';
 
 fetch ("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
