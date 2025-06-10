@@ -13,13 +13,18 @@ function useFetchThoughts() {
     setLoading(true);
     fetchThoughts(page)
       .then((data) => {
-        const mapped = data.results.map((thought) => ({
-          id: thought._id,
-          message: thought.message,
-          likes: thought.likes,
-          createdAt: thought.createdAt,
+        const mapped = data.results.map((t) => ({
+          id: t._id,
+          message: t.message,
+          likes: t.likes,
+          createdAt: t.createdAt,
         }));
-        setThoughts((prev) => [...prev, ...mapped]);
+        setThoughts((prev) => {
+          const onlyUnique = mapped.filter(
+            (t) => !prev.some((p) => p.id === t.id)
+          );
+          return [...prev, ...onlyUnique];
+        });
         setTotalPages(data.totalPages);
         setError(null);
       })

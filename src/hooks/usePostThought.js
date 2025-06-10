@@ -13,12 +13,14 @@ function usePostThought(onSuccess) {
           id: t._id,
           message: t.message,
           likes: t.likes,
-          createdAt: t.createdAt,
+          createdAt: new Date(t.createdAt),
         };
         setError(null);
         onSuccess(mapped);
       })
-      .catch((error) => setError(error.message))
+      .catch((error) => {
+        setError(error.message || 'Something went wrong');
+      })
       .finally(() => setPosting(false));
   };
 

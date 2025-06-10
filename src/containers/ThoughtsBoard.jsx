@@ -4,6 +4,7 @@ import usePostThought from '../hooks/usePostThought';
 import useLikeThought from '../hooks/useLikeThought';
 import ThoughtForm from '../components/ThoughtForm';
 import ThoughtList from '../components/ThoughtList';
+import { addUniqueSortedThought } from '../utils/thoughtUtils';
 
 export default function ThoughtsBoard() {
   const {
@@ -21,7 +22,7 @@ export default function ThoughtsBoard() {
     posting,
     error: postError,
   } = usePostThought((newThought) => {
-    setThoughts((prev) => [newThought, ...prev]);
+    setThoughts((prev) => addUniqueSortedThought(prev, newThought));
   });
 
   const {
