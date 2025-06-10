@@ -16,6 +16,10 @@ const App = () => {
     setThoughts(prev => [newThought, ...prev])
   }
 
+  const deleteThought = (idToDelete) => {
+    setThoughts((prev) => prev.filter(t => t._id !== idToDelete))
+  }
+
   const fetchAPI = async () => {
     setLoading(true)
     try {
@@ -47,7 +51,7 @@ const App = () => {
       <GlobalStyle />
       <Header />
       <Form addNewThought={addNewThought}/>
-      <MsgBoard thoughts={thoughts}/>
+      <MsgBoard thoughts={thoughts} deleteThought={deleteThought}/>
     </>
   )
 }

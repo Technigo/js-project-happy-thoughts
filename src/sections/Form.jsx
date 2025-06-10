@@ -30,7 +30,7 @@ const Form = ({ addNewThought }) => {
         }
 
         const newThought = await response.json()
-          addNewThought(newThought)
+          addNewThought(newThought.response)
           setMessageText('')
 
       } catch (error) {
