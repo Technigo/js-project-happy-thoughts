@@ -1,6 +1,5 @@
 import styled from "styled-components"
 
-
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -41,7 +40,7 @@ export const MessageInput = styled.textarea`
 `
 
 export const CharCount = styled.p`
-  color: ${props => (props.invalid ? "red" : "black")};
+  color: ${props => (props.$invalid ? "red" : "black")};
 `
 
 export const MessageBoard = styled.div`

@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { API_URL } from "../utils/constants"
+
 import * as Styled from "./Styled-Comps"
 
-
 const HeartsButton = ({ hearts, id }) => {
+
   const [count, setCount] = useState(hearts)
 
   const handleLike = async (event) => {
@@ -15,7 +17,7 @@ const HeartsButton = ({ hearts, id }) => {
     }, 600)
     
     try {
-      const response = await fetch(`https://happy-thoughts-api-4ful.onrender.com/thoughts/${id}/like`, {
+      const response = await fetch(`${API_URL}/${id}/like`, {
         method: "POST",
       })
 
@@ -24,7 +26,7 @@ const HeartsButton = ({ hearts, id }) => {
       }
 
       const newLike = await response.json()
-        setCount(newLike.hearts)
+        setCount(newLike.response.hearts)
         
     } catch (error) {
       console.error("Error liking message:", error)

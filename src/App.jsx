@@ -1,9 +1,11 @@
-import { GlobalStyle } from "./GlobalStyles"
-import Header from "../src/sections/Header"
+import { useEffect, useState } from "react"
+import { API_URL } from "./utils/constants"
+
 import Form from "../src/sections/Form"
-import { useState, useEffect } from "react"
-import { MsgBoard } from "./sections/MsgBoard"
+import Header from "../src/sections/Header"
 import { Loader } from "./components/Loader"
+import { GlobalStyle } from "./GlobalStyles"
+import { MsgBoard } from "./sections/MsgBoard"
 
 const App = () => {
 
@@ -14,15 +16,13 @@ const App = () => {
     setThoughts(prev => [newThought, ...prev])
   }
 
-  const url = "http://localhost:8000/thoughts?hearts=2"
-
   const fetchAPI = async () => {
     setLoading(true)
     try {
-      const response = await fetch(url)
+      const response = await fetch(API_URL)
       if (response.ok) {
         const data = await response.json()
-        setThoughts(data)
+        setThoughts(data.response)
       }
 
     } catch(error) {

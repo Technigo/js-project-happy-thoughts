@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { API_URL } from "../utils/constants"
+
 import * as Styled from "../components/Styled-Comps"
 
 const Form = ({ addNewThought }) => {
@@ -17,7 +19,7 @@ const Form = ({ addNewThought }) => {
       }
       
       try {
-        const response = await fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts", {
+        const response = await fetch(API_URL, {
           method: "POST",
           body: JSON.stringify({ message: MessageText }),
           headers: { "Content-Type": "application/json" },
@@ -37,7 +39,6 @@ const Form = ({ addNewThought }) => {
     }
 
   return (
-    <>
       <Styled.FormContainer onSubmit={handleSubmit}>
         <label aria-labelledby="message">
           <Styled.FormTitle>What's making you happy right now?</Styled.FormTitle>
@@ -51,7 +52,7 @@ const Form = ({ addNewThought }) => {
             value={MessageText}
             placeholder="Hakuna Matata"
             />
-          <Styled.CharCount invalid={msgLength < 5 || msgLength > 140}>
+          <Styled.CharCount $invalid={msgLength < 5 || msgLength > 140}>
             Characters: {msgLength} / 140
           </Styled.CharCount>
         </label>
@@ -67,7 +68,6 @@ const Form = ({ addNewThought }) => {
             </p>
           )}
       </Styled.FormContainer>
-    </>
   ) 
 }
 

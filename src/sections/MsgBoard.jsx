@@ -1,8 +1,7 @@
-import { CardContainer, MessageBoard, BoardDetails } from "../components/Styled-Comps"
-import HeartsButton from "../components/HeartsButton"
-import TimeStamp from "../components/TimeStamp"
 import BackToTop from "../components/BackToTop"
-
+import HeartsButton from "../components/HeartsButton"
+import { BoardDetails, CardContainer, MessageBoard } from "../components/Styled-Comps"
+import TimeStamp from "../components/TimeStamp"
 
 export const MsgBoard = ({ thoughts }) => {
   return (
