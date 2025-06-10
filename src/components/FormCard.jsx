@@ -44,7 +44,7 @@ export const FormCard = ({ onSubmit, apiError }) => {
 
   const handleKeyDown = (event) => {
 
-    if (event.key === "Enter" && !event.sheftKey) {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault()
       handleSubmit(event)
     }
