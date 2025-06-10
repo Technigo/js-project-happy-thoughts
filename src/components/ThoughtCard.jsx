@@ -40,6 +40,14 @@ const CardLike = styled.div`
   gap: 0.5rem;
 `;
 
+const ErrorMsg = styled.p`
+  color: red;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 0.5rem;
+  animation: ${appear} 0.3s ease-out;
+`;
+
 const CardTime = styled.p``;
 
 const Button = styled.button`

@@ -17,7 +17,7 @@ export const postThought = async (message) => {
 };
 
 export const PostLikeThought = async (id) => {
-  const response = await fetch(`${API_URL}/${id}/like`, {
+  const response = await fetch(`${API_URL}/${id}/likes`, {
     method: 'POST',
   });
   if (!response.ok) throw new Error('Failed to like thought');

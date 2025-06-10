@@ -30,6 +30,10 @@ export default function ThoughtsBoard() {
     loading: liking,
     error: likeError,
   } = useLikeThought((updatedThought) => {
+    // // 🧪 Fakes error för ett specifikt id:
+    // if (updatedThought.id === '684828c66c268fe1534fb6c0') {
+    //   throw new Error('Fake like error');
+    // }
     setThoughts((prev) =>
       prev.map(
         (t) =>
