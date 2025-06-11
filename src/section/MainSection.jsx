@@ -5,6 +5,7 @@ import { Loader } from "../components/Loader"
 import { LikeCount } from "../components/LikeCount"
 
 
+
 export const MainSection = () => {
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -82,6 +83,28 @@ export const MainSection = () => {
       })
   }
 
+  const editMessage = (id, newMessage) => {
+    setApiError("")
+    fetch(`${url}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: newMessage })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to update the message")
+        return res.json()
+      })
+      .then(updatedMessage => {
+        setMessages((prev) =>
+          prev.map((msg) => (msg._id === id ? updatedMessage.response : msg))
+        )
+      })
+      .catch(err => {
+        console.error(err)
+        setApiError("Could not update message. Please try again later.")
+      })
+  }
+
   const deleteMessage = (id) => {
     setApiError("")
     fetch(`${url}/${id}`, {
@@ -108,6 +131,8 @@ export const MainSection = () => {
     setLikedCount(c => c + 1)
   }
 
+
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -124,7 +149,8 @@ export const MainSection = () => {
       <MessageList
         messages={messages}
         onLike={handleLike}
-        onDelete={deleteMessage} />
+        onDelete={deleteMessage}
+        onEdit={editMessage} />
     </section>
   )
 }
