@@ -23,6 +23,8 @@ const LoginModal = ({ open, onClose, onLogin }) => {
   }
 
   return (
+    <>
+   
     <Modal open={open} onClose={onClose}>
     <Box sx={modalStyle}>
       <Typography variant="h6" mb={2}>Login</Typography>
@@ -54,6 +56,7 @@ const LoginModal = ({ open, onClose, onLogin }) => {
       </Button>
     </Box>
   </Modal>
+  </>
   )
 }
 

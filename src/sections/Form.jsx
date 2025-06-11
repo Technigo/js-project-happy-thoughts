@@ -3,6 +3,7 @@ import { useThoughtStore } from "../store/useThoughtStore"
 import { API_URL } from "../utils/constants"
 
 import * as Styled from "../components/Styled-Comps"
+import LoginButton from "../components/LoginButton"
 
 const Form = () => {
 
@@ -69,6 +70,7 @@ const Form = () => {
              {error}
             </p>
           )}
+          <LoginButton />
       </Styled.FormContainer>
   ) 
 }

@@ -13,7 +13,9 @@ const LoginButton = () => {
   return (
     <>
       <button onClick={handleClick}>Login</button>
-      <LoginModal open={open} onClose={() => setOpen(false)} onLogin={login} />
+      <LoginModal open={open} onClose={() => setOpen(false)} 
+      // onLogin={login} 
+      />
     </>
   )
 }
