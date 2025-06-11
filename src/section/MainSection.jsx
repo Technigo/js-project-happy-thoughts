@@ -61,7 +61,7 @@ export const MainSection = () => {
 
   const likeMessage = (id) => {
     setApiError("")
-    // Use the same base URL as above, just append /:id/like
+
     console.log(id)
     fetch(`${url}/${id}/like`, {
       method: "PATCH",
@@ -85,22 +85,26 @@ export const MainSection = () => {
 
   const editMessage = (id, newMessage) => {
     setApiError("")
-    fetch(`${url}/${id}`, {
+    console.log("Editing message with id:", id)
+    console.log("New message content:", newMessage)
+    fetch(`${url}/${id}/edit`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: newMessage })
+      body: JSON.stringify({ newMessage }) // send as { message: newMessage }
     })
       .then(res => {
+        console.log("Edit response status:", res.status)
         if (!res.ok) throw new Error("Failed to update the message")
         return res.json()
       })
       .then(updatedMessage => {
+        console.log("Updated message from API:", updatedMessage)
         setMessages((prev) =>
           prev.map((msg) => (msg._id === id ? updatedMessage.response : msg))
         )
       })
       .catch(err => {
-        console.error(err)
+        console.error("Edit message error:", err)
         setApiError("Could not update message. Please try again later.")
       })
   }
