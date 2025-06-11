@@ -13,8 +13,8 @@ const DeleteButton = ({ id }) => {
   }
 
   return (
-    <button onClick={handleDelete}>
-      <IoTrashOutline />
+    <button onClick={handleDelete}>🗑️
+      {/* <IoTrashOutline /> */}
     </button>
   )
 }

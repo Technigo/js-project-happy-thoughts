@@ -16,8 +16,8 @@ const EditButton = ({ id, currentMessage }) => {
   }
 
   return (
-    <button onClick={handleEdit}>
-      <IoPencil />
+    <button onClick={handleEdit}>✏️
+      {/* <IoPencil /> */}
     </button>
   )
 }
