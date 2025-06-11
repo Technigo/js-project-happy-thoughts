@@ -33,6 +33,7 @@ export const App = () => {
         headers: {
           Authorization: getToken(),
         },
+        credentials: 'include', // <--- TILLAGT
       })
         .then((res) => res.json())
         .then((data) => {
@@ -54,6 +55,7 @@ export const App = () => {
         Authorization: getToken(),
       },
       body: JSON.stringify({ message }),
+      credentials: 'include', // <--- TILLAGT
     })
       .then((res) => res.json())
       .then((newThought) => {
@@ -67,6 +69,7 @@ export const App = () => {
   const likeThought = (id) => {
     fetch(`${API_URL}/${id}/like`, {
       method: 'PATCH',
+      credentials: 'include', // <--- TILLAGT
     })
       .then((res) => res.json())
       .then(() => {
@@ -86,6 +89,7 @@ export const App = () => {
       headers: {
         Authorization: getToken(),
       },
+      credentials: 'include', // <--- TILLAGT
     })
       .then((res) => {
         if (res.ok) {
@@ -103,7 +107,7 @@ export const App = () => {
         element={
           isLoggedIn ? (
             <Main>
-              <LogoutButton /> {/* <- Här! */}
+              <LogoutButton />
               <Heading>Happy Thoughts</Heading>
               <ThoughtForm onSubmitMessage={submitMessage} isLoading={isLoading} />
               {isLoading ? (

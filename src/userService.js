@@ -9,6 +9,7 @@ export const login = async (username, password) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
+      credentials: 'include', // <--- TILLAGT
     });
     const data = await res.json();
     if (res.ok) {
@@ -29,6 +30,7 @@ export const signup = async (username, password) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
+      credentials: 'include', // <--- TILLAGT
     });
     const data = await res.json();
     if (res.ok) {
@@ -55,6 +57,7 @@ export const getUserInfo = async () => {
       headers: {
         Authorization: token,
       },
+      credentials: 'include', // <--- TILLAGT
     });
     const data = await res.json();
     if (res.ok) {
