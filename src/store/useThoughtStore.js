@@ -25,7 +25,7 @@ export const useThoughtStore = create((set) => ({
   deleteThought: async (id) => {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
-        method: "delete"
+        method: "DELETE"
       })
       if (!response.ok) {
         throw new Error("Thought not deleted")
@@ -41,7 +41,7 @@ export const useThoughtStore = create((set) => ({
   editThought: async (id, newMessage) => {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
-        method: "patch",
+        method: "PATCH",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ editThought: newMessage })
       })
