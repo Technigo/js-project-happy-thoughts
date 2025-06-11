@@ -23,9 +23,9 @@ export const EditForm = ({ onCancel, messageId, onEdit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onEdit(message)
+    onEdit(messageId, message)
     // Add your save logic here
-    console.log("Save button clicked")
+
     const textarea = e.target.querySelector("#edit-thought")
     // You can use textarea.value here
   }
