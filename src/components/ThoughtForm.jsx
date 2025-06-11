@@ -1,4 +1,4 @@
-// ThoughtForm.jsx
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -38,7 +38,8 @@ const ErrorMessage = styled.p`
   margin: 0.5rem 0;
 `;
 
-export const ThoughtForm = ({ onSubmitMessage, isLoading }) => {
+
+export const ThoughtForm = ({ onSubmitMessage, isSending }) => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const maxChars = 140;
@@ -78,14 +79,14 @@ export const ThoughtForm = ({ onSubmitMessage, isLoading }) => {
         onChange={(e) => setMessage(e.target.value)}
         rows="3"
         maxLength="200"
-        disabled={isLoading}
+        disabled={isSending}
       />
       <CharCounter isTooLong={isTooLong}>
         {maxChars - message.length} characters remaining
       </CharCounter>
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      <Button type="submit" disabled={isLoading}>
-        {isLoading ? '💬 Sending...' : '💖 Send Happy Thought'}
+      <Button type="submit" disabled={isSending}>
+        {isSending ? '💬 Sending...' : '💖 Send Happy Thought'}
       </Button>
     </Form>
   );

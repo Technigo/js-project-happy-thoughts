@@ -24,6 +24,7 @@ const Heading = styled.h1`
 export const App = () => {
   const [thoughts, setThoughts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const isLoggedIn = Boolean(getToken());
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export const App = () => {
         headers: {
           Authorization: getToken(),
         },
-        credentials: 'include', // <--- TILLAGT
+        credentials: 'include',
       })
         .then((res) => res.json())
         .then((data) => {
@@ -47,7 +48,7 @@ export const App = () => {
   }, [isLoggedIn]);
 
   const submitMessage = (message) => {
-    setIsLoading(true);
+    setIsSending(true);
     fetch(API_URL, {
       method: 'POST',
       headers: {
@@ -55,21 +56,21 @@ export const App = () => {
         Authorization: getToken(),
       },
       body: JSON.stringify({ message }),
-      credentials: 'include', // <--- TILLAGT
+      credentials: 'include',
     })
       .then((res) => res.json())
       .then((newThought) => {
         setThoughts((prev) => [newThought, ...prev]);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsSending(false);
       });
   };
 
   const likeThought = (id) => {
     fetch(`${API_URL}/${id}/like`, {
       method: 'PATCH',
-      credentials: 'include', // <--- TILLAGT
+      credentials: 'include',
     })
       .then((res) => res.json())
       .then(() => {
@@ -109,7 +110,7 @@ export const App = () => {
             <Main>
               <LogoutButton />
               <Heading>Happy Thoughts</Heading>
-              <ThoughtForm onSubmitMessage={submitMessage} isLoading={isLoading} />
+              <ThoughtForm onSubmitMessage={submitMessage} isSending={isSending} />
               {isLoading ? (
                 <p>Loading...</p>
               ) : (
