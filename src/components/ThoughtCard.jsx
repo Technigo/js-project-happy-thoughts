@@ -91,8 +91,7 @@ function ThoughtCard({ id, message, likes, createdAt, onLike, liking, error }) {
         </CardLike>
         <CardTime>{displayTime}</CardTime>
       </CardContent>
-      {/* {error && <ErrorMsg>Gilla misslyckades</ErrorMsg>} */} //Ger
-      error-meddelande på alla kort vid ett likefel.
+      {/* {error && <ErrorMsg>Gilla misslyckades</ErrorMsg>} */}
     </Card>
   );
 }
