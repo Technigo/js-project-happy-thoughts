@@ -86,7 +86,7 @@ export const MainSection = () => {
   const editMessage = (id, newMessage) => {
     setApiError("")
     fetch(`${url}/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: newMessage })
     })

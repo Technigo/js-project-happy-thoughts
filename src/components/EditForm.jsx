@@ -8,7 +8,7 @@ export const EditForm = ({ onCancel, messageId, onEdit }) => {
 
   useEffect(() => {
     // Fetch the message text from your API
-    fetch(`${url}/${messageId}`)
+    fetch(`${url}/${messageId}`, { method: "GET" })
       .then((res) => res.json())
       .then((data) => {
         if (data && data.response.message) {
