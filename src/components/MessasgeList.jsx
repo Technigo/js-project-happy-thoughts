@@ -12,7 +12,7 @@ export const MessageList = ({ messages, onLike, onDelete, onEdit }) => {
           message={msg}
           onLike={() => onLike(msg._id)}
           onDelete={() => onDelete(msg._id)}
-          onEdit={() => onEdit(msg._id)} />
+          onEdit={(id, message) => onEdit(id, message)} />
       ))}
     </div>
   )

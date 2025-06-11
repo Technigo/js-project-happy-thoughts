@@ -10,10 +10,6 @@ export const MessageCard = ({ message, onLike, onDelete, onEdit }) => {
   const handleEditClick = () => {
     setIsEditing(true)
   }
-  const handleEditSubmit = (newMessage) => {
-    onEdit(message._id, newMessage)
-    setIsEditing(false)
-  }
 
   return (
     <div className="relative flex flex-col gap-5 bg-white p-5 border rounded-xs shadow-[10px_10px] shadow-black h-max break-words">
@@ -22,7 +18,11 @@ export const MessageCard = ({ message, onLike, onDelete, onEdit }) => {
           onCancel={() => setIsEditing(false)}
           messageId={message._id}
           initialMessage={message.message}
-          onEdit={handleEditSubmit}
+          onEdit={(id, newMessage) => {
+            onEdit(id, newMessage)
+            setIsEditing(false)
+          }}
+
         />
       )}
 

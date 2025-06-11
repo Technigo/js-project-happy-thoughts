@@ -83,12 +83,13 @@ export const MainSection = () => {
       })
   }
 
-  const editMessage = (id, newMessage) => {
+  const editMessage = (id, message) => {
+    console.log("sending to server:", id, message)
     setApiError("")
     fetch(`${url}/${id}/edit`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ newMessage }) 
+      body: JSON.stringify({ message })
     })
       .then(res => {
         if (!res.ok) throw new Error("Failed to update the message")
