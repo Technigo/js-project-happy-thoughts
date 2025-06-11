@@ -28,7 +28,7 @@ export const LogoutButton = () => {
   const handleLogout = () => {
     logout();
     navigate('/login');
-    window.location.reload(); // säkerställer att logout slår igenom
+    window.location.reload();
   };
 
   return <StyledLogoutButton onClick={handleLogout}>Log out</StyledLogoutButton>;

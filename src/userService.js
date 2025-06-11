@@ -57,7 +57,7 @@ export const getUserInfo = async () => {
       headers: {
         Authorization: token,
       },
-      credentials: 'include', // <--- TILLAGT
+      credentials: 'include',
     });
     const data = await res.json();
     if (res.ok) {

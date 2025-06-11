@@ -89,7 +89,7 @@ export const App = () => {
       headers: {
         Authorization: getToken(),
       },
-      credentials: 'include', // <--- TILLAGT
+      credentials: 'include',
     })
       .then((res) => {
         if (res.ok) {
