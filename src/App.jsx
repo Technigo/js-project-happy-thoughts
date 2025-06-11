@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { LogoutButton } from './components/LogoutButton';
+import { Signup } from './components/SignUp';
+import { Login } from './components/Login';
 import { ThoughtForm } from './components/ThoughtForm';
 import { ThoughtList } from './components/ThoughtList';
+import { getToken } from './auth';
 
 const API_URL = 'https://happy-thoughts-api-xvxs.onrender.com/thoughts';
 
@@ -19,30 +24,40 @@ const Heading = styled.h1`
 export const App = () => {
   const [thoughts, setThoughts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const isLoggedIn = Boolean(getToken());
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        setThoughts(data);
-        setIsLoading(false);
+    if (isLoggedIn) {
+      setIsLoading(true);
+      fetch(API_URL, {
+        headers: {
+          Authorization: getToken(),
+        },
       })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, []);
+        .then((res) => res.json())
+        .then((data) => {
+          setThoughts(data);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [isLoggedIn]);
 
   const submitMessage = (message) => {
     setIsLoading(true);
     fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getToken(),
+      },
       body: JSON.stringify({ message }),
     })
       .then((res) => res.json())
       .then((newThought) => {
-        setThoughts((prevThoughts) => [newThought, ...prevThoughts]);
+        setThoughts((prev) => [newThought, ...prev]);
       })
       .finally(() => {
         setIsLoading(false);
@@ -55,8 +70,8 @@ export const App = () => {
     })
       .then((res) => res.json())
       .then(() => {
-        setThoughts((prevThoughts) =>
-          prevThoughts.map((thought) =>
+        setThoughts((prev) =>
+          prev.map((thought) =>
             thought._id === id
               ? { ...thought, hearts: thought.hearts + 1 }
               : thought
@@ -68,25 +83,45 @@ export const App = () => {
   const deleteThought = (id) => {
     fetch(`${API_URL}/${id}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: getToken(),
+      },
     })
       .then((res) => {
         if (res.ok) {
-          setThoughts((prevThoughts) =>
-            prevThoughts.filter((thought) => thought._id !== id)
-          );
+          setThoughts((prev) => prev.filter((t) => t._id !== id));
         }
       });
   };
 
   return (
-    <Main>
-      <Heading>Happy Thoughts</Heading>
-      <ThoughtForm onSubmitMessage={submitMessage} isLoading={isLoading} />
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <ThoughtList thoughts={thoughts} onLike={likeThought} onDelete={deleteThought} />
-      )}
-    </Main>
+    <Routes>
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/"
+        element={
+          isLoggedIn ? (
+            <Main>
+              <LogoutButton /> {/* <- Här! */}
+              <Heading>Happy Thoughts</Heading>
+              <ThoughtForm onSubmitMessage={submitMessage} isLoading={isLoading} />
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <ThoughtList
+                  thoughts={thoughts}
+                  onLike={likeThought}
+                  onDelete={deleteThought}
+                />
+              )}
+            </Main>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 };
