@@ -58,6 +58,7 @@ export const EditForm = ({ onCancel, messageId, onEdit }) => {
         cols="18"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        autoFocus
       ></textarea>
       <div className="flex gap-2 items-center justify-end">
         <button
