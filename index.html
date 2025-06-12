@@ -2,15 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.png" />
+    <link rel="preload" href="./styles/index.css" as="style" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Thoughts</title>
+    <meta property="og:title" content="Happy Thoughts" />
+    <meta
+      property="og:description"
+      content="Share and discover happy thoughts!"
+    />
+    <meta
+      property="og:image"
+      content="https://wehappy.netlify.app/preview.png"
+    />
+    <meta property="og:url" content="https://wehappy.netlify.app/" />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Happy Thoughts" />
+    <meta
+      name="twitter:description"
+      content="Share and discover happy thoughts!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://wehappy.netlify.app/preview.png"
+    />
   </head>
   <body>
     <div id="root"></div>
-    <script
-      type="module"
-      src="./src/main.jsx">
-    </script>
+    <script type="module" src="./src/main.jsx"></script>
   </body>
 </html>
