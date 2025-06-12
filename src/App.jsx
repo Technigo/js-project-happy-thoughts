@@ -1,4 +1,6 @@
-// Removed duplicate declaration of App
+import { Header } from "./components/Header"
+import { ThoughtForm } from "./components/ThoughtForm"
+import { ThoughtList } from "./components/ThoughtList"// Removed duplicate declaration of App
 import { useState } from "react"
 import { useEffect } from "react"
 import "./components/App.css";
@@ -6,6 +8,13 @@ import "./components/Card.css";
 import "./components/index.css";
 
 export const App = () => {
+  return (
+    <>
+      <Header />
+      <main>
+        <ThoughtForm />
+        <ThoughtList />
+      </main>
 const [count, setCount] = useState(0);
 
 useEffect(() => {
