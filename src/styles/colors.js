@@ -11,10 +11,10 @@
 export const colors = {
   // Primary brand colors
   primary: {
-    main: '#ff4d4d',        // Main brand color - buttons, links, focus states
-    hover: '#ff3333',       // Hover state for primary elements
+    main: '#d32f2f',        // Darker red for better contrast - was #ff4d4d
+    hover: '#b71c1c',       // Darker hover state
     active: '#ff6b6b',      // Active/selected state
-    dark: '#cc0000',        // Darker variant for borders, emphasis
+    dark: '#b71c1c',        // Darker variant for borders, emphasis
   },
 
   // Text colors
