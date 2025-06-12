@@ -1,3 +1,40 @@
+@import "tailwindcss";
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+
+h1 {
+  transition: letter-spacing 5s;
+  cursor: pointer;
+}
+
+h1:hover {
+  letter-spacing: 3px;
+  transition: letter-spacing 500ms;
+}
+
+@layer utilities {
+
+  .shadow-solid-offset {
+    box-shadow: 10px 10px 0 0 #000;
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
