@@ -5,7 +5,7 @@ import "./index.css";
 function Header() {
     useEffect(() => {
     console.log('mount')
-})
+}, [])
     return (
         <div className="App">
             <header className="App-header">
