@@ -9,7 +9,7 @@ import { persist } from 'zustand/middleware';
 // App-Level UI Store (with persistence)
 export const useAppUIStore = create(
   persist(
-    (set, get) => ({
+    (set) => ({
       // State
       isLoginMode: true, // true = login form, false = signup form
       
@@ -102,7 +102,7 @@ export const useThoughtEditingStore = create((set, get) => ({
 }));
 
 // Form State Store
-export const useFormStore = create((set, get) => ({
+export const useFormStore = create((set) => ({
   // Login Form State
   loginForm: {
     email: '',
@@ -145,7 +145,7 @@ export const useFormStore = create((set, get) => ({
   },
   
   resetLoginForm: () => {
-    set((state) => ({
+    set(() => ({
       loginForm: {
         email: '',
         password: '',
@@ -174,7 +174,7 @@ export const useFormStore = create((set, get) => ({
   },
   
   resetSignupForm: () => {
-    set((state) => ({
+    set(() => ({
       signupForm: {
         name: '',
         email: '',
@@ -205,7 +205,7 @@ export const useFormStore = create((set, get) => ({
   },
   
   resetThoughtForm: () => {
-    set((state) => ({
+    set(() => ({
       thoughtForm: {
         message: '',
         error: ''

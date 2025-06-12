@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Button, { LikeButton } from './Button';
 import { device } from '../styles/media';
