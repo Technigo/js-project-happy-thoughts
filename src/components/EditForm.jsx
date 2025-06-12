@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 
 export const EditForm = ({ onCancel, messageId, onEdit }) => {
   const [message, setMessage] = useState("");
-  const url = "https://js-project-api-mk0z.onrender.com/thoughts"
+  // const url = "https://js-project-api-mk0z.onrender.com/thoughts"
+  // Local API
+  const url = "http://localhost:8080/thoughts"
 
   useEffect(() => {
     // Fetch the message text from your API
@@ -13,6 +15,7 @@ export const EditForm = ({ onCancel, messageId, onEdit }) => {
       .then((data) => {
         if (data && data.response.message) {
           setMessage(data.response.message)
+
         } else {
           setMessage("")
           console.error("API response does not contain 'message' property", data)
