@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { PinkButton, BoxStyle, TextAreaStyle } from "../styles/Messagestyles";
 
 const MessageForm = ({ onSubmit }) => {
@@ -12,11 +12,16 @@ const MessageForm = ({ onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true); // Set loading state to true
+    setLoading(true);
+    const accessToken = localStorage.getItem("userToken");
+
     fetch("https://js-project-api-k17p.onrender.com/thoughts", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
       body: JSON.stringify({ message }),
-      headers: { "Content-Type": "application/json" },
     })
       .then((res) => res.json())
       .then((newThought) => {

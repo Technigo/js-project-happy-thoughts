@@ -16,6 +16,9 @@ const HeartContainer = styled.div`
   gap: 0.5rem;
 `;
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://js-project-api-k17p.onrender.com";
+
 const MessageItem = ({
   thought,
   message,
@@ -23,23 +26,46 @@ const MessageItem = ({
   onLike,
   createdAt,
   className,
+  currentUser,
 }) => {
   const handleLikes = () => {
     onLike(thought._id);
   };
+  const handleDelete = (thoughtId) => {
+    const accessToken = localStorage.getItem("userToken");
+    fetch(`${API_URL}${thoughtId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          console.log("Thought deleted successfully");
+        } else {
+          console.error("Failed to delete thought:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting thought:", error);
+      });
+  };
+  const isValidDate = createdAt && !isNaN(new Date(createdAt).getTime());
+  const createdAtISO = isValidDate
+    ? DateTime.fromISO(new Date(createdAt).toISOString())
+    : null;
 
-  const createdAtISO = DateTime.fromISO(new Date(createdAt).toISOString());
-  if (!createdAtISO.isValid) {
-    console.warn("Invalid date encountered for thought:", thought);
-  }
+  const formattedTime =
+    createdAtISO && createdAtISO.isValid
+      ? createdAtISO.toRelative()
+      : "Date not available";
 
-  const formattedTime = createdAtISO.isValid
-    ? createdAtISO.toRelative()
-    : "Date not available";
+  const isOwner = currentUser && thought.username === currentUser;
 
   return (
     <BoxStyle className={className}>
-      <p style={{ fontSize: "1.25rem, " }}>{message}</p>
+      <p style={{ fontSize: "1.25rem" }}>{message}</p>
       <BoxFooterStyle>
         <HeartContainer>
           <HeartButton
@@ -52,7 +78,19 @@ const MessageItem = ({
           </HeartButton>
           <p> x {hearts}</p>
         </HeartContainer>
-        <p>{formattedTime}</p>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <p>{formattedTime}</p>
+          {isOwner && (
+            <PinkButton
+              type="button"
+              style={{ marginLeft: "1rem", float: "right" }}
+              aria-label="Delete this message"
+              onClick={() => handleDelete(thought._id)}
+            >
+              Delete
+            </PinkButton>
+          )}
+        </div>
       </BoxFooterStyle>
     </BoxStyle>
   );

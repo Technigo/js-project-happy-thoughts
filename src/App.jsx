@@ -4,10 +4,18 @@ import MessageForm from "./components/MessageForm";
 import handleLike from "./components/HandlesLike";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { Footer } from "./styles/Footer";
+import NavBar from "./components/NavBar";
 
 export const App = () => {
   const [thoughts, setThoughts] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state for fetching thoughts
+  const [showLogin, setShowLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("usertoken") ? true : false
+  );
+  // If you want to log the token, use the correct variable name:
+  // const accessToken = localStorage.getItem("usertoken");
+  // console.log("Token in localStorage:", accessToken);
 
   // Fetch thoughts when the app loads
   useEffect(() => {
@@ -38,10 +46,22 @@ export const App = () => {
     });
   };
 
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // Track the current search query
+
   return (
     <>
       <header>
-        <h1 hidden>Happy Thoughts Messages</h1>
+        <NavBar
+          searchResults={searchResults}
+          setSearchResults={setSearchResults}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          showLogin={showLogin}
+          setShowLogin={setShowLogin}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+        />
       </header>
       <main>
         {loading ? (
@@ -53,7 +73,7 @@ export const App = () => {
             />
             <MessageList
               aria-live="polite"
-              thoughts={thoughts}
+              thoughts={searchResults.length > 0 ? searchResults : thoughts}
               onLike={onLike}
             />
           </>

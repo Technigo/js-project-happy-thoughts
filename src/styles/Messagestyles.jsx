@@ -33,6 +33,7 @@ const BoxStyle = styled.form`
   text-overflow: ellipsis;
   white-space: pre-wrap;
   hyphens: auto;
+  background-color: white;
 
   p {
     font-family: "Avenir", sans-serif;

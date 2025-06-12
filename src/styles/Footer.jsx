@@ -5,7 +5,7 @@ export const Footer = styled.footer`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100dvw;
+  width: 100%;
   padding: 1rem;
   background-color: lightpink;
   font-family: "Avenir", sans-serif;
@@ -13,6 +13,7 @@ export const Footer = styled.footer`
   font-size: 1rem;
   color: black;
   text-align: center;
+  bottom: 0;
 
   a {
     color: black;
