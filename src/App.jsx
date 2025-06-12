@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { MainSection } from "./section/MainSection"
 import { Header } from "./section/Header"
 import { SignUp } from "./section/SignUp"
-import { LogIn } from "./section/LogIn" 
+import { LogIn } from "./section/LogIn"
 
 export const App = () => {
   return (
@@ -19,12 +19,20 @@ export const App = () => {
         />
         <Route
           path="/signup"
-          element={<SignUp />}
-        />
+          element={
+            <>
+              <Header />
+              <SignUp />
+            </>
+          } />
         <Route
           path="/login"
-          element={<LogIn />}
-        />
+          element={
+            <>
+              <Header />
+              <LogIn />
+            </>
+          } />
       </Routes>
     </BrowserRouter>
   )
