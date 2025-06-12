@@ -177,6 +177,24 @@ const ThoughtCard = ({
 
   const isOwner = isResourceOwner(currentUser, owner);
 
+  // Helper function to get display name for the owner
+  const getOwnerDisplayName = (owner) => {
+    if (!owner) return 'Anonymous';
+    
+    // Try to get first name from various possible fields
+    if (owner.name) {
+      return owner.name.split(' ')[0]; // Get first name from full name
+    }
+    if (owner.displayName) {
+      return owner.displayName.split(' ')[0];
+    }
+    if (owner.email) {
+      return owner.email.split('@')[0]; // Fallback to email username
+    }
+    
+    return 'Anonymous';
+  };
+
   const handleEditSave = async () => {
     const { isValid, processedMessage } = processMessageEdit(editMessage, message);
     
@@ -217,7 +235,7 @@ const ThoughtCard = ({
       {/* Show owner info if available */}
       {owner && (
         <OwnerInfo>
-          By: {owner.email}
+          By: {getOwnerDisplayName(owner)}
         </OwnerInfo>
       )}
       
