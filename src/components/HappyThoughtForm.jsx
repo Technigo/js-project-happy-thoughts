@@ -6,12 +6,13 @@ import ErrorMessage from './ErrorMessage';
 import { device } from '../styles/media';
 import { useAuth } from '../stores/authStore';
 import { useFormStore } from '../stores/uiStore';
+import { colors } from '../styles/colors';
 
 const FormContainer = styled.form`
-  background: #f5f5f5;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: ${colors.background.light};
+  box-shadow: ${colors.overlay.shadow};
   border-radius: 6px;
-  border: 2px solid #bbb;
+  border: 2px solid ${colors.border.main};
   padding: 20px;
   margin-bottom: 20px;
   max-width: 500px;
@@ -29,7 +30,7 @@ const FormContainer = styled.form`
 const Title = styled.h2`
   margin: 0 0 15px 0;
   font-size: 1.2rem;
-  color: #333;
+  color: ${colors.text.primary};
 
   @media ${device.smallMobile} {
     font-size: 1.1rem;
@@ -39,7 +40,7 @@ const Title = styled.h2`
 const TextArea = styled.textarea`
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.border.light};
   border-radius: 4px;
   margin-bottom: 10px;
   font-size: 1rem;

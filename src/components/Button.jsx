@@ -1,80 +1,74 @@
 import styled from 'styled-components';
+import { colors } from '../styles/colors';
 
-// Unified color palette for consistent design language
-const colors = {
-  primary: '#ff4d4d',        // Main action color
-  primaryHover: '#ff3333',   // Hover state
-  active: '#ff6b6b',         // Active/selected state
-  disabled: '#ccc',          // Disabled state
-  lightBg: '#f8f8f8',        // Light background for inactive states
-  white: '#ffffff',          // White text/background
-  darkText: '#666'           // Dark text for disabled states
+// Use centralized colors instead of local object
+const StyledButton = styled.button`
+  background: ${colors.primary.main};
+  color: ${colors.background.white};
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+
+  &:hover:not(:disabled) {
+    background: ${colors.primary.hover};
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background: ${colors.primary.active};
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: ${colors.state.disabled};
+    color: ${colors.text.light};
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
+
+const LikeButton = styled.button`
+  border: none;
+  background: ${props => props.$liked ? colors.primary.main : colors.interactive.likeButton};
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+
+  @media (max-width: 480px) {
+    width: 36px;
+    height: 36px;
+    margin-right: 6px;
+  }
+
+  &:hover:not(:disabled) {
+    transform: scale(1.1);
+    background: ${props => {
+      if (props.disabled) return props.$liked ? colors.primary.main : colors.interactive.likeButton;
+      return props.$liked ? colors.primary.hover : colors.primary.main;
+    }};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
+
+const Button = ({ children, ...props }) => {
+  return <StyledButton {...props}>{children}</StyledButton>;
 };
 
-/**
- * Base button component for regular buttons
- */
-const BaseButton = styled.button`
-  background: ${props => props.disabled ? colors.disabled : colors.primary};
-  border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${props => props.disabled ? colors.darkText : colors.white};
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s, opacity 0.2s;
-  opacity: ${props => props.disabled ? 0.7 : 1};
-  pointer-events: ${props => props.disabled ? 'none' : 'auto'};
-
-  &:hover {
-    background: ${props => props.disabled ? colors.disabled : colors.primaryHover};
-  }
-`;
-
-/**
- * Circle button component specifically for like buttons
- */
-const CircleButton = styled.button`
-  background: ${props => props.$liked ? colors.primary : '#ffcccc'};
-  border: none;
-  border-radius: 50%;
-  padding: 0;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${props => props.$liked ? colors.white : colors.primary};
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  pointer-events: ${props => props.disabled ? 'none' : 'auto'};
-  opacity: ${props => props.disabled ? 0.5 : 1};
-
-  &:hover {
-    background: ${props => {
-      if (props.disabled) return props.$liked ? colors.primary : '#ffcccc';
-      return props.$liked ? colors.primaryHover : colors.active;
-    }};
-    color: colors.white;
-  }
-`;
-
-/**
- * Regular button component for forms and general actions
- */
-const Button = ({ children, ...rest }) => (
-  <BaseButton {...rest}>{children}</BaseButton>
-);
-
-/**
- * Like button component for heart/like functionality
- */
-export const LikeButton = ({ children, liked, ...rest }) => (
-  <CircleButton $liked={liked} {...rest}>{children}</CircleButton>
-);
-
+export { LikeButton };
 export default Button; 

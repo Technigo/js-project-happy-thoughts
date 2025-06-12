@@ -14,8 +14,10 @@ export {
   useThoughtEditingStore, 
   useFormStore, 
   useDeletionStore,
+  useConfirmDialogStore,
   useThoughtEditing,
-  useThoughtDeletion 
+  useThoughtDeletion,
+  useConfirm
 } from './uiStore';
 
 // Export store types for future stores

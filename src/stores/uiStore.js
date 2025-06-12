@@ -239,6 +239,50 @@ export const useDeletionStore = create((set, get) => ({
   }
 }));
 
+// Confirmation Dialog Store
+export const useConfirmDialogStore = create((set, get) => ({
+  // State
+  isOpen: false,
+  title: '',
+  message: '',
+  confirmText: 'Confirm',
+  cancelText: 'Cancel',
+  onConfirm: null,
+  onCancel: null,
+  isLoading: false,
+  
+  // Actions
+  showConfirmDialog: ({ title, message, confirmText, cancelText, onConfirm, onCancel }) => {
+    set({
+      isOpen: true,
+      title: title || 'Confirm Action',
+      message,
+      confirmText: confirmText || 'Confirm',
+      cancelText: cancelText || 'Cancel',
+      onConfirm,
+      onCancel: onCancel || (() => get().hideConfirmDialog()),
+      isLoading: false
+    });
+  },
+  
+  hideConfirmDialog: () => {
+    set({
+      isOpen: false,
+      title: '',
+      message: '',
+      confirmText: 'Confirm',
+      cancelText: 'Cancel',
+      onConfirm: null,
+      onCancel: null,
+      isLoading: false
+    });
+  },
+  
+  setLoading: (loading) => {
+    set({ isLoading: loading });
+  }
+}));
+
 // Convenience hooks for easier component usage
 export const useThoughtEditing = (thoughtId) => {
   const store = useThoughtEditingStore();
@@ -261,5 +305,34 @@ export const useThoughtDeletion = (thoughtId) => {
     isDeleting: store.isDeleting(thoughtId),
     startDeleting: () => store.startDeleting(thoughtId),
     finishDeleting: () => store.finishDeleting(thoughtId)
+  };
+};
+
+// Custom confirm hook
+export const useConfirm = () => {
+  const { showConfirmDialog, hideConfirmDialog, setLoading } = useConfirmDialogStore();
+  
+  return {
+    confirm: ({ title, message, confirmText = 'Delete', cancelText = 'Cancel' }) => {
+      return new Promise((resolve) => {
+        showConfirmDialog({
+          title,
+          message,
+          confirmText,
+          cancelText,
+          onConfirm: () => {
+            setLoading(true);
+            setTimeout(() => {
+              hideConfirmDialog();
+              resolve(true);
+            }, 200); // Small delay for UX
+          },
+          onCancel: () => {
+            hideConfirmDialog();
+            resolve(false);
+          }
+        });
+      });
+    }
   };
 }; 

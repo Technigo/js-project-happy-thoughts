@@ -8,11 +8,13 @@ import HeroSection from './components/HeroSection';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import Button from './components/Button';
+import ConfirmDialog from './components/ConfirmDialog';
 import GlobalStyle from './styles/GlobalStyles';
+import { colors } from './styles/colors';
 import { device } from './styles/media';
 import { useAuth } from './stores/authStore';
 import { useThoughts } from './stores/thoughtsStore';
-import { useAppUIStore } from './stores/uiStore';
+import { useAppUIStore, useConfirmDialogStore } from './stores/uiStore';
 
 
 const AppContainer = styled.div`
@@ -44,9 +46,9 @@ const UserInfo = styled.div`
   gap: 15px;
   margin-bottom: 20px;
   padding: 15px;
-  background: #f9f9f9;
+  background: ${colors.background.userInfo};
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.border.light};
 
   @media ${device.mobile} {
     flex-direction: column;
@@ -56,12 +58,12 @@ const UserInfo = styled.div`
 `;
 
 const UserEmail = styled.span`
-  color: #333;
+  color: ${colors.text.primary};
   font-weight: 500;
 `;
 
 const WelcomeText = styled.span`
-  color: #666;
+  color: ${colors.text.secondary};
   font-size: 0.9rem;
 `;
 
@@ -153,7 +155,23 @@ const AppContent = () => {
 };
 
 const App = () => {
-  return <AppContent />;
+  const confirmDialog = useConfirmDialogStore();
+  
+  return (
+    <>
+      <AppContent />
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        confirmText={confirmDialog.confirmText}
+        cancelText={confirmDialog.cancelText}
+        onConfirm={confirmDialog.onConfirm}
+        onCancel={confirmDialog.onCancel}
+        isLoading={confirmDialog.isLoading}
+      />
+    </>
+  );
 };
 
 export default App;

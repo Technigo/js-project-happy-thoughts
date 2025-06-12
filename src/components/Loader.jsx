@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { colors } from '../styles/colors';
 
 const LoaderWrapper = styled.div`
   margin: 40px 0;
   font-size: 1.2rem;
-  color: #888;
+  color: ${colors.text.muted};
 `;
 
 /**

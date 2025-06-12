@@ -2,34 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import Button, { LikeButton } from './Button';
 import { device } from '../styles/media';
-import { isResourceOwner, confirmAction, processMessageEdit } from '../utils/validation';
+import { isResourceOwner, processMessageEdit } from '../utils/validation';
 import { getTimeAgo } from '../utils/dateHelpers';
-import { useThoughtEditing, useThoughtDeletion } from '../stores/uiStore';
+import { useThoughtEditing, useThoughtDeletion, useConfirm } from '../stores/uiStore';
+import { colors } from '../styles/colors';
 
-const LikeButtonWrapper = styled.div`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: ${props => props.$liked ? '#fff0f5' : 'none'};
-  margin-right: 8px;
-
-  @media ${device.smallMobile} {
-    width: 36px;
-    height: 36px;
-    margin-right: 6px;
-  }
-`;
+// Removed LikeButtonWrapper - we'll style the LikeButton directly
 
 const Card = styled.div`
-  background: white;
+  background: ${colors.background.white};
   border-radius: 0;
-  border: 1px solid #bbb;
+  border: 1px solid ${colors.border.main};
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 6px 6px 0 #000;
+  box-shadow: ${colors.overlay.cardShadow};
   max-width: 500px;
   width: 100%;
 
@@ -41,7 +27,7 @@ const Card = styled.div`
   @media ${device.smallMobile} {
     padding: 12px;
     margin-bottom: 12px;
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: ${colors.overlay.cardShadowSmall};
   }
 `;
 
@@ -49,7 +35,7 @@ const Message = styled.p`
   margin: 0 0 15px 0;
   font-size: 1rem;
   line-height: 1.5;
-  color: #333;
+  color: ${colors.text.primary};
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -112,7 +98,7 @@ const OwnerActions = styled.div`
 const EditInput = styled.textarea`
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.border.light};
   border-radius: 4px;
   font-size: 1rem;
   resize: vertical;
@@ -128,7 +114,7 @@ const EditInput = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: #ff4d4d;
+    border-color: ${colors.border.focus};
   }
 `;
 
@@ -145,12 +131,12 @@ const EditActions = styled.div`
 
 const OwnerInfo = styled.div`
   font-size: 0.8rem;
-  color: #666;
+  color: ${colors.text.secondary};
   margin-bottom: 8px;
 `;
 
 const Time = styled.span`
-  color: #666;
+  color: ${colors.text.secondary};
   font-size: 0.9rem;
 `;
 
@@ -188,6 +174,8 @@ const ThoughtCard = ({
     startDeleting,
     finishDeleting
   } = useThoughtDeletion(_id);
+
+  const { confirm } = useConfirm();
 
   const isOwner = isResourceOwner(currentUser, owner);
 
@@ -238,7 +226,14 @@ const ThoughtCard = ({
   };
 
   const handleDelete = async () => {
-    if (!confirmAction('Are you sure you want to delete this thought?')) {
+    const confirmed = await confirm({
+      title: 'Delete Thought',
+      message: 'Are you sure you want to delete this thought? This action cannot be undone.',
+      confirmText: '🗑️ Delete',
+      cancelText: 'Cancel'
+    });
+
+    if (!confirmed) {
       return;
     }
 
@@ -282,11 +277,9 @@ const ThoughtCard = ({
       
       <CardFooter>
         <LeftGroup>
-          <LikeButtonWrapper $liked={liked}>
-            <LikeButton onClick={() => onLike(_id)} liked={liked}>
-              ❤️
-            </LikeButton>
-          </LikeButtonWrapper>
+          <LikeButton onClick={() => onLike(_id)} $liked={liked}>
+            ❤️
+          </LikeButton>
           <span>x {likesCount || hearts}</span>
         </LeftGroup>
         
@@ -304,7 +297,7 @@ const ThoughtCard = ({
             </OwnerActions>
           )}
           {isOptimistic && (
-            <span style={{fontSize: '0.8rem', color: '#999'}}>Saving...</span>
+            <span style={{fontSize: '0.8rem', color: colors.text.placeholder}}>Saving...</span>
           )}
         </RightGroup>
       </CardFooter>

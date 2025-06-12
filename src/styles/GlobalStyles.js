@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { colors } from './colors';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -9,8 +10,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: white;
-    color: #333;
+    background-color: ${colors.background.white};
+    color: ${colors.text.primary};
     line-height: 1.4;
     min-width: 280px;
     overflow-x: hidden;

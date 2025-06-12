@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { colors } from '../styles/colors';
 
 const ErrorWrapper = styled.div`
-  color: #ff4444;
+  color: ${colors.state.error};
   margin: 20px 0;
   font-size: 1rem;
 `;

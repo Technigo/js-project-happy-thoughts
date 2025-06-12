@@ -3,15 +3,16 @@ import styled from 'styled-components';
 import { device } from '../styles/media';
 import { useAuth } from '../stores/authStore';
 import { useFormStore } from '../stores/uiStore';
+import { colors, colorCombos } from '../styles/colors';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import { validateLoginForm } from '../utils/validation';
 
 const FormContainer = styled.div`
-  background: #f5f5f5;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: ${colors.background.light};
+  box-shadow: ${colors.overlay.shadow};
   border-radius: 6px;
-  border: 2px solid #bbb;
+  border: 2px solid ${colors.border.main};
   padding: 20px;
   margin-bottom: 20px;
   max-width: 500px;
@@ -29,7 +30,7 @@ const FormContainer = styled.div`
 const Title = styled.h2`
   margin: 0 0 15px 0;
   font-size: 1.2rem;
-  color: #333;
+  color: ${colors.text.primary};
   text-align: center;
 
   @media ${device.smallMobile} {
@@ -46,7 +47,7 @@ const Form = styled.form`
 const Input = styled.input`
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.border.light};
   border-radius: 4px;
   font-size: 1rem;
   box-sizing: border-box;
@@ -58,7 +59,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #ff4d4d;
+    border-color: ${colors.border.focus};
   }
 `;
 
@@ -71,7 +72,7 @@ const ButtonContainer = styled.div`
 
 const ToggleText = styled.p`
   text-align: center;
-  color: #666;
+  color: ${colors.text.secondary};
   font-size: 0.9rem;
   margin: 0;
 `;
@@ -79,13 +80,13 @@ const ToggleText = styled.p`
 const ToggleLink = styled.button`
   background: none;
   border: none;
-  color: #ff4d4d;
+  color: ${colors.primary.main};
   cursor: pointer;
   text-decoration: underline;
   font-size: 0.9rem;
 
   &:hover {
-    color: #ff3333;
+    color: ${colors.primary.hover};
   }
 `;
 
