@@ -1,6 +1,24 @@
 import React, { useEffect } from "react";
+// Removed duplicate import of useState
+// Removed duplicate import of express
 import {useState} from "react";
 import "./index.css";
+
+import express from "express";
+
+const app = express();
+const port = 3000;
+
+app.get("/", function (req, res) {
+  res.send("Hello World!");
+});
+
+app.listen(port, function () {
+  console.log(`Example app listening on port ${port}!`);
+});
+import './routes/index';
+// Removed unused variable indexRouter
+// Removed unused variable authRouter
 
 function Header() {
     useEffect(() => {
@@ -9,7 +27,7 @@ function Header() {
     return (
         <div className="App">
             <header className="App-header">
-            <h1>Message App</h1>
+            <h1>Message App Happy Thoughts</h1>
 </header>
         </div>
 
