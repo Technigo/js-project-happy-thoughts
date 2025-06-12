@@ -13,6 +13,8 @@ import {
   createReplaceUpdater
 } from '../utils/thoughtUtils';
 
+const PAGE_SIZE = 10;
+
 /**
  * Zustand store for managing thoughts state and operations
  */
@@ -21,13 +23,18 @@ export const useThoughtsStore = create((set, get) => ({
   thoughts: [],
   loading: false,
   error: '',
+  currentPage: 1,
+  totalPages: 1,
+  totalThoughts: 0,
+  hasMore: true,
+  viewMode: 'pagination', // 'pagination' or 'infinite'
 
   // Actions
-  fetchThoughts: async () => {
+  fetchThoughts: async (page = 1, append = false) => {
     set({ loading: true, error: '' });
     
     try {
-      const response = await fetch(`${API_URL}/thoughts?page=1&limit=20`);
+      const response = await fetch(`${API_URL}/thoughts?page=${page}&limit=${PAGE_SIZE}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch thoughts');
@@ -36,7 +43,23 @@ export const useThoughtsStore = create((set, get) => ({
       const data = await response.json();
       const thoughtsArray = data.thoughts || data;
       const processedThoughts = thoughtsArray.map(processThought);
-      set({ thoughts: processedThoughts });
+      
+      // Use new pagination structure if available
+      const pagination = data.pagination || {};
+      const total = data.total || thoughtsArray.length;
+      const currentPage = pagination.currentPage || page;
+      const totalPages = pagination.totalPages || Math.ceil(total / PAGE_SIZE);
+      const hasMore = pagination.hasNextPage !== undefined
+        ? pagination.hasNextPage
+        : (processedThoughts.length === PAGE_SIZE);
+      
+      set((state) => ({ 
+        thoughts: append ? [...state.thoughts, ...processedThoughts] : processedThoughts,
+        currentPage,
+        totalPages,
+        totalThoughts: total,
+        hasMore
+      }));
     } catch {
       set({ error: 'Could not load happy thoughts. Please try again later.' });
     } finally {
@@ -186,6 +209,32 @@ export const useThoughtsStore = create((set, get) => ({
       );
       return { success: false, error: errorMessage };
     }
+  },
+
+  // Add new action for page changes
+  changePage: (page) => {
+    const { currentPage } = get();
+    if (page !== currentPage) {
+      get().fetchThoughts(page);
+    }
+  },
+
+  // Add new action for loading more thoughts (infinite scroll)
+  loadMore: () => {
+    const { currentPage, loading, hasMore } = get();
+    if (!loading && hasMore) {
+      get().fetchThoughts(currentPage + 1, true);
+    }
+  },
+
+  // Add new action for changing view mode
+  setViewMode: (mode) => {
+    if (mode === 'infinite') {
+      // Reset to first page when switching to infinite scroll
+      set({ currentPage: 1, thoughts: [] });
+      get().fetchThoughts(1);
+    }
+    set({ viewMode: mode });
   }
 }));
 
@@ -196,15 +245,22 @@ export const useThoughtsStore = create((set, get) => ({
 export const useThoughts = () => {
   const store = useThoughtsStore();
   
-  // Return the same interface as the original hook
   return {
     thoughts: store.thoughts,
     loading: store.loading,
     error: store.error,
+    currentPage: store.currentPage,
+    totalPages: store.totalPages,
+    totalThoughts: store.totalThoughts,
+    hasMore: store.hasMore,
+    viewMode: store.viewMode,
     addThought: store.addThought,
     handleLike: store.handleLike,
     updateThought: store.updateThought,
     deleteThought: store.deleteThought,
-    fetchThoughts: store.fetchThoughts
+    fetchThoughts: store.fetchThoughts,
+    changePage: store.changePage,
+    loadMore: store.loadMore,
+    setViewMode: store.setViewMode
   };
 }; 

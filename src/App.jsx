@@ -15,6 +15,9 @@ import { device } from './styles/media';
 import { useAuth } from './stores/authStore';
 import { useThoughts } from './stores/thoughtsStore';
 import { useAppUIStore, useConfirmDialogStore } from './stores/uiStore';
+import ViewToggle from './components/ViewToggle';
+import InfiniteScroll from './components/InfiniteScroll';
+import Pagination from './components/Pagination';
 
 
 const AppContainer = styled.div`
@@ -69,9 +72,25 @@ const WelcomeText = styled.span`
 
 const AuthenticatedApp = () => {
   const { user, logout, loading: authLoading } = useAuth();
-  const { thoughts, loading, error, addThought, handleLike, updateThought, deleteThought, fetchThoughts } = useThoughts();
+  const { 
+    thoughts, 
+    loading, 
+    error, 
+    currentPage,
+    totalPages,
+    hasMore,
+    viewMode,
+    addThought, 
+    handleLike, 
+    updateThought, 
+    deleteThought, 
+    fetchThoughts,
+    changePage,
+    loadMore,
+    setViewMode
+  } = useThoughts();
 
-  // Initialize thoughts when component mounts (replaces the useEffect from the original hook)
+  // Initialize thoughts when component mounts
   useEffect(() => {
     fetchThoughts();
   }, [fetchThoughts]);
@@ -93,13 +112,45 @@ const AuthenticatedApp = () => {
       <HappyThoughtForm onSubmit={addThought} loading={loading || authLoading} />
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {(loading || authLoading) && <Loader />}
-      <ThoughtList 
-        thoughts={thoughts} 
-        onLike={handleLike}
-        currentUser={user}
-        onUpdate={updateThought}
-        onDelete={deleteThought}
+      
+      <ViewToggle 
+        currentView={viewMode} 
+        onViewChange={setViewMode} 
       />
+
+      {viewMode === 'pagination' ? (
+        <>
+          <ThoughtList 
+            thoughts={thoughts} 
+            onLike={handleLike}
+            currentUser={user}
+            onUpdate={updateThought}
+            onDelete={deleteThought}
+            loading={loading}
+          />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={changePage}
+            isLoading={loading}
+          />
+        </>
+      ) : (
+        <InfiniteScroll
+          onLoadMore={loadMore}
+          hasMore={hasMore}
+          loading={loading}
+        >
+          <ThoughtList 
+            thoughts={thoughts} 
+            onLike={handleLike}
+            currentUser={user}
+            onUpdate={updateThought}
+            onDelete={deleteThought}
+            loading={loading}
+          />
+        </InfiniteScroll>
+      )}
     </AppContainer>
   );
 };
