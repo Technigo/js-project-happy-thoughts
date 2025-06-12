@@ -61,7 +61,7 @@ const FormFooter = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
 
   @media ${device.smallMobile} {
