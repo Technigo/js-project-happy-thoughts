@@ -1,7 +1,9 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import 'jest-styled-components'
 import renderer from 'react-test-renderer'
+import { expect } from '@jest/globals';
+
 
 
 const Button = styled.button`
