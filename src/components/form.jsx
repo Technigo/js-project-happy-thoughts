@@ -1,3 +1,4 @@
+import './form.css';
 import { useState } from "react"
 
 export const Form = () => {
