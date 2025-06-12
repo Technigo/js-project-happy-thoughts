@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/media';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useAuth } from '../stores/authStore';
+import { useFormStore } from '../stores/uiStore';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import { validateLoginForm } from '../utils/validation';
@@ -89,29 +90,31 @@ const ToggleLink = styled.button`
 `;
 
 const LoginForm = ({ onToggleMode }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const { loginForm, setLoginField, setLoginError, resetLoginForm } = useFormStore();
   const { login, loading } = useAuth();
 
+  const { email, password, error } = loginForm;
   const isFormValid = validateLoginForm(email, password);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setLoginError('');
 
     if (!isFormValid) {
-      setError('Please enter a valid email and password');
+      setLoginError('Please enter a valid email and password');
       return;
     }
 
     try {
       const result = await login(email, password);
       if (!result.success) {
-        setError(result.details || result.error || 'Login failed');
+        setLoginError(result.details || result.error || 'Login failed');
+      } else {
+        // Clear form on successful login
+        resetLoginForm();
       }
     } catch {
-      setError('An unexpected error occurred');
+      setLoginError('An unexpected error occurred');
     }
   };
 
@@ -122,7 +125,7 @@ const LoginForm = ({ onToggleMode }) => {
         <Input
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setLoginField('email', e.target.value)}
           placeholder="Email address"
           required
           disabled={loading}
@@ -130,7 +133,7 @@ const LoginForm = ({ onToggleMode }) => {
         <Input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setLoginField('password', e.target.value)}
           placeholder="Password"
           required
           disabled={loading}

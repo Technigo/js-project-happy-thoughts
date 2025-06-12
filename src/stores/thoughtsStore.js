@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { create } from 'zustand';
 import { API_URL } from '../config/api';
 import { authenticatedFetch } from '../utils/authUtils';
 import { 
@@ -14,45 +14,41 @@ import {
 } from '../utils/thoughtUtils';
 
 /**
- * Custom hook for managing thoughts state and operations
+ * Zustand store for managing thoughts state and operations
  */
-export const useThoughts = () => {
-  const [thoughts, setThoughts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+export const useThoughtsStore = create((set, get) => ({
+  // State
+  thoughts: [],
+  loading: false,
+  error: '',
 
-  useEffect(() => {
-    const fetchThoughts = async () => {
-      setLoading(true);
-      setError('');
+  // Actions
+  fetchThoughts: async () => {
+    set({ loading: true, error: '' });
+    
+    try {
+      const response = await fetch(`${API_URL}/thoughts?page=1&limit=20`);
       
-      try {
-        const response = await fetch(`${API_URL}/thoughts?page=1&limit=20`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch thoughts');
-        }
-        
-        const data = await response.json();
-        const thoughtsArray = data.thoughts || data;
-        const processedThoughts = thoughtsArray.map(processThought);
-        setThoughts(processedThoughts);
-      } catch {
-        setError('Could not load happy thoughts. Please try again later.');
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error('Failed to fetch thoughts');
       }
-    };
+      
+      const data = await response.json();
+      const thoughtsArray = data.thoughts || data;
+      const processedThoughts = thoughtsArray.map(processThought);
+      set({ thoughts: processedThoughts });
+    } catch {
+      set({ error: 'Could not load happy thoughts. Please try again later.' });
+    } finally {
+      set({ loading: false });
+    }
+  },
 
-    fetchThoughts();
-  }, []);
-
-  const addThought = async (message, onError) => {
-    setError('');
-    setLoading(true);
+  addThought: async (message, onError) => {
+    set({ error: '', loading: true });
     
     const optimisticThought = createOptimisticThought(message);
-    setThoughts((prev) => [optimisticThought, ...prev]);
+    set((state) => ({ thoughts: [optimisticThought, ...state.thoughts] }));
     
     try {
       const response = await authenticatedFetch(`${API_URL}/thoughts`, {
@@ -64,14 +60,14 @@ export const useThoughts = () => {
       
       if (response.ok && data.message && data._id) {
         const processedThought = processThought(data);
-        setThoughts(createReplaceUpdater(optimisticThought._id, processedThought));
+        set((state) => ({ thoughts: createReplaceUpdater(optimisticThought._id, processedThought)(state.thoughts) }));
       } else {
-        setThoughts(createRemoveUpdater(optimisticThought._id));
+        set((state) => ({ thoughts: createRemoveUpdater(optimisticThought._id)(state.thoughts) }));
         const errorMessage = extractErrorMessage(data, 'Invalid input');
         if (onError) onError(errorMessage);
       }
     } catch (error) {
-      setThoughts(createRemoveUpdater(optimisticThought._id));
+      set((state) => ({ thoughts: createRemoveUpdater(optimisticThought._id)(state.thoughts) }));
       const errorMessage = handleApiError(
         error,
         'Could not post your thought. Please try again.',
@@ -81,19 +77,20 @@ export const useThoughts = () => {
       if (error.message === 'Authentication required' && onError) {
         onError(errorMessage);
       } else {
-        setError(errorMessage);
+        set({ error: errorMessage });
       }
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const handleLike = async (thoughtId) => {
+  handleLike: async (thoughtId) => {
+    const { thoughts } = get();
     const currentThought = thoughts.find(thought => thought._id === thoughtId);
     if (!currentThought) return;
 
     const optimisticUpdate = createOptimisticLikeUpdate(currentThought);
-    setThoughts(createOptimisticUpdater(thoughtId, () => optimisticUpdate));
+    set((state) => ({ thoughts: createOptimisticUpdater(thoughtId, () => optimisticUpdate)(state.thoughts) }));
 
     try {
       const response = await authenticatedFetch(`${API_URL}/thoughts/${thoughtId}/like`, {
@@ -103,31 +100,32 @@ export const useThoughts = () => {
       if (response.ok) {
         const updatedThought = await response.json();
         const processedThought = processThought(updatedThought);
-        setThoughts(createReplaceUpdater(updatedThought._id, processedThought));
+        set((state) => ({ thoughts: createReplaceUpdater(updatedThought._id, processedThought)(state.thoughts) }));
         return updatedThought._id;
       } else {
         throw new Error('Failed to update like status');
       }
     } catch (error) {
-      setThoughts(createOptimisticUpdater(thoughtId, () => currentThought));
+      set((state) => ({ thoughts: createOptimisticUpdater(thoughtId, () => currentThought)(state.thoughts) }));
       const errorMessage = handleApiError(
         error,
         'Could not like the thought. Please try again.',
         'Please log in to like thoughts.'
       );
-      setError(errorMessage);
+      set({ error: errorMessage });
       throw error;
     }
-  };
+  },
 
-  const updateThought = async (thoughtId, message) => {
+  updateThought: async (thoughtId, message) => {
+    const { thoughts } = get();
     const currentThought = thoughts.find(thought => thought._id === thoughtId);
     if (!currentThought) {
       return { success: false, error: 'Thought not found' };
     }
 
     const optimisticUpdate = { ...currentThought, message, isOptimistic: true };
-    setThoughts(createOptimisticUpdater(thoughtId, () => optimisticUpdate));
+    set((state) => ({ thoughts: createOptimisticUpdater(thoughtId, () => optimisticUpdate)(state.thoughts) }));
 
     try {
       const response = await authenticatedFetch(`${API_URL}/thoughts/${thoughtId}`, {
@@ -138,16 +136,16 @@ export const useThoughts = () => {
       if (response.ok) {
         const updatedThought = await response.json();
         const processedThought = processThought(updatedThought);
-        setThoughts(createReplaceUpdater(updatedThought._id, processedThought));
+        set((state) => ({ thoughts: createReplaceUpdater(updatedThought._id, processedThought)(state.thoughts) }));
         return { success: true, thought: processedThought };
       } else {
-        setThoughts(createOptimisticUpdater(thoughtId, () => currentThought));
+        set((state) => ({ thoughts: createOptimisticUpdater(thoughtId, () => currentThought)(state.thoughts) }));
         const errorData = await response.json();
         const errorMessage = extractErrorMessage(errorData, 'Failed to update thought');
         return { success: false, error: errorMessage };
       }
     } catch (error) {
-      setThoughts(createOptimisticUpdater(thoughtId, () => currentThought));
+      set((state) => ({ thoughts: createOptimisticUpdater(thoughtId, () => currentThought)(state.thoughts) }));
       const errorMessage = handleApiError(
         error,
         'Could not update the thought. Please try again.',
@@ -155,15 +153,16 @@ export const useThoughts = () => {
       );
       return { success: false, error: errorMessage };
     }
-  };
+  },
 
-  const deleteThought = async (thoughtId) => {
+  deleteThought: async (thoughtId) => {
+    const { thoughts } = get();
     const thoughtToDelete = thoughts.find(thought => thought._id === thoughtId);
     if (!thoughtToDelete) {
       return { success: false, error: 'Thought not found' };
     }
 
-    setThoughts(createRemoveUpdater(thoughtId));
+    set((state) => ({ thoughts: createRemoveUpdater(thoughtId)(state.thoughts) }));
 
     try {
       const response = await authenticatedFetch(`${API_URL}/thoughts/${thoughtId}`, {
@@ -173,13 +172,13 @@ export const useThoughts = () => {
       if (response.ok) {
         return { success: true };
       } else {
-        setThoughts((prev) => reinsertThought(prev, thoughtToDelete));
+        set((state) => ({ thoughts: reinsertThought(state.thoughts, thoughtToDelete) }));
         const errorData = await response.json();
         const errorMessage = extractErrorMessage(errorData, 'Failed to delete thought');
         return { success: false, error: errorMessage };
       }
     } catch (error) {
-      setThoughts((prev) => reinsertThought(prev, thoughtToDelete));
+      set((state) => ({ thoughts: reinsertThought(state.thoughts, thoughtToDelete) }));
       const errorMessage = handleApiError(
         error,
         'Could not delete the thought. Please try again.',
@@ -187,15 +186,25 @@ export const useThoughts = () => {
       );
       return { success: false, error: errorMessage };
     }
-  };
+  }
+}));
 
+/**
+ * Hook providing the same interface as the original useThoughts hook
+ * This maintains compatibility while using Zustand under the hood
+ */
+export const useThoughts = () => {
+  const store = useThoughtsStore();
+  
+  // Return the same interface as the original hook
   return {
-    thoughts,
-    loading,
-    error,
-    addThought,
-    handleLike,
-    updateThought,
-    deleteThought
+    thoughts: store.thoughts,
+    loading: store.loading,
+    error: store.error,
+    addThought: store.addThought,
+    handleLike: store.handleLike,
+    updateThought: store.updateThought,
+    deleteThought: store.deleteThought,
+    fetchThoughts: store.fetchThoughts
   };
 }; 

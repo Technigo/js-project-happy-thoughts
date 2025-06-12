@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/media';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useAuth } from '../stores/authStore';
+import { useFormStore } from '../stores/uiStore';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import { validateSignupForm, validatePassword } from '../utils/validation';
@@ -112,32 +113,32 @@ const ToggleLink = styled.button`
 `;
 
 const SignupForm = ({ onToggleMode }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const { signupForm, setSignupField, setSignupError, resetSignupForm } = useFormStore();
   const { signup, loading } = useAuth();
 
+  const { name, email, password, confirmPassword, error } = signupForm;
   const { checks: passwordChecks } = validatePassword(password);
   const { isValid: isFormValid } = validateSignupForm(name, email, password, confirmPassword);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setSignupError('');
 
     if (!isFormValid) {
-      setError('Please fill in all fields correctly and ensure passwords match');
+      setSignupError('Please fill in all fields correctly and ensure passwords match');
       return;
     }
 
     try {
       const result = await signup(name, email, password);
       if (!result.success) {
-        setError(result.details || result.error || 'Signup failed');
+        setSignupError(result.details || result.error || 'Signup failed');
+      } else {
+        // Clear form on successful signup
+        resetSignupForm();
       }
     } catch {
-      setError('An unexpected error occurred');
+      setSignupError('An unexpected error occurred');
     }
   };
 
@@ -148,7 +149,7 @@ const SignupForm = ({ onToggleMode }) => {
         <Input
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setSignupField('name', e.target.value)}
           placeholder="Your name"
           required
           disabled={loading}
@@ -156,7 +157,7 @@ const SignupForm = ({ onToggleMode }) => {
         <Input
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setSignupField('email', e.target.value)}
           placeholder="Email address"
           required
           disabled={loading}
@@ -164,7 +165,7 @@ const SignupForm = ({ onToggleMode }) => {
         <Input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setSignupField('password', e.target.value)}
           placeholder="Password"
           required
           disabled={loading}
@@ -188,7 +189,7 @@ const SignupForm = ({ onToggleMode }) => {
         <Input
           type="password"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={(e) => setSignupField('confirmPassword', e.target.value)}
           placeholder="Confirm password"
           required
           disabled={loading}

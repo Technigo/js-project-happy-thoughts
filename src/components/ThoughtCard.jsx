@@ -4,6 +4,7 @@ import Button, { LikeButton } from './Button';
 import { device } from '../styles/media';
 import { isResourceOwner, confirmAction, processMessageEdit } from '../utils/validation';
 import { getTimeAgo } from '../utils/dateHelpers';
+import { useThoughtEditing, useThoughtDeletion } from '../stores/uiStore';
 
 const LikeButtonWrapper = styled.div`
   display: inline-flex;
@@ -170,10 +171,23 @@ const ThoughtCard = ({
   likesCount,
   isOptimistic 
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editMessage, setEditMessage] = useState(message);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
+  // Use Zustand stores for editing and deletion state
+  const {
+    isEditing,
+    editMessage,
+    isUpdating,
+    startEditing,
+    updateMessage,
+    setUpdating,
+    cancelEditing,
+    finishEditing
+  } = useThoughtEditing(_id);
+
+  const {
+    isDeleting,
+    startDeleting,
+    finishDeleting
+  } = useThoughtDeletion(_id);
 
   const isOwner = isResourceOwner(currentUser, owner);
 
@@ -199,25 +213,28 @@ const ThoughtCard = ({
     const { isValid, processedMessage } = processMessageEdit(editMessage, message);
     
     if (!isValid) {
-      setIsEditing(false);
-      setEditMessage(message);
+      cancelEditing();
       return;
     }
 
-    setIsUpdating(true);
+    setUpdating(true);
     const result = await onUpdate(_id, processedMessage);
     
     if (result.success) {
-      setIsEditing(false);
+      finishEditing();
     } else {
-      setEditMessage(message);
+      // Reset message to original if update failed
+      updateMessage(message);
     }
-    setIsUpdating(false);
+    setUpdating(false);
   };
 
   const handleEditCancel = () => {
-    setIsEditing(false);
-    setEditMessage(message);
+    cancelEditing();
+  };
+
+  const handleEditStart = () => {
+    startEditing(message);
   };
 
   const handleDelete = async () => {
@@ -225,9 +242,9 @@ const ThoughtCard = ({
       return;
     }
 
-    setIsDeleting(true);
+    startDeleting();
     await onDelete(_id);
-    setIsDeleting(false);
+    finishDeleting();
   };
 
   return (
@@ -243,7 +260,7 @@ const ThoughtCard = ({
         <>
           <EditInput
             value={editMessage}
-            onChange={(e) => setEditMessage(e.target.value)}
+            onChange={(e) => updateMessage(e.target.value)}
             disabled={isUpdating}
             maxLength={140}
           />
@@ -278,7 +295,7 @@ const ThoughtCard = ({
           {/* Show edit/delete buttons only for thought owner */}
           {isOwner && !isEditing && !isOptimistic && (
             <OwnerActions>
-              <Button onClick={() => setIsEditing(true)} disabled={isDeleting}>
+              <Button onClick={handleEditStart} disabled={isDeleting}>
                 ✏️ Edit
               </Button>
               <Button onClick={handleDelete} disabled={isDeleting}>

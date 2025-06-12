@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import HappyThoughtForm from './components/HappyThoughtForm';
 import ThoughtList from './components/ThoughtList';
@@ -10,8 +10,9 @@ import SignupForm from './components/SignupForm';
 import Button from './components/Button';
 import GlobalStyle from './styles/GlobalStyles';
 import { device } from './styles/media';
-import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
-import { useThoughts } from './hooks/useThoughts';
+import { useAuth } from './stores/authStore';
+import { useThoughts } from './stores/thoughtsStore';
+import { useAppUIStore } from './stores/uiStore';
 
 
 const AppContainer = styled.div`
@@ -66,7 +67,12 @@ const WelcomeText = styled.span`
 
 const AuthenticatedApp = () => {
   const { user, logout, loading: authLoading } = useAuth();
-  const { thoughts, loading, error, addThought, handleLike, updateThought, deleteThought } = useThoughts();
+  const { thoughts, loading, error, addThought, handleLike, updateThought, deleteThought, fetchThoughts } = useThoughts();
+
+  // Initialize thoughts when component mounts (replaces the useEffect from the original hook)
+  useEffect(() => {
+    fetchThoughts();
+  }, [fetchThoughts]);
 
   const firstName = user?.displayName || user?.name?.split(' ')[0] || user?.name;
 
@@ -97,22 +103,46 @@ const AuthenticatedApp = () => {
 };
 
 const AuthenticationView = () => {
-  const [isLoginMode, setIsLoginMode] = useState(true);
+  const { isLoginMode, setLoginMode, setSignupMode } = useAppUIStore();
 
   return (
     <AppContainer>
       <HeroSection />
       {isLoginMode ? (
-        <LoginForm onToggleMode={() => setIsLoginMode(false)} />
+        <LoginForm onToggleMode={setSignupMode} />
       ) : (
-        <SignupForm onToggleMode={() => setIsLoginMode(true)} />
+        <SignupForm onToggleMode={setLoginMode} />
       )}
     </AppContainer>
   );
 };
 
 const AppContent = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, initializeAuth, loading: authLoading } = useAuth();
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize authentication when app loads
+  useEffect(() => {
+    const initAuth = async () => {
+      await initializeAuth();
+      setIsInitialized(true);
+    };
+    
+    initAuth();
+  }, [initializeAuth]);
+
+  // Show loading spinner while initializing
+  if (!isInitialized || authLoading) {
+    return (
+      <>
+        <GlobalStyle />
+        <AppContainer>
+          <HeroSection />
+          <Loader />
+        </AppContainer>
+      </>
+    );
+  }
 
   return (
     <>
@@ -123,11 +153,7 @@ const AppContent = () => {
 };
 
 const App = () => {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
-  );
+  return <AppContent />;
 };
 
 export default App;

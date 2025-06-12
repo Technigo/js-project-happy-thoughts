@@ -4,7 +4,8 @@ import CharacterCount from './CharacterCount';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import { device } from '../styles/media';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useAuth } from '../stores/authStore';
+import { useFormStore } from '../stores/uiStore';
 
 const FormContainer = styled.form`
   background: #f5f5f5;
@@ -71,43 +72,43 @@ const FormFooter = styled.div`
  * Form component for creating and submitting happy thoughts
  */
 const HappyThoughtForm = ({ onSubmit, loading }) => {
-  const [thought, setThought] = useState('');
-  const [error, setError] = useState('');
+  const { thoughtForm, setThoughtMessage, setThoughtError, resetThoughtForm } = useFormStore();
   const { isAuthenticated } = useAuth();
 
+  const { message, error } = thoughtForm;
   const maxLength = 140;
   const minLength = 5;
-  const isValid = thought.trim().length >= minLength && thought.length <= maxLength;
+  const isValid = message.trim().length >= minLength && message.length <= maxLength;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
+    setThoughtError('');
     
     if (!isAuthenticated) {
-      setError('Please log in to post a thought');
+      setThoughtError('Please log in to post a thought');
       return;
     }
     
     if (!isValid) return;
     
-    onSubmit(thought, (apiError) => setError(apiError));
-    setThought('');
+    onSubmit(message, (apiError) => setThoughtError(apiError));
+    resetThoughtForm();
   };
 
   return (
     <FormContainer onSubmit={handleSubmit}>
       <Title>What's making you happy right now?</Title>
       <TextArea
-        value={thought}
-        onChange={(e) => setThought(e.target.value)}
+        value={message}
+        onChange={(e) => setThoughtMessage(e.target.value)}
         placeholder={isAuthenticated ? "Type your happy thought..." : "Please log in to post a thought..."}
         rows={3}
         disabled={loading || !isAuthenticated}
       />
       <FormFooter>
         <CharacterCount 
-          count={maxLength - thought.length} 
-          isError={thought.length > maxLength} 
+          count={maxLength - message.length} 
+          isError={message.length > maxLength} 
         />
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button type="submit" disabled={loading || !isValid || !isAuthenticated}>
