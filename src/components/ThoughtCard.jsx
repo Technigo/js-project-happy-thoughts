@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Button from './Button';
+import Button, { LikeButton } from './Button';
 import { device } from '../styles/media';
 import { isResourceOwner, confirmAction, processMessageEdit } from '../utils/validation';
 import { getTimeAgo } from '../utils/dateHelpers';
@@ -248,9 +248,9 @@ const ThoughtCard = ({
       <CardFooter>
         <LeftGroup>
           <LikeButtonWrapper $liked={liked}>
-            <Button circle onClick={() => onLike(_id)} disabled={liked} $liked={liked}>
+            <LikeButton onClick={() => onLike(_id)} liked={liked}>
               ❤️
-            </Button>
+            </LikeButton>
           </LikeButtonWrapper>
           <span>x {likesCount || hearts}</span>
         </LeftGroup>
