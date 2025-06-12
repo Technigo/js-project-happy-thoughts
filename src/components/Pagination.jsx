@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { colors } from '../styles/colors';
 import Button from './Button';
 
-const PaginationContainer = styled.div`
+const PaginationContainer = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,6 +40,17 @@ const PageButton = styled(Button)`
   }
 `;
 
+const ScreenReaderOnly = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+`;
+
 const Pagination = ({ 
   currentPage, 
   totalPages, 
@@ -57,16 +69,49 @@ const Pagination = ({
     }
   };
 
+  // Keyboard shortcuts for pagination
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Only trigger if not focused on an input
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      
+      if (e.key === 'ArrowLeft' && e.altKey) {
+        e.preventDefault();
+        handlePrevious();
+      } else if (e.key === 'ArrowRight' && e.altKey) {
+        e.preventDefault();
+        handleNext();
+      } else if (e.key === 'PageUp') {
+        e.preventDefault();
+        handlePrevious();
+      } else if (e.key === 'PageDown') {
+        e.preventDefault();
+        handleNext();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [currentPage, totalPages, isLoading]);
+
   return (
-    <PaginationContainer>
+    <PaginationContainer 
+      role="navigation" 
+      aria-label={`Pagination navigation, page ${currentPage} of ${totalPages}`}
+    >
+      <ScreenReaderOnly>
+        Keyboard shortcuts: Alt+Left/PageUp for previous, Alt+Right/PageDown for next page
+      </ScreenReaderOnly>
+      
       <PageButton 
         onClick={handlePrevious}
         disabled={currentPage === 1 || isLoading}
+        aria-label={`Go to previous page (page ${currentPage - 1})`}
       >
         ←
       </PageButton>
       
-      <PageInfo>
+      <PageInfo role="status" aria-live="polite">
         <PageNumber>Page {currentPage}</PageNumber>
         <span>of</span>
         <PageNumber>{totalPages}</PageNumber>
@@ -75,6 +120,7 @@ const Pagination = ({
       <PageButton 
         onClick={handleNext}
         disabled={currentPage === totalPages || isLoading}
+        aria-label={`Go to next page (page ${currentPage + 1})`}
       >
         →
       </PageButton>

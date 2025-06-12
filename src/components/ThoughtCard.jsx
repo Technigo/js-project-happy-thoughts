@@ -7,7 +7,17 @@ import { getTimeAgo } from '../utils/dateHelpers';
 import { useThoughtEditing, useThoughtDeletion, useConfirm } from '../stores/uiStore';
 import { colors } from '../styles/colors';
 
-// Removed LikeButtonWrapper - we'll style the LikeButton directly
+// Add screen reader only text component
+const ScreenReaderOnly = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+`;
 
 const Card = styled.div`
   background: ${colors.background.white};
@@ -135,6 +145,13 @@ const OwnerInfo = styled.div`
   margin-bottom: 8px;
 `;
 
+const LikeCount = styled.span.attrs({
+  'aria-live': 'polite',
+  'aria-atomic': 'true'
+})`
+  margin-left: 4px;
+`;
+
 const Time = styled.span`
   color: ${colors.text.secondary};
   font-size: 0.9rem;
@@ -242,12 +259,42 @@ const ThoughtCard = ({
     finishDeleting();
   };
 
+  // Keyboard event handlers
+  const handleLikeKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onLike(_id);
+    }
+  };
+
+  const handleEditKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleEditStart();
+    }
+  };
+
+  const handleDeleteKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleDelete();
+    }
+  };
+
   return (
     <Card>
+      {/* Screen reader announcements */}
+      {isOptimistic && (
+        <ScreenReaderOnly aria-live="polite">
+          Posting your thought...
+        </ScreenReaderOnly>
+      )}
+      
       {/* Show owner info if available */}
       {owner && (
         <OwnerInfo>
-          By: {getOwnerDisplayName(owner)}
+          <ScreenReaderOnly>Posted by: </ScreenReaderOnly>
+          {getOwnerDisplayName(owner)}
         </OwnerInfo>
       )}
       
@@ -258,7 +305,12 @@ const ThoughtCard = ({
             onChange={(e) => updateMessage(e.target.value)}
             disabled={isUpdating}
             maxLength={140}
+            aria-label="Edit your thought"
+            aria-describedby="edit-instructions"
           />
+          <ScreenReaderOnly id="edit-instructions">
+            Press Tab to navigate to Save or Cancel buttons
+          </ScreenReaderOnly>
           <EditActions>
             <Button onClick={handleEditCancel} disabled={isUpdating}>
               Cancel
@@ -266,9 +318,15 @@ const ThoughtCard = ({
             <Button 
               onClick={handleEditSave} 
               disabled={isUpdating || !editMessage.trim()}
+              aria-describedby="save-status"
             >
               {isUpdating ? 'Saving...' : 'Save'}
             </Button>
+            {isUpdating && (
+              <ScreenReaderOnly id="save-status" aria-live="polite">
+                Saving your changes...
+              </ScreenReaderOnly>
+            )}
           </EditActions>
         </>
       ) : (
@@ -277,10 +335,18 @@ const ThoughtCard = ({
       
       <CardFooter>
         <LeftGroup>
-          <LikeButton onClick={() => onLike(_id)} $liked={liked}>
+          <LikeButton 
+            onClick={() => onLike(_id)} 
+            onKeyDown={handleLikeKeyDown}
+            $liked={liked} 
+            aria-label={liked ? `Unlike this thought. Currently has ${likesCount || hearts} likes` : `Like this thought. Currently has ${likesCount || hearts} likes`}
+            tabIndex={0}
+          >
             ❤️
           </LikeButton>
-          <span>x {likesCount || hearts}</span>
+          <LikeCount aria-label={`${likesCount || hearts} people liked this`}>
+            x {likesCount || hearts}
+          </LikeCount>
         </LeftGroup>
         
         <RightGroup>
@@ -288,16 +354,37 @@ const ThoughtCard = ({
           {/* Show edit/delete buttons only for thought owner */}
           {isOwner && !isEditing && !isOptimistic && (
             <OwnerActions>
-              <Button onClick={handleEditStart} disabled={isDeleting}>
+              <Button 
+                onClick={handleEditStart} 
+                onKeyDown={handleEditKeyDown}
+                disabled={isDeleting} 
+                aria-label="Edit this thought"
+                tabIndex={0}
+              >
                 ✏️ Edit
               </Button>
-              <Button onClick={handleDelete} disabled={isDeleting}>
+              <Button 
+                onClick={handleDelete} 
+                onKeyDown={handleDeleteKeyDown}
+                disabled={isDeleting} 
+                aria-label="Delete this thought"
+                aria-describedby="delete-status"
+                tabIndex={0}
+              >
                 {isDeleting ? 'Deleting...' : '🗑️ Delete'}
               </Button>
+              {isDeleting && (
+                <ScreenReaderOnly id="delete-status" aria-live="polite">
+                  Deleting your thought...
+                </ScreenReaderOnly>
+              )}
             </OwnerActions>
           )}
           {isOptimistic && (
-            <span style={{fontSize: '0.8rem', color: colors.text.placeholder}}>Saving...</span>
+            <span style={{fontSize: '0.8rem', color: colors.text.placeholder}}>
+              <ScreenReaderOnly>Status: </ScreenReaderOnly>
+              Saving...
+            </span>
           )}
         </RightGroup>
       </CardFooter>

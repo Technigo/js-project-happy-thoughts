@@ -153,7 +153,7 @@ const SignupForm = ({ onToggleMode }) => {
 
   return (
     <FormContainer>
-      <Title>Create Your Account</Title>
+      <Title as="h2">Create Your Account</Title>
       <Form onSubmit={handleSubmit}>
         <div>
           <FieldLabel htmlFor="name">Full Name</FieldLabel>
@@ -165,6 +165,7 @@ const SignupForm = ({ onToggleMode }) => {
             onChange={(e) => setSignupName(e.target.value)}
             disabled={isLoading}
             required
+            aria-label="Full Name"
           />
         </div>
 
@@ -178,6 +179,7 @@ const SignupForm = ({ onToggleMode }) => {
             onChange={(e) => setSignupEmail(e.target.value)}
             disabled={isLoading}
             required
+            aria-label="Email address"
           />
         </div>
 
@@ -191,6 +193,7 @@ const SignupForm = ({ onToggleMode }) => {
             onChange={(e) => setSignupPassword(e.target.value)}
             disabled={isLoading}
             required
+            aria-label="Password"
           />
           
           {password && (
@@ -224,6 +227,7 @@ const SignupForm = ({ onToggleMode }) => {
             onChange={(e) => setSignupConfirmPassword(e.target.value)}
             disabled={isLoading}
             required
+            aria-label="Confirm password"
           />
           {confirmPassword && !passwordsMatch && (
             <div style={{ color: colors.state.error, fontSize: '0.85rem', marginTop: '4px' }}>
@@ -232,9 +236,9 @@ const SignupForm = ({ onToggleMode }) => {
           )}
         </div>
 
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {error && <ErrorMessage aria-live="polite">{error}</ErrorMessage>}
 
-        <Button type="submit" disabled={isLoading || !isFormValid}>
+        <Button type="submit" disabled={isLoading || !isFormValid} aria-label="Create Account">
           {isLoading ? 'Creating Account...' : 'Create Account'}
         </Button>
       </Form>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { device } from '../styles/media';
@@ -112,6 +112,40 @@ const ConfirmDialog = ({
   onCancel,
   isLoading = false
 }) => {
+  const dialogRef = useRef(null);
+  const firstButtonRef = useRef(null);
+
+  // Focus trap
+  useEffect(() => {
+    if (isOpen && dialogRef.current) {
+      // Focus the first button
+      firstButtonRef.current?.focus();
+      const focusable = dialogRef.current.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      function handleKeyDown(e) {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          onCancel && onCancel();
+        }
+      }
+      dialogRef.current.addEventListener('keydown', handleKeyDown);
+      return () => dialogRef.current.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isOpen, onCancel]);
+
   if (!isOpen) return null;
 
   const handleOverlayClick = (e) => {
@@ -122,19 +156,22 @@ const ConfirmDialog = ({
 
   return (
     <Overlay onClick={handleOverlayClick}>
-      <Dialog>
-        <Title>{title}</Title>
-        <Message>{message}</Message>
+      <Dialog ref={dialogRef} aria-modal="true" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-message">
+        <Title id="dialog-title">{title}</Title>
+        <Message id="dialog-message">{message}</Message>
         <ButtonContainer>
           <CancelButton 
+            ref={firstButtonRef}
             onClick={() => onCancel && onCancel()} 
             disabled={isLoading}
+            aria-label="Cancel"
           >
             {cancelText}
           </CancelButton>
           <ConfirmButton 
             onClick={() => onConfirm && onConfirm()} 
             disabled={isLoading}
+            aria-label="Confirm"
           >
             {isLoading ? 'Processing...' : confirmText}
           </ConfirmButton>

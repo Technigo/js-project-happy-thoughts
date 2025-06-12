@@ -121,7 +121,7 @@ const LoginForm = ({ onToggleMode }) => {
 
   return (
     <FormContainer>
-      <Title>Welcome Back!</Title>
+      <Title as="h2">Welcome Back!</Title>
       <Form onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -130,6 +130,7 @@ const LoginForm = ({ onToggleMode }) => {
           placeholder="Email address"
           required
           disabled={loading}
+          aria-label="Email address"
         />
         <Input
           type="password"
@@ -138,10 +139,11 @@ const LoginForm = ({ onToggleMode }) => {
           placeholder="Password"
           required
           disabled={loading}
+          aria-label="Password"
         />
         <ButtonContainer>
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-          <Button type="submit" disabled={loading || !isFormValid}>
+          {error && <ErrorMessage aria-live="polite">{error}</ErrorMessage>}
+          <Button type="submit" disabled={loading || !isFormValid} aria-label="Log In">
             {loading ? 'Logging in...' : '❤️ Log In ❤️'}
           </Button>
           <ToggleText>

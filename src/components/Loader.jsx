@@ -46,8 +46,12 @@ const Loader = () => {
   }, []);
 
   return (
-    <LoaderWrapper>
-      <SpinnerWheel />
+    <LoaderWrapper 
+      role="status" 
+      aria-live="polite" 
+      aria-label={showDelayedMessage ? "Starting services, please wait" : "Loading content"}
+    >
+      <SpinnerWheel aria-hidden="true" />
       <LoadingText>
         {showDelayedMessage 
           ? "Hold on, we're starting our services up, just for you" 

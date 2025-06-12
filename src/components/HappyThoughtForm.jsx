@@ -28,8 +28,8 @@ const FormContainer = styled.form`
 `;
 
 const Title = styled.h2`
-  margin: 0 0 15px 0;
-  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
   color: ${colors.text.primary};
 
   @media ${device.smallMobile} {
@@ -98,21 +98,22 @@ const HappyThoughtForm = ({ onSubmit, loading }) => {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <Title>What's making you happy right now?</Title>
+      <Title as="h2">What's making you happy right now?</Title>
       <TextArea
         value={message}
         onChange={(e) => setThoughtMessage(e.target.value)}
         placeholder={isAuthenticated ? "Type your happy thought..." : "Please log in to post a thought..."}
         rows={3}
         disabled={loading || !isAuthenticated}
+        aria-label="Type your happy thought"
       />
       <FormFooter>
         <CharacterCount 
           count={maxLength - message.length} 
           isError={message.length > maxLength} 
         />
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <Button type="submit" disabled={loading || !isValid || !isAuthenticated}>
+        {error && <ErrorMessage aria-live="polite">{error}</ErrorMessage>}
+        <Button type="submit" disabled={loading || !isValid || !isAuthenticated} aria-label="Send Happy Thought">
           ❤️ Send Happy Thought ❤️
         </Button>
       </FormFooter>

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { device } from '../styles/media';
 
 const Title = styled.h1`
-  font-size: 6rem;
-  font-weight: bold;
-  margin: 2rem 0;
+  font-size: 2.2rem;
+  color: #ff4d4d;
+  margin-bottom: 10px;
   text-align: center;
 
   @media ${device.tablet} {
@@ -21,6 +21,11 @@ const Title = styled.h1`
   }
 `;
 
-const HeroSection = () => <Title>Happier Tweets</Title>;
+const HeroSection = () => (
+  <section aria-label="Happy Thoughts Hero">
+    <Title>Happy Thoughts</Title>
+    {/* ...rest of the hero content... */}
+  </section>
+);
 
 export default HeroSection;
