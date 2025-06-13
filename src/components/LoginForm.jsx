@@ -23,7 +23,6 @@ const PopDownContainer = styled.div`
   gap: 1rem;
   max-width: 400px;
 `;
-const accessToken = localStorage.getItem("userToken");
 
 const API_URL =
   import.meta.env.VITE_API_URL || "https://js-project-api-k17p.onrender.com";
@@ -35,31 +34,53 @@ const LoginForm = ({ onClose }) => {
   const [error, setError] = useState("");
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setLoading(true);
+    const trimmedUsername = username.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
 
     try {
       const endpoint = isSignup ? "/register" : "/login";
+      const body = isSignup
+        ? {
+            username: trimmedUsername,
+            password: trimmedPassword,
+            email: trimmedEmail,
+          }
+        : { username: trimmedUsername, password: trimmedPassword };
+
       const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          isSignup ? { username, password, email } : { username, password }
+          isSignup ? { username, password, email } : { username, password },
+          body
         ),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(isSignup ? "Signup failed" : "Login failed");
-      localStorage.setItem("userToken", data.token);
-      onClose();
-      console.log("Token in localStorage:", accessToken);
+      if (data.accessToken) {
+        localStorage.setItem("userToken", data.accessToken); // Store in localStorage
+        setError("");
+        onClose();
+        setLoading(false);
+        console.log(
+          "Token in localStorage:",
+          localStorage.getItem("userToken")
+        );
+      } else if (!res.ok) {
+        throw new Error(isSignup ? "Signup failed" : "Login failed");
+      }
     } catch {
       setError(
         isSignup
           ? "Signup failed. Try a different username."
           : "Invalid username or password"
       );
+      setLoading(false);
     }
   };
 
@@ -132,7 +153,15 @@ const LoginForm = ({ onClose }) => {
           </button>
         </div>
         <br />
-        <PinkButton type="submit">{isSignup ? "Sign Up" : "Login"}</PinkButton>
+        <PinkButton type="submit" disabled={loading}>
+          {loading
+            ? isSignup
+              ? "Signing Up..."
+              : "Logging In..."
+            : isSignup
+            ? "Sign Up"
+            : "Login"}
+        </PinkButton>
       </FormContainer>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <p>

@@ -13,9 +13,6 @@ export const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("usertoken") ? true : false
   );
-  // If you want to log the token, use the correct variable name:
-  // const accessToken = localStorage.getItem("usertoken");
-  // console.log("Token in localStorage:", accessToken);
 
   // Fetch thoughts when the app loads
   useEffect(() => {

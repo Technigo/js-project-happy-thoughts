@@ -1,19 +1,19 @@
-import { useState } from "react";
 import { NavStyle, NavTitle, NavActions } from "../styles/NavStyles";
 import { PinkButton } from "../styles/Messagestyles";
 import SearchBar from "./Searchbar";
 import { Suspense, lazy } from "react";
 const LoginForm = lazy(() => import("./LoginForm"));
 
-const NavBar = () => {
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // Track the current search query
-  const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const token = localStorage.getItem("userToken");
-    return !!token;
-  });
-
+const NavBar = ({
+  searchResults,
+  setSearchResults,
+  searchQuery,
+  setSearchQuery,
+  showLogin,
+  setShowLogin,
+  isLoggedIn,
+  setIsLoggedIn,
+}) => {
   return (
     <>
       <NavStyle>
@@ -24,10 +24,7 @@ const NavBar = () => {
               Not found
             </h4>
           )}
-          <SearchBar
-            onResults={(res) => setSearchResults(res)}
-            setQuery={setSearchQuery}
-          />
+          <SearchBar onResults={setSearchResults} setQuery={setSearchQuery} />
           {!isLoggedIn && (
             <PinkButton onClick={() => setShowLogin(true)}>Login</PinkButton>
           )}
@@ -46,8 +43,8 @@ const NavBar = () => {
               onClick={() => {
                 localStorage.removeItem("userToken");
                 sessionStorage.clear();
-                setIsLoggedIn(false); // If you track login state in React
-                setShowLogin(false); // Optionally close login modal
+                setIsLoggedIn(false);
+                setShowLogin(false);
               }}
             >
               Logout

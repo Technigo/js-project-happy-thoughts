@@ -13,7 +13,13 @@ const MessageForm = ({ onSubmit }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
-    const accessToken = localStorage.getItem("userToken");
+    const accessToken = localStorage.getItem("userToken"); // <-- Add this line
+
+    if (!accessToken) {
+      alert("You must be logged in to post a thought.");
+      setLoading(false);
+      return;
+    }
 
     fetch("https://js-project-api-k17p.onrender.com/thoughts", {
       method: "POST",
@@ -25,13 +31,13 @@ const MessageForm = ({ onSubmit }) => {
     })
       .then((res) => res.json())
       .then((newThought) => {
-        onSubmit(newThought); // Add the new thought to the list in App.jsx
-        setMessage(""); // Clear the input field
-        setLoading(false); // Stop loading
+        onSubmit(newThought);
+        setMessage("");
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error posting thought:", error);
-        setLoading(false); // Stop loading even if there's an error
+        setLoading(false);
       });
   };
 
