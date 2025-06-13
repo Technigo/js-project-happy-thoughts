@@ -11,7 +11,7 @@ export const FormInput = ({ id, type, name, label, value, onChange, placeholder,
         name={name}
         value={value}
         placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e)}
         required
         autoComplete={autoComplete}
         autoFocus={autoFocus}

@@ -18,7 +18,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/signup"
+          path="/users"
           element={
             <>
               <Header />

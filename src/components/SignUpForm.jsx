@@ -1,27 +1,63 @@
+import { useState } from "react"
 import { FormInput } from "./FormInput"
 
+
 export const SignUpForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
+
+  // const url = "https://js-project-api-mk0z.onrender.com/users"
+  // Local API
+  const url = "http://localhost:8080/users"
+
+
   const handleSubmit = (event) => {
     event.preventDefault()
-    const formData = new FormData(event.target)
-    const email = formData.get('email')
-    const password = formData.get('password')
-    // onSignIn(email, password)
+
+
+    fetch(`${url}/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Could not create account")
+        return res.json()
+      })
+      .then(data => {
+
+        // Clear the form fields after successful signup
+        setFormData({ name: "", email: "", password: "" })
+
+      })
+      .catch(err => {
+        console.error("Error creating account:", err)
+        // Handle error, e.g., show an error message to the user
+      })
   }
 
   return (
     <form
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 m-4 border p-4 shadow-[10px_10px] shadow-black bg-gray-100 rounded-xs">
-
+      <h1 className="text-2xl font-bold text-center mb-2">
+        Sign up for an account
+      </h1>
       <FormInput
         id={"name"}
         type={"name"}
         name={"Name"}
         label={"name"}
         placeholder={"Bob"}
-        value={""}
-        onChange={() => { }}
+        value={formData.name}
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         required={true}
         autoComplete="off"
         autoFocus={true}
@@ -33,8 +69,8 @@ export const SignUpForm = () => {
         name={"Email"}
         label={"email"}
         placeholder={"Bob@test.com"}
-        value={""}
-        onChange={() => { }}
+        value={formData.email}
+        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         required={true}
         autoComplete="off"
       />
@@ -44,13 +80,13 @@ export const SignUpForm = () => {
         name={"Password"}
         label={"password"}
         placeholder={"********"}
-        value={""}
-        onChange={() => { }}
+        value={formData.password}
+        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         required={true}
-        autoComplete="new-password"
+        autoComplete="off"
       />
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-        Sign In
+        Sign Up
       </button>
     </form>
   )
