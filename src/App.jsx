@@ -38,8 +38,10 @@ const MessageList = styled.div`
 
 `
 
+//"https://happy-thoughts-api-4ful.onrender.com/thoughts"
+
 export const App = () => {
-  const API_URL = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
+  const API_URL = "https://lillebrorgrodas-first-api.onrender.com/thoughts"
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [messageText, setMessageText] = useState("")
@@ -49,7 +51,7 @@ export const App = () => {
     fetch(API_URL)
       .then((response) => response.json())
       .then((data) => {
-        setMessages(data)
+        setMessages(data.response)
         setIsLoading(false)
       })
       .catch((error) => {
