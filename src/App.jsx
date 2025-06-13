@@ -9,7 +9,7 @@ export const App = () => {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/thoughts"
+          path="/"
           element={
             <>
               <Header />
@@ -18,7 +18,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/users"
+          path="/signup"
           element={
             <>
               <Header />

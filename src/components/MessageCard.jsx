@@ -33,21 +33,23 @@ export const MessageCard = ({ message, onLike, onDelete, onEdit }) => {
             className="p-2 bg-blue-100 rounded-xl w-max h-max"
             type="button"
             onClick={handleEditClick}
+            aria-label="Edit message"
           >
             <img
               className="max-w-5 max-h-5"
               src="assets/edit.png"
-              alt="Edit message"
+              alt=""
             />
           </button>
           <button
             className="p-2 bg-blue-100 rounded-xl w-max h-max"
             type="button"
-            onClick={onDelete}>
+            onClick={onDelete}
+            aria-label="Delete message">
             <img
               className="w-5 h-5"
               src="assets/set.png"
-              alt="Delete message" />
+              alt="" />
           </button>
         </div>
       </div>

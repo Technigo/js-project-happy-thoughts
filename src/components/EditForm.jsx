@@ -2,34 +2,19 @@ import { useEffect, useState } from "react";
 
 
 
-export const EditForm = ({ onCancel, messageId, onEdit }) => {
-  const [message, setMessage] = useState("");
+export const EditForm = ({ onCancel, messageId, onEdit, initialMessage }) => {
+  const [message, setMessage] = useState(initialMessage || "")
   // const url = "https://js-project-api-mk0z.onrender.com/thoughts"
   // Local API
   const url = "http://localhost:8080/thoughts"
 
-  useEffect(() => {
-    // Fetch the message text from your API
-    fetch(`${url}/${messageId}`, { method: "GET" })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.response.message) {
-          setMessage(data.response.message)
-
-        } else {
-          setMessage("")
-          console.error("API response does not contain 'message' property", data)
-        }
-      })
-      .catch((err) => console.error("Failed to fetch message", err))
-  }, [messageId])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     onEdit(messageId, message)
     // Add your save logic here
 
-    const textarea = e.target.querySelector("#edit-thought")
+    // const textarea = e.target.querySelector("#edit-thought")
     // You can use textarea.value here
   }
 
@@ -44,15 +29,19 @@ export const EditForm = ({ onCancel, messageId, onEdit }) => {
           type="button"
           onClick={onCancel}
           className="text-gray-500 hover:text-gray-700 p-1"
+          aria-label="Close edit form"
         >
           <img
             className="w-4 h-4"
             src="assets/close.png"
-            alt="Close edit form"
+            alt=""
           />
         </button>
       </div>
-
+      <label
+        className="sr-only"
+        htmlFor="edit-thought"
+        visibility="hidden">Edit your message</label>
       <textarea
         id="edit-thought"
         name="edit-thought"
