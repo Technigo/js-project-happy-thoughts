@@ -1,14 +1,43 @@
+import { useState } from "react"
 import { FormInput } from "./FormInput"
 
 export const LogInForm = () => {
   // const url = "https://js-project-api-mk0z.onrender.com/users"
   // Local API
   const url = "http://localhost:8080/users/login"
+  const [formData, setFormData] = useState({
+    email: "", 
+    password: "",
+  })
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
+    if (!formData.email || !formData.password) {
+      setError("Please fill in both fields");
+      return;
+    }
+
+    setError("");
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ email: formData.email, password: formData.password }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(() => {
+        setFormData({ email: "", password: "" })
+        
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
   }
+
+
 
   return (
     <form

@@ -5,7 +5,7 @@ export const Header = () => {
     <header className="bg-red-100 text-white p-4">
       <h1 className="text-2xl font-bold">
         <Link
-          to="/thoughts" className="hover:underline">Happy Thoughts
+          to="/" className="hover:underline">Happy Thoughts
         </Link>
       </h1>
       <nav className="mt-2">

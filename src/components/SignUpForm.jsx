@@ -11,14 +11,14 @@ export const SignUpForm = () => {
 
   // const url = "https://js-project-api-mk0z.onrender.com/users"
   // Local API
-  const url = "http://localhost:8080/users"
+  const url = "http://localhost:8080/users/signup"
 
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
 
-    fetch(`${url}/signup`, {
+    fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -32,10 +32,9 @@ export const SignUpForm = () => {
         return res.json()
       })
       .then(data => {
-
         // Clear the form fields after successful signup
         setFormData({ name: "", email: "", password: "" })
-
+        
       })
       .catch(err => {
         console.error("Error creating account:", err)

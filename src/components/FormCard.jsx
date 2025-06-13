@@ -63,7 +63,7 @@ export const FormCard = ({ onSubmit, apiError }) => {
             {count}/{maxChars}
           </p>
         </div>
-
+        
         <textarea
           id="happy"
           className="resize-none bg-white w-full border-2 border-gray-300 focus:outline-red-200"
@@ -71,6 +71,7 @@ export const FormCard = ({ onSubmit, apiError }) => {
           onKeyDown={handleKeyDown}
           value={message}
           maxLength={maxChars}
+          autoFocus="true"
         >
         </textarea>
 

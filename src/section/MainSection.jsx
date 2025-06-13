@@ -3,6 +3,7 @@ import { MessageList } from "../components/MessasgeList"
 import { useState, useEffect } from "react"
 import { Loader } from "../components/Loader"
 import { LikeCount } from "../components/LikeCount"
+import { AuthorizationError } from "../components/AuthorizationError"
 
 
 
@@ -11,6 +12,7 @@ export const MainSection = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState("")
   const [likedCount, setLikedCount] = useState(0)
+  const [isLoggedOut, setIsLoggedOut] = useState(false)
 
   // const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
   //Local API
@@ -49,7 +51,13 @@ export const MainSection = () => {
       body: JSON.stringify({ message: message })
     })
       .then(res => {
-        if (!res.ok) throw new Error("Could not save your thought")
+        if (!res.ok) {
+          if (res.status === 401) {
+            setIsLoggedOut(true)
+            throw new Error("You need to be logged in to post a thought")
+          }
+          throw new Error("Could not save your thought")
+        }
         return res.json()
       })
       .then(newMessage => {
@@ -146,6 +154,8 @@ export const MainSection = () => {
 
       {isLoading && <Loader />}
       {likedCount > 0 && <LikeCount likeCount={likedCount} />}
+
+      {isLoggedOut && <AuthorizationError/>}
 
       <MessageList
         messages={messages}
