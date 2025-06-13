@@ -121,7 +121,7 @@ const ToggleLink = styled.button`
 `;
 
 const SignupForm = ({ onToggleMode }) => {
-  const { isLoading, signUp } = useAuth();
+  const { loading, signup } = useAuth();
   const { signupForm, setSignupName, setSignupEmail, setSignupPassword, setSignupConfirmPassword, setSignupError, resetSignupForm } = useFormStore();
 
   const { name, email, password, confirmPassword, error } = signupForm;
@@ -144,7 +144,7 @@ const SignupForm = ({ onToggleMode }) => {
     if (!isFormValid) return;
 
     try {
-      await signUp(name.trim(), email.trim(), password);
+      await signup(name.trim(), email.trim(), password);
       resetSignupForm();
     } catch (err) {
       setSignupError(err.message);
@@ -163,7 +163,7 @@ const SignupForm = ({ onToggleMode }) => {
             placeholder="Enter your full name"
             value={name}
             onChange={(e) => setSignupName(e.target.value)}
-            disabled={isLoading}
+            disabled={loading}
             required
             aria-label="Full Name"
           />
@@ -177,7 +177,7 @@ const SignupForm = ({ onToggleMode }) => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setSignupEmail(e.target.value)}
-            disabled={isLoading}
+            disabled={loading}
             required
             aria-label="Email address"
           />
@@ -191,7 +191,7 @@ const SignupForm = ({ onToggleMode }) => {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setSignupPassword(e.target.value)}
-            disabled={isLoading}
+            disabled={loading}
             required
             aria-label="Password"
           />
@@ -225,7 +225,7 @@ const SignupForm = ({ onToggleMode }) => {
             placeholder="Confirm your password"
             value={confirmPassword}
             onChange={(e) => setSignupConfirmPassword(e.target.value)}
-            disabled={isLoading}
+            disabled={loading}
             required
             aria-label="Confirm password"
           />
@@ -238,8 +238,8 @@ const SignupForm = ({ onToggleMode }) => {
 
         {error && <ErrorMessage aria-live="polite">{error}</ErrorMessage>}
 
-        <Button type="submit" disabled={isLoading || !isFormValid} aria-label="Create Account">
-          {isLoading ? 'Creating Account...' : 'Create Account'}
+        <Button type="submit" disabled={loading || !isFormValid} aria-label="Create Account">
+          {loading ? 'Creating Account...' : 'Create Account'}
         </Button>
       </Form>
 

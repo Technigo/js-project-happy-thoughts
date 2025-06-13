@@ -164,6 +164,43 @@ export const useFormStore = create((set) => ({
     }));
   },
   
+  // Individual setter methods for signup fields
+  setSignupName: (name) => {
+    set((state) => ({
+      signupForm: {
+        ...state.signupForm,
+        name
+      }
+    }));
+  },
+  
+  setSignupEmail: (email) => {
+    set((state) => ({
+      signupForm: {
+        ...state.signupForm,
+        email
+      }
+    }));
+  },
+  
+  setSignupPassword: (password) => {
+    set((state) => ({
+      signupForm: {
+        ...state.signupForm,
+        password
+      }
+    }));
+  },
+  
+  setSignupConfirmPassword: (confirmPassword) => {
+    set((state) => ({
+      signupForm: {
+        ...state.signupForm,
+        confirmPassword
+      }
+    }));
+  },
+  
   setSignupError: (error) => {
     set((state) => ({
       signupForm: {
