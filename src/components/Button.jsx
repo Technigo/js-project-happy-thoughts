@@ -1,17 +1,26 @@
 import styled from 'styled-components';
 import { colors } from '../styles/colors';
 
-// Use centralized colors instead of local object
-const StyledButton = styled.button`
-  background: ${colors.primary.main};
-  color: ${colors.background.white};
+// Base button styles
+const BaseButton = styled.button`
   border: none;
   border-radius: 6px;
-  padding: 12px 24px;
-  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
+
+  &:disabled {
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
+
+// Default button variant
+const StyledButton = styled(BaseButton)`
+  background: ${colors.primary.main};
+  color: ${colors.background.white};
+  padding: 12px 24px;
+  font-size: 1rem;
   min-width: 120px;
 
   &:hover:not(:disabled) {
@@ -27,8 +36,49 @@ const StyledButton = styled.button`
   &:disabled {
     background: ${colors.state.disabled};
     color: ${colors.text.light};
-    cursor: not-allowed;
-    transform: none;
+  }
+`;
+
+// Toggle button variant (for FilterToggle components)
+const ToggleButton = styled(BaseButton)`
+  background: ${props => props.$active ? colors.primary.main : colors.background.light};
+  color: ${props => props.$active ? colors.background.white : colors.text.primary};
+  border: 1px solid ${colors.border.main};
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  min-width: 45px;
+  
+  &:hover:not(:disabled) {
+    background: ${props => props.$active ? colors.primary.hover : colors.background.light};
+  }
+
+  &:disabled {
+    background: ${colors.state.disabled};
+    color: ${colors.text.light};
+    border-color: ${colors.border.light};
+  }
+`;
+
+// Pagination button variant
+const PageButton = styled(BaseButton)`
+  background: ${colors.primary.main};
+  color: ${colors.background.white};
+  min-width: 45px;
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  
+  &:hover:not(:disabled) {
+    background: ${colors.primary.hover};
+  }
+
+  &:active:not(:disabled) {
+    background: ${colors.primary.active};
+  }
+
+  &:disabled {
+    background: ${colors.state.disabled};
+    color: ${colors.text.light};
+    opacity: 0.5;
   }
 `;
 
@@ -66,9 +116,16 @@ const LikeButton = styled.button`
   }
 `;
 
-const Button = ({ children, ...props }) => {
-  return <StyledButton {...props}>{children}</StyledButton>;
+const Button = ({ variant = 'default', children, ...props }) => {
+  switch (variant) {
+    case 'toggle':
+      return <ToggleButton {...props}>{children}</ToggleButton>;
+    case 'page':
+      return <PageButton {...props}>{children}</PageButton>;
+    default:
+      return <StyledButton {...props}>{children}</StyledButton>;
+  }
 };
 
-export { LikeButton };
+export { LikeButton, ToggleButton, PageButton };
 export default Button; 

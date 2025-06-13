@@ -8,7 +8,7 @@ import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
 import HeroSection from './HeroSection';
 import Button from './Button';
-import ViewToggle from './ViewToggle';
+import FilterToggle from './FilterToggle';
 import InfiniteScroll from './InfiniteScroll';
 import Pagination from './Pagination';
 
@@ -22,6 +22,7 @@ const AuthenticatedApp = () => {
     totalPages,
     hasMore,
     viewMode,
+    thoughtFilter,
     addThought, 
     handleLike, 
     updateThought, 
@@ -29,7 +30,8 @@ const AuthenticatedApp = () => {
     fetchThoughts,
     changePage,
     loadMore,
-    setViewMode
+    setViewMode,
+    setThoughtFilter
   } = useThoughts();
 
   // Initialize thoughts when component mounts
@@ -61,9 +63,11 @@ const AuthenticatedApp = () => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {(loading || authLoading) && <Loader />}
         
-        <ViewToggle 
+        <FilterToggle 
           currentView={viewMode} 
-          onViewChange={setViewMode} 
+          onViewChange={setViewMode}
+          currentFilter={thoughtFilter}
+          onFilterChange={setThoughtFilter}
         />
 
         {viewMode === 'pagination' ? (

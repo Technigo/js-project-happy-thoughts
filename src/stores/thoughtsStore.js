@@ -28,13 +28,20 @@ export const useThoughtsStore = create((set, get) => ({
   totalThoughts: 0,
   hasMore: true,
   viewMode: 'pagination', // 'pagination' or 'infinite'
+  thoughtFilter: 'all', // 'all' or 'my'
 
   // Actions
   fetchThoughts: async (page = 1, append = false) => {
     set({ loading: true, error: '' });
     
     try {
-      const response = await fetch(`${API_URL}/thoughts?page=${page}&limit=${PAGE_SIZE}`);
+      const { thoughtFilter } = get();
+      const endpoint = thoughtFilter === 'my' 
+        ? `${API_URL}/users/me/thoughts?page=${page}&limit=${PAGE_SIZE}`
+        : `${API_URL}/thoughts?page=${page}&limit=${PAGE_SIZE}`;
+      
+      const fetchFunction = thoughtFilter === 'my' ? authenticatedFetch : fetch;
+      const response = await fetchFunction(endpoint);
       
       if (!response.ok) {
         throw new Error('Failed to fetch thoughts');
@@ -235,6 +242,12 @@ export const useThoughtsStore = create((set, get) => ({
       get().fetchThoughts(1);
     }
     set({ viewMode: mode });
+  },
+
+  // Add new action for changing thought filter
+  setThoughtFilter: (filter) => {
+    set({ thoughtFilter: filter, currentPage: 1, thoughts: [] });
+    get().fetchThoughts(1);
   }
 }));
 
@@ -254,6 +267,7 @@ export const useThoughts = () => {
     totalThoughts: store.totalThoughts,
     hasMore: store.hasMore,
     viewMode: store.viewMode,
+    thoughtFilter: store.thoughtFilter,
     addThought: store.addThought,
     handleLike: store.handleLike,
     updateThought: store.updateThought,
@@ -261,6 +275,7 @@ export const useThoughts = () => {
     fetchThoughts: store.fetchThoughts,
     changePage: store.changePage,
     loadMore: store.loadMore,
-    setViewMode: store.setViewMode
+    setViewMode: store.setViewMode,
+    setThoughtFilter: store.setThoughtFilter
   };
 }; 

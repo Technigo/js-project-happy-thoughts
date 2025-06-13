@@ -29,17 +29,6 @@ const PageNumber = styled.span`
   font-size: 1.1rem;
 `;
 
-const PageButton = styled(Button)`
-  min-width: 45px;
-  padding: 10px 15px;
-  font-size: 1.1rem;
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
 const ScreenReaderOnly = styled.span`
   position: absolute;
   width: 1px;
@@ -103,13 +92,14 @@ const Pagination = ({
         Keyboard shortcuts: Alt+Left/PageUp for previous, Alt+Right/PageDown for next page
       </ScreenReaderOnly>
       
-      <PageButton 
+      <Button
+        variant="page"
         onClick={handlePrevious}
         disabled={currentPage === 1 || isLoading}
         aria-label={`Go to previous page (page ${currentPage - 1})`}
       >
         ←
-      </PageButton>
+      </Button>
       
       <PageInfo role="status" aria-live="polite">
         <PageNumber>Page {currentPage}</PageNumber>
@@ -117,13 +107,14 @@ const Pagination = ({
         <PageNumber>{totalPages}</PageNumber>
       </PageInfo>
       
-      <PageButton 
+      <Button
+        variant="page"
         onClick={handleNext}
         disabled={currentPage === totalPages || isLoading}
         aria-label={`Go to next page (page ${currentPage + 1})`}
       >
         →
-      </PageButton>
+      </Button>
     </PaginationContainer>
   );
 };

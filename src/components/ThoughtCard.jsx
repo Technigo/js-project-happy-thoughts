@@ -246,7 +246,7 @@ const ThoughtCard = ({
     const confirmed = await confirm({
       title: 'Delete Thought',
       message: 'Are you sure you want to delete this thought? This action cannot be undone.',
-      confirmText: '🗑️ Delete',
+      confirmText: 'Delete',
       cancelText: 'Cancel'
     });
 
@@ -361,7 +361,7 @@ const ThoughtCard = ({
                 aria-label="Edit this thought"
                 tabIndex={0}
               >
-                ✏️ Edit
+                Edit
               </Button>
               <Button 
                 onClick={handleDelete} 
@@ -371,7 +371,7 @@ const ThoughtCard = ({
                 aria-describedby="delete-status"
                 tabIndex={0}
               >
-                {isDeleting ? 'Deleting...' : '🗑️ Delete'}
+                {isDeleting ? 'Deleting...' : 'Delete'}
               </Button>
               {isDeleting && (
                 <ScreenReaderOnly id="delete-status" aria-live="polite">
