@@ -116,7 +116,7 @@ export const App = () => {
               key={message._id}
               text={message.message}
               likes={message.hearts}
-              createdAt={message.createdAt}
+              createdAt={message.date}
               onLike={() => handleLike(message._id)}
               isNewest={index === 0}
             />
