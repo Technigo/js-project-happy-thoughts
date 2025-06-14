@@ -1,6 +1,6 @@
 import { NavStyle, NavTitle, NavActions } from "../styles/NavStyles";
 import { PinkButton } from "../styles/Messagestyles";
-import SearchBar from "./Searchbar";
+import SearchBar from "./SearchBar.jsx";
 import { Suspense, lazy } from "react";
 const LoginForm = lazy(() => import("./LoginForm"));
 
