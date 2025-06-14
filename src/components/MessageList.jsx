@@ -1,6 +1,10 @@
 import MessageItem from "./MessageItem";
 
-const MessageList = ({ thoughts, onLike, currentUser }) => {
+const MessageList = ({ thoughts, onLike, onDelete, onEdit }) => {
+  // Get current user from localStorage
+  const username = localStorage.getItem("username");
+  const currentUser = username ? { username } : null;
+
   return (
     <>
       {thoughts.map((thought) => (
@@ -12,7 +16,9 @@ const MessageList = ({ thoughts, onLike, currentUser }) => {
           hearts={thought.hearts}
           createdAt={thought.createdAt}
           onLike={onLike}
-          currentUser={currentUser}
+          currentUser={currentUser} // Pass the correct user object
+          onDelete={onDelete}
+          onEdit={onEdit}
         />
       ))}
     </>

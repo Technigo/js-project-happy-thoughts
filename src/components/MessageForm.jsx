@@ -14,6 +14,7 @@ const MessageForm = ({ onSubmit }) => {
     event.preventDefault();
     setLoading(true);
     const accessToken = localStorage.getItem("userToken");
+    const username = localStorage.getItem("username"); // Get username
 
     if (!accessToken) {
       alert("You must be logged in to post a thought.");
@@ -27,7 +28,7 @@ const MessageForm = ({ onSubmit }) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, username }),
     })
       .then((res) => res.json())
       .then((newThought) => {

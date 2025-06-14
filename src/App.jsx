@@ -14,6 +14,20 @@ export const App = () => {
     localStorage.getItem("usertoken") ? true : false
   );
 
+  // Remove a thought after delete
+  const handleDeleteThought = (id) => {
+    setThoughts((prev) => prev.filter((thought) => thought._id !== id));
+  };
+
+  // Update a thought after edit
+  const handleEditThought = (updatedThought) => {
+    setThoughts((prev) =>
+      prev.map((thought) =>
+        thought._id === updatedThought._id ? updatedThought : thought
+      )
+    );
+  };
+
   // Fetch thoughts when the app loads
   useEffect(() => {
     fetch("https://js-project-api-k17p.onrender.com/thoughts")
@@ -72,6 +86,8 @@ export const App = () => {
               aria-live="polite"
               thoughts={searchResults.length > 0 ? searchResults : thoughts}
               onLike={onLike}
+              onDelete={handleDeleteThought}
+              onEdit={handleEditThought}
             />
           </>
         )}

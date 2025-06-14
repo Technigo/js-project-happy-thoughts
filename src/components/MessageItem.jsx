@@ -27,6 +27,8 @@ const MessageItem = ({
   createdAt,
   className,
   currentUser,
+  onDelete,
+  onEdit,
 }) => {
   const handleLikes = () => {
     onLike(thought._id);
@@ -34,7 +36,7 @@ const MessageItem = ({
 
   const handleEdit = (thoughtId, newMessage) => {
     const accessToken = localStorage.getItem("userToken");
-    fetch(`${API_URL}${thoughtId}`, {
+    fetch(`${API_URL}/thoughts/${thoughtId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +47,8 @@ const MessageItem = ({
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log("Thought updated successfully");
+          onEdit(data.thought); // Update state in App.jsx
+
           // Optionally update UI here
         } else {
           console.error("Failed to update thought:", data.message);
@@ -58,7 +61,7 @@ const MessageItem = ({
 
   const handleDelete = (thoughtId) => {
     const accessToken = localStorage.getItem("userToken");
-    fetch(`${API_URL}${thoughtId}`, {
+    fetch(`${API_URL}/thoughts/${thoughtId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -67,7 +70,7 @@ const MessageItem = ({
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log("Thought deleted successfully");
+          onDelete(thoughtId);
         } else {
           console.error("Failed to delete thought:", data.message);
         }
@@ -87,7 +90,7 @@ const MessageItem = ({
       ? createdAtISO.toRelative()
       : "Date not available";
 
-  const isOwner = currentUser && thought.username === currentUser;
+  const isOwner = currentUser && thought.username === currentUser.username;
 
   return (
     <BoxStyle className={className}>
@@ -110,7 +113,7 @@ const MessageItem = ({
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
+                flexDirection: "row",
                 alignItems: "center",
                 gap: "1rem",
               }}

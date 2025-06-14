@@ -39,9 +39,10 @@ const LoginForm = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     const trimmedUsername = username.trim();
-    const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
+    const trimmedEmail = email?.trim();
 
     try {
       const endpoint = isSignup ? "/register" : "/login";
@@ -56,14 +57,13 @@ const LoginForm = ({ onClose }) => {
       const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          isSignup ? { username, password, email } : { username, password },
-          body
-        ),
+        body: JSON.stringify(body), // Only pass the body object here
       });
+
       const data = await res.json();
       if (data.accessToken) {
-        localStorage.setItem("userToken", data.accessToken); // Store in localStorage
+        localStorage.setItem("userToken", data.accessToken);
+        localStorage.setItem("username", trimmedUsername); // Store trimmed username
         setError("");
         onClose();
         setLoading(false);
