@@ -27,7 +27,7 @@ const PopDownContainer = styled.div`
 const API_URL =
   import.meta.env.VITE_API_URL || "https://js-project-api-k17p.onrender.com";
 
-const LoginForm = ({ onClose }) => {
+const LoginForm = ({ onClose, setIsLoggedIn, setCurrentUser }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,20 +57,18 @@ const LoginForm = ({ onClose }) => {
       const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body), // Only pass the body object here
+        body: JSON.stringify(body),
       });
 
       const data = await res.json();
       if (data.accessToken) {
         localStorage.setItem("userToken", data.accessToken);
-        localStorage.setItem("username", trimmedUsername); // Store trimmed username
+        localStorage.setItem("username", trimmedUsername);
+        setIsLoggedIn(true);
+        setCurrentUser({ username: trimmedUsername });
         setError("");
         onClose();
         setLoading(false);
-        console.log(
-          "Token in localStorage:",
-          localStorage.getItem("userToken")
-        );
       } else if (!res.ok) {
         throw new Error(isSignup ? "Signup failed" : "Login failed");
       }

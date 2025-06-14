@@ -1,10 +1,13 @@
 import MessageItem from "./MessageItem";
 
-const MessageList = ({ thoughts, onLike, onDelete, onEdit }) => {
-  // Get current user from localStorage
-  const username = localStorage.getItem("username");
-  const currentUser = username ? { username } : null;
-
+const MessageList = ({
+  thoughts,
+  onLike,
+  onDelete,
+  onEdit,
+  isLoggedIn,
+  currentUser,
+}) => {
   return (
     <>
       {thoughts.map((thought) => (
@@ -16,10 +19,10 @@ const MessageList = ({ thoughts, onLike, onDelete, onEdit }) => {
           hearts={thought.hearts}
           createdAt={thought.createdAt}
           onLike={onLike}
-          currentUser={currentUser} // Pass the correct user object
+          currentUser={currentUser}
           onDelete={onDelete}
           onEdit={onEdit}
-          isLoggedIn={!!currentUser} // Check if currentUser exists
+          isLoggedIn={isLoggedIn}
           aria-label={`Message from ${thought.username} on ${new Date(
             thought.createdAt
           ).toLocaleDateString()}: ${thought.message}`}

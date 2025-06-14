@@ -14,7 +14,7 @@ export const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    localStorage.removeItem("usertoken");
+    localStorage.removeItem("userToken");
     setIsLoggedIn(false);
     setCurrentUser(null);
   }, []);
@@ -77,6 +77,7 @@ export const App = () => {
           setShowLogin={setShowLogin}
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
+          setCurrentUser={setCurrentUser}
         />
       </header>
       <main>
@@ -93,7 +94,7 @@ export const App = () => {
               onLike={onLike}
               onDelete={handleDeleteThought}
               onEdit={handleEditThought}
-              sLoggedIn={isLoggedIn}
+              isLoggedIn={isLoggedIn}
               currentUser={currentUser}
             />
           </>

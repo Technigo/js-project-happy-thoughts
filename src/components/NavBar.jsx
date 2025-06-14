@@ -13,6 +13,7 @@ const NavBar = ({
   setShowLogin,
   isLoggedIn,
   setIsLoggedIn,
+  setCurrentUser,
 }) => {
   return (
     <>
@@ -35,6 +36,8 @@ const NavBar = ({
                   setShowLogin(false);
                   setIsLoggedIn(!!localStorage.getItem("userToken"));
                 }}
+                setIsLoggedIn={setIsLoggedIn}
+                setCurrentUser={setCurrentUser}
               />
             </Suspense>
           )}
