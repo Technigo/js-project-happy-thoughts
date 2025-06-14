@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-maingrey: rgba(242, 240, 240, 255);
+  --color-heartgrey: rgba(234, 234, 234, 255);
+  --color-heartred: rgba(255, 173, 173, 255);
+  --shadow-box: 10px 10px 0px -3px rgba(0, 0, 0, 1);
+  --shadow-smallscreenbox: 0px 7px 0px 0px rgba(0, 0, 0, 1);
+  --color-bordergrey: rgba(67, 67, 67, 255);
+  --color-extragrey: rgba(119, 119, 119, 255);
+}
