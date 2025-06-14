@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PinkButton, BoxStyle, TextAreaStyle } from "../styles/Messagestyles";
+import { showAlert } from "../styles/SwalAlerts";
 
 const MessageForm = ({ onSubmit }) => {
   const [message, setMessage] = useState("");
@@ -17,7 +18,11 @@ const MessageForm = ({ onSubmit }) => {
     const username = localStorage.getItem("username"); // Get username
 
     if (!accessToken) {
-      alert("You must be logged in to post a thought.");
+      showAlert({
+        icon: "info",
+        title: "Oh no!",
+        text: "You must be logged in to post a thought.",
+      });
       setLoading(false);
       return;
     }

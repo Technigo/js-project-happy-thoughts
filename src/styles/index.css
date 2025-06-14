@@ -55,3 +55,47 @@ main {
   transition: transform 0.5s ease-in-out;
   box-shadow: 16px 8px 0px 0px black;
 }
+.swal-hide-icon {
+  display: none !important;
+}
+
+button.swal-confirm-custom {
+  background-color: pink;
+  padding: 0.75rem 1rem;
+  border-radius: 2rem !important;
+  border: none;
+  font-family: "system-ui", sans-serif;
+  font-weight: 600;
+  will-change: transform;
+  color: black !important;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button.swal-confirm-custom:active {
+  transform: scale(0.97);
+  transition: all 0.1s ease-in-out;
+  box-shadow: inset 0px 4px 6px 0px lightcoral;
+}
+
+.swal-popup-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 34rem;
+  min-height: 10rem;
+  border: 2px solid black;
+  box-shadow: 8px 8px 0px 0px black;
+  margin: 2rem 0;
+  align-self: center;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  hyphens: auto;
+  background-color: white;
+  border-radius: 0;
+}

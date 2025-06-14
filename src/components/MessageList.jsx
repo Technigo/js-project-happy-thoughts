@@ -19,6 +19,10 @@ const MessageList = ({ thoughts, onLike, onDelete, onEdit }) => {
           currentUser={currentUser} // Pass the correct user object
           onDelete={onDelete}
           onEdit={onEdit}
+          isLoggedIn={!!currentUser} // Check if currentUser exists
+          aria-label={`Message from ${thought.username} on ${new Date(
+            thought.createdAt
+          ).toLocaleDateString()}: ${thought.message}`}
         />
       ))}
     </>

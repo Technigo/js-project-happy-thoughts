@@ -52,7 +52,8 @@ const SearchBar = ({ onResults, setQuery }) => {
         value={query}
         onChange={handleChange}
         autoComplete="on"
-        aria-label="find a thoughts"
+        role="searchbox"
+        aria-label="Search happy thoughts"
       />
     </SearchBarContainer>
   );

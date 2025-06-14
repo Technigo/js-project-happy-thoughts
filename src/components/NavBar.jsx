@@ -42,7 +42,7 @@ const NavBar = ({
             <PinkButton
               onClick={() => {
                 localStorage.removeItem("userToken");
-                sessionStorage.clear();
+                localStorage.removeItem("username");
                 setIsLoggedIn(false);
                 setShowLogin(false);
               }}

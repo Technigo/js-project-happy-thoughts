@@ -110,6 +110,8 @@ const LoginForm = ({ onClose }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              aria-label="email"
+              role="textbox"
             />
             <br />
           </>
@@ -120,6 +122,8 @@ const LoginForm = ({ onClose }) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          aria-label="username"
+          role="textbox"
         />
         <br />
 
@@ -136,8 +140,12 @@ const LoginForm = ({ onClose }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            aria-label="password"
+            role="textbox"
           />
           <button
+            aria-label="Toggle password visibility"
+            role="button"
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
             style={{
@@ -167,6 +175,8 @@ const LoginForm = ({ onClose }) => {
       <p>
         {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
         <PinkButton
+          aria-label="Toggle between login and signup"
+          role="button"
           type="button"
           style={{
             cursor: "pointer",

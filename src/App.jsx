@@ -10,9 +10,14 @@ export const App = () => {
   const [thoughts, setThoughts] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state for fetching thoughts
   const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("usertoken") ? true : false
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    localStorage.removeItem("usertoken");
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+  }, []);
 
   // Remove a thought after delete
   const handleDeleteThought = (id) => {
@@ -88,6 +93,8 @@ export const App = () => {
               onLike={onLike}
               onDelete={handleDeleteThought}
               onEdit={handleEditThought}
+              sLoggedIn={isLoggedIn}
+              currentUser={currentUser}
             />
           </>
         )}

@@ -2,6 +2,8 @@ import { PinkButton, BoxStyle, BoxFooterStyle } from "../styles/Messagestyles";
 import styled from "styled-components";
 import { DateTime } from "luxon";
 
+import { showAlert } from "../styles/SwalAlerts";
+
 const HeartButton = styled(PinkButton)`
   background-color: ${(props) =>
     props.$heartCountColor <= 0 ? "lightgrey" : "pink"};
@@ -29,9 +31,28 @@ const MessageItem = ({
   currentUser,
   onDelete,
   onEdit,
+  isLoggedIn,
 }) => {
   const handleLikes = () => {
-    onLike(thought._id);
+    if (!isLoggedIn) {
+      showAlert({
+        title: "Login Required",
+        text: "You must be logged in to like a thought.",
+      });
+      return;
+    }
+    const liked = JSON.parse(localStorage.getItem("likedMessages") || "[]");
+    if (!liked.includes(thought._id)) {
+      onLike(thought._id);
+      liked.push(thought._id);
+      localStorage.setItem("likedMessages", JSON.stringify(liked));
+    } else {
+      showAlert({
+        icon: "info",
+        title: "Your so Sweet!",
+        text: "but you have already liked this thought.",
+      });
+    }
   };
 
   const handleEdit = (thoughtId, newMessage) => {
@@ -101,7 +122,8 @@ const MessageItem = ({
             type="button"
             $heartCountColor={hearts}
             onClick={handleLikes}
-            aria-label={`Like this message. Current likes: ${hearts}`}
+            role="button"
+            aria-label={`Like this message from ${thought.username}. Current likes: ${hearts}`}
           >
             ❤️
           </HeartButton>
@@ -109,7 +131,7 @@ const MessageItem = ({
         </HeartContainer>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <p>{formattedTime}</p>
-          {isOwner && (
+          {isLoggedIn && isOwner && (
             <div
               style={{
                 display: "flex",
