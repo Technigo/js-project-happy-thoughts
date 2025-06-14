@@ -10,6 +10,7 @@ const NavStyle = styled.nav`
   border: 2px solid black;
   background-color: #efeeee;
   width: 100%;
+  flex-wrap: wrap;
 `;
 
 const NavTitle = styled.h1`
