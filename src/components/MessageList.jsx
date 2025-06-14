@@ -1,6 +1,6 @@
 import MessageItem from "./MessageItem";
 
-const MessageList = ({ thoughts, onLike }) => {
+const MessageList = ({ thoughts, onLike, currentUser }) => {
   return (
     <>
       {thoughts.map((thought) => (
@@ -12,6 +12,7 @@ const MessageList = ({ thoughts, onLike }) => {
           hearts={thought.hearts}
           createdAt={thought.createdAt}
           onLike={onLike}
+          currentUser={currentUser}
         />
       ))}
     </>

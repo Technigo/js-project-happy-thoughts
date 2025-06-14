@@ -31,6 +31,31 @@ const MessageItem = ({
   const handleLikes = () => {
     onLike(thought._id);
   };
+
+  const handleEdit = (thoughtId, newMessage) => {
+    const accessToken = localStorage.getItem("userToken");
+    fetch(`${API_URL}${thoughtId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ message: newMessage }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          console.log("Thought updated successfully");
+          // Optionally update UI here
+        } else {
+          console.error("Failed to update thought:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating thought:", error);
+      });
+  };
+
   const handleDelete = (thoughtId) => {
     const accessToken = localStorage.getItem("userToken");
     fetch(`${API_URL}${thoughtId}`, {
@@ -51,6 +76,7 @@ const MessageItem = ({
         console.error("Error deleting thought:", error);
       });
   };
+
   const isValidDate = createdAt && !isNaN(new Date(createdAt).getTime());
   const createdAtISO = isValidDate
     ? DateTime.fromISO(new Date(createdAt).toISOString())
@@ -81,14 +107,39 @@ const MessageItem = ({
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <p>{formattedTime}</p>
           {isOwner && (
-            <PinkButton
-              type="button"
-              style={{ marginLeft: "1rem", float: "right" }}
-              aria-label="Delete this message"
-              onClick={() => handleDelete(thought._id)}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "1rem",
+              }}
             >
-              Delete
-            </PinkButton>
+              <PinkButton
+                type="button"
+                style={{ marginLeft: "1rem", float: "right" }}
+                aria-label="Delete this message"
+                onClick={() => handleDelete(thought._id)}
+              >
+                Delete
+              </PinkButton>
+              <PinkButton
+                type="button"
+                style={{ marginLeft: "0.5rem", float: "right" }}
+                aria-label="Edit this message"
+                onClick={() => {
+                  const newMessage = prompt(
+                    "Edit your message:",
+                    thought.message
+                  );
+                  if (newMessage) {
+                    handleEdit(thought._id, newMessage);
+                  }
+                }}
+              >
+                Edit
+              </PinkButton>
+            </div>
           )}
         </div>
       </BoxFooterStyle>

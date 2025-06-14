@@ -13,14 +13,14 @@ const MessageForm = ({ onSubmit }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
-    const accessToken = localStorage.getItem("userToken"); // <-- Add this line
+    const accessToken = localStorage.getItem("userToken");
 
     if (!accessToken) {
       alert("You must be logged in to post a thought.");
       setLoading(false);
       return;
     }
-
+    console.log("Posting thought:", message);
     fetch("https://js-project-api-k17p.onrender.com/thoughts", {
       method: "POST",
       headers: {
