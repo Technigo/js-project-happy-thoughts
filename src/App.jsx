@@ -6,6 +6,7 @@ import { LogIn } from "./section/LogIn"
 
 export const App = () => {
   return (
+
     <BrowserRouter>
       <Routes>
         <Route
@@ -13,7 +14,9 @@ export const App = () => {
           element={
             <>
               <Header />
-              <MainSection />
+              <section className="max-w-md min-h-screen px-5 py-10 mx-auto">
+                <MainSection />
+              </section>
             </>
           }
         />
@@ -22,7 +25,9 @@ export const App = () => {
           element={
             <>
               <Header />
-              <SignUp />
+              <section className="max-w-md min-h-screen px-5 py-10 mx-auto">
+                <SignUp />
+              </section>
             </>
           } />
         <Route
@@ -30,10 +35,13 @@ export const App = () => {
           element={
             <>
               <Header />
-              <LogIn />
+              <section className="max-w-md min-h-screen px-5 py-10 mx-auto">
+                <LogIn />
+              </section>
             </>
           } />
       </Routes>
     </BrowserRouter>
+
   )
 }

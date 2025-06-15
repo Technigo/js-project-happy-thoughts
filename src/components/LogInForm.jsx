@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { NavLink } from "react-router-dom"
 import { FormInput } from "./FormInput"
 
 export const LogInForm = () => {
@@ -84,6 +85,10 @@ export const LogInForm = () => {
         autoComplete="off"
 
       />
+      <p>Dont have an account yet?</p>
+      <NavLink
+        to="/signup" className="underline hover:text-blue-900 hover:decoration-wavy">Sign up
+      </NavLink>
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
         Sign In
       </button>
