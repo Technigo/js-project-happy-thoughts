@@ -5,8 +5,9 @@ export const LogInForm = () => {
   // const url = "https://js-project-api-mk0z.onrender.com/users"
   // Local API
   const url = "http://localhost:8080/users/login"
+  const [error, setError] = useState("")
   const [formData, setFormData] = useState({
-    email: "", 
+    email: "",
     password: "",
   })
 
@@ -27,12 +28,26 @@ export const LogInForm = () => {
         "Content-Type": "application/json"
       }
     })
-      .then(() => {
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Login failed")
+        }
+        return res.json()
+
+
+
+      })
+      .then(data => {
+        const { accessToken } = data
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken)
+          console.log("logged in, token saved")
+        }
         setFormData({ email: "", password: "" })
-        
       })
       .catch(error => {
-        console.log(error)
+        console.log("Login error:", error.message)
+        setError("Login failed. Please check your credentials.")
       })
 
   }
@@ -52,9 +67,9 @@ export const LogInForm = () => {
         name={"Email"}
         label={"email"}
         placeholder={"Bob@test.com"}
-        value={""}
-        onChange={() => { }}
-        required={true}
+        value={formData.email}
+        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        required
         autoComplete="off"
         autoFocus={true}
       />
@@ -64,10 +79,11 @@ export const LogInForm = () => {
         name={"Password"}
         label={"password"}
         placeholder={"********"}
-        value={""}
-        onChange={() => { }}
-        required={true}
-        autoComplete="new-password"
+        value={formData.password}
+        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+        required
+        autoComplete="off"
+
       />
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
         Sign In

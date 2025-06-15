@@ -32,9 +32,10 @@ export const SignUpForm = () => {
         return res.json()
       })
       .then(data => {
+
         // Clear the form fields after successful signup
         setFormData({ name: "", email: "", password: "" })
-        
+
       })
       .catch(err => {
         console.error("Error creating account:", err)
