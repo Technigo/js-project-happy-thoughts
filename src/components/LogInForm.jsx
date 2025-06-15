@@ -34,13 +34,12 @@ export const LogInForm = () => {
         }
         return res.json()
 
-
-
       })
       .then(data => {
-        const { accessToken } = data
-        if (accessToken) {
+        const { accessToken, userId } = data
+        if (accessToken && userId) {
           localStorage.setItem("accessToken", accessToken)
+          localStorage.setItem("userId", userId)
           console.log("logged in, token saved")
         }
         setFormData({ email: "", password: "" })

@@ -3,7 +3,7 @@ import { LikeButton } from "./LikeButton"
 import { EditForm } from "./EditForm"
 import { useState } from "react"
 
-export const MessageCard = ({ message, onLike, onDelete, onEdit }) => {
+export const MessageCard = ({ message, onLike, onDelete, onEdit, userId }) => {
 
   const [isEditing, setIsEditing] = useState(false)
 
@@ -29,28 +29,33 @@ export const MessageCard = ({ message, onLike, onDelete, onEdit }) => {
       <div className="flex justify-between">
         <p className="max-w-60">{message.message}</p>
         <div className="flex gap-3">
-          <button
-            className="p-2 bg-blue-100 rounded-xl w-max h-max"
-            type="button"
-            onClick={handleEditClick}
-            aria-label="Edit message"
-          >
-            <img
-              className="max-w-5 max-h-5"
-              src="assets/edit.png"
-              alt=""
-            />
-          </button>
-          <button
-            className="p-2 bg-blue-100 rounded-xl w-max h-max"
-            type="button"
-            onClick={onDelete}
-            aria-label="Delete message">
-            <img
-              className="w-5 h-5"
-              src="assets/set.png"
-              alt="" />
-          </button>
+          {message.user === userId && (
+            <>
+              <button
+                className="p-2 bg-blue-100 rounded-xl w-max h-max"
+                type="button"
+                onClick={handleEditClick}
+                aria-label="Edit message"
+              >
+                <img
+                  className="max-w-5 max-h-5"
+                  src="assets/edit.png"
+                  alt=""
+                />
+              </button>
+              <button
+                className="p-2 bg-blue-100 rounded-xl w-max h-max"
+                type="button"
+                onClick={onDelete}
+                aria-label="Delete message">
+                <img
+                  className="w-5 h-5"
+                  src="assets/set.png"
+                  alt="" />
+              </button>
+            </>
+          )}
+
         </div>
       </div>
       <div className="flex justify-between items-center">

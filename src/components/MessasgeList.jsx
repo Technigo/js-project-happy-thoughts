@@ -1,6 +1,6 @@
 import { MessageCard } from "./MessageCard"
 
-export const MessageList = ({ messages, onLike, onDelete, onEdit }) => {
+export const MessageList = ({ messages, onLike, onDelete, onEdit, userId }) => {
 
   return (
     <div className="flex flex-col gap-4 mt-4">
@@ -12,7 +12,8 @@ export const MessageList = ({ messages, onLike, onDelete, onEdit }) => {
           message={msg}
           onLike={() => onLike(msg._id)}
           onDelete={() => onDelete(msg._id)}
-          onEdit={(id, message) => onEdit(id, message)} />
+          onEdit={(id, message) => onEdit(id, message)}
+          userId={userId} />
       ))}
     </div>
   )

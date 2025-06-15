@@ -7,12 +7,14 @@ import { AuthorizationError } from "../components/AuthorizationError"
 
 
 
+
 export const MainSection = () => {
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState("")
   const [likedCount, setLikedCount] = useState(0)
   const [isLoggedOut, setIsLoggedOut] = useState(false)
+  const userId = localStorage.getItem("userId")
 
   // const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
   //Local API
@@ -45,14 +47,20 @@ export const MainSection = () => {
 
   const addMessage = (message) => {
     setApiError("")
+    const accessToken = localStorage.getItem("accessToken")
     fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken
+      },
       body: JSON.stringify({ message: message })
     })
       .then(res => {
         if (!res.ok) {
           if (res.status === 401) {
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("userId")
             setIsLoggedOut(true)
             throw new Error("You need to be logged in to post a thought")
           }
@@ -92,11 +100,17 @@ export const MainSection = () => {
   }
 
   const editMessage = (id, message) => {
+
+    const accessToken = localStorage.getItem("accessToken")
+
     console.log("sending to server:", id, message)
     setApiError("")
     fetch(`${url}/${id}/edit`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken
+      },
       body: JSON.stringify({ message })
     })
       .then(res => {
@@ -115,9 +129,16 @@ export const MainSection = () => {
   }
 
   const deleteMessage = (id) => {
+
+    const accessToken = localStorage.getItem("accessToken")
+
     setApiError("")
     fetch(`${url}/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken
+      }
     })
       .then((res) => {
         if (!res.ok) {
@@ -155,9 +176,10 @@ export const MainSection = () => {
       {isLoading && <Loader />}
       {likedCount > 0 && <LikeCount likeCount={likedCount} />}
 
-      {isLoggedOut && <AuthorizationError/>}
+      {isLoggedOut && <AuthorizationError />}
 
       <MessageList
+        userId={userId}
         messages={messages}
         onLike={handleLike}
         onDelete={deleteMessage}
