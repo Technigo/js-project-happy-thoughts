@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="33"
+   height="32"
+   viewBox="0 0 33 32"
+   fill="none"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="linkedin-btn.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="7.0434465"
+     inkscape:cx="12.493883"
+     inkscape:cy="13.700679"
+     inkscape:window-width="1352"
+     inkscape:window-height="1008"
+     inkscape:window-x="4309"
+     inkscape:window-y="170"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <g
+     id="Btn - linkedin"
+     style="fill:#c44040;fill-opacity:1">
+    <path
+       id="ï¡"
+       d="M10.6875 25V10.9844H6.32812V25H10.6875ZM8.48438 9.10938C9.89062 9.10938 11.0156 7.9375 11.0156 6.53125C11.0156 5.17188 9.89062 4.04688 8.48438 4.04688C7.125 4.04688 6 5.17188 6 6.53125C6 7.9375 7.125 9.10938 8.48438 9.10938ZM26.9531 25H27V17.3125C27 13.5625 26.1562 10.6562 21.75 10.6562C19.6406 10.6562 18.2344 11.8281 17.625 12.9062H17.5781V10.9844H13.4062V25H17.7656V18.0625C17.7656 16.2344 18.0938 14.5 20.3438 14.5C22.5938 14.5 22.6406 16.5625 22.6406 18.2031V25H26.9531Z"
+       fill="white"
+       style="fill:#c44040;fill-opacity:1" />
+  </g>
+</svg>
