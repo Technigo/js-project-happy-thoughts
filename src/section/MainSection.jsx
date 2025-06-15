@@ -13,7 +13,7 @@ export const MainSection = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState("")
   const [likedCount, setLikedCount] = useState(0)
-  const [isLoggedOut, setIsLoggedOut] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"))
   const userId = localStorage.getItem("userId")
 
   // const url = "https://happy-thoughts-api-4ful.onrender.com/thoughts"
@@ -61,7 +61,7 @@ export const MainSection = () => {
           if (res.status === 401) {
             localStorage.removeItem("accessToken")
             localStorage.removeItem("userId")
-            setIsLoggedOut(true)
+            setIsLoggedIn(false)
             throw new Error("You need to be logged in to post a thought")
           }
           throw new Error("Could not save your thought")
@@ -176,7 +176,7 @@ export const MainSection = () => {
       {isLoading && <Loader />}
       {likedCount > 0 && <LikeCount likeCount={likedCount} />}
 
-      {isLoggedOut && <AuthorizationError />}
+      {!isLoggedIn && <AuthorizationError />}
 
       <MessageList
         userId={userId}
